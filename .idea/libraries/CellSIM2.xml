@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CellSIM2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/run19445034/CellSIM.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
