@@ -23,7 +23,7 @@ public class Cell_first extends Cell {
     public void hunt(World w) {
         int[] food = lookForFood(w);
         if (food != null) {
-            System.out.println("Found food! " + food[0] + "," + food[1]);
+            System.out.println("Found sugar! " + food[0] + "," + food[1]);
         }
     }
 
