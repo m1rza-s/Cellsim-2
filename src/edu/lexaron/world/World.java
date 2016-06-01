@@ -3,7 +3,7 @@
  *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
  *  Date & time: Feb 5, 2016, 8:54:35 PM
  */
-package classes;
+package edu.lexaron.world;
 
 import java.util.Random;
 

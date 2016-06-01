@@ -3,10 +3,14 @@
  *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
  *  Date & time: Feb 6, 2016, 3:41:07 AM
  */
-package classes;
+package edu.lexaron.simulation;
 
+import edu.lexaron.cells.Cell;
+import edu.lexaron.cells.Cell_first;
+import edu.lexaron.world.World;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,12 +28,12 @@ import javafx.scene.shape.Rectangle;
 public class Engine {
 
     // ID, x, y, energy, vision, movement, efficiency
-    volatile Cell a = new Cell(1, 10, 10, 20, 2, 1, 1);
+    volatile Cell_first a = new Cell_first(1, 10, 10, 20, 2, 1, 1);
     // height, width
-    volatile World world = new World(100, 100);
+    volatile World world = new World(80, 80);
 
-    GridPane grid = new GridPane();
-
+    GridPane grid;
+    Timer timer;
     Label l;
     int i = 0;
     double sugarFactor = 3.5;
@@ -38,33 +42,29 @@ public class Engine {
         this.l = l;
     }
 
-    Task task = new Task<Void>() {
-        @Override
-        public Void call() throws Exception {
-            world.getTheWorld()[a.getX()][a.getY()].setCell(a);
-            while (true) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        synchronized (world) {
-                            printWorld();
-                            a.moveRight(world);
-                            
-                            i++;
-                            l.setText("Counter: " + i + " prints");
+    public void startThread() {
+        this.timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                world.getTheWorld()[a.getX()][a.getY()].setCell(a);
+                Platform.runLater(() -> {
+                    synchronized (world) {
+                        printWorld();
+                        if (!worldHasLiveCells()) {
+                            timer.purge();
+                            timer.cancel();
+                            System.out.println("Simulation stopped: No more live cells");
                         }
+                        a.hunt(world);
+                        a.moveDown(world);
+                        i++;
+                        l.setText("Counter: " + i + " cycles");
                     }
                 });
-                Thread.sleep(500);
             }
-        }
-    };
-
-    public void startThread() {
-        Thread t = new Thread(task);
-        t.setName("UI");
-        t.setDaemon(true);
-        t.start();
+        };
+        this.timer.scheduleAtFixedRate(timerTask, 0, 500);
     }
 
     public void setup() {
@@ -121,7 +121,19 @@ public class Engine {
                 }
             }
         }
-            
+
+    }
+
+    public boolean worldHasLiveCells() {
+        boolean r = false;
+        for (int i = 1; i < world.getWidth() - 1; i++) {
+            for (int j = 1; j < world.getHeight() - 1; j++) {
+                if (world.getTheWorld()[i][j].getCell() != null && world.getTheWorld()[i][j].getCell().isAlive()) {
+                    r = true;
+                }
+            }
+        }
+        return r;
     }
 
     public void printCellVisions(Cell c) {
@@ -143,11 +155,6 @@ public class Engine {
             }
         }
         return null;
-    }
-
-    // GET
-    public Task getTask() {
-        return task;
     }
 
     public void setGrid(GridPane grid) {

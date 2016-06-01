@@ -3,7 +3,9 @@
  *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
  *  Date & time: Feb 5, 2016, 8:55:11 PM
  */
-package classes;
+package edu.lexaron.world;
+
+import edu.lexaron.cells.Cell;
 
 /**
  *

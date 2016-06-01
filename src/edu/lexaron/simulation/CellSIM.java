@@ -3,11 +3,11 @@
  *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
  *  Date & time: Feb 5, 2016, 8:53:58 PM
  */
-package cellsim;
+package edu.lexaron.simulation;
 
-import classes.Engine;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -31,7 +31,10 @@ public class CellSIM extends Application {
     public void start(Stage primaryStage) throws InterruptedException {
         window = primaryStage;
         window.setTitle("CellSIM V.01");
-
+        window.setOnCloseRequest(e -> Platform.exit());
+        
+        
+        
         // Prepwork
         run.setup();
 
@@ -62,10 +65,10 @@ public class CellSIM extends Application {
         // Display!        
         root.setTop(menu);
         root.setCenter(grid);
-        mainScene = new Scene(root);
+        mainScene = new Scene(root, 640, 1000);
         mainScene.getStylesheets().add("style/style.css");
         window.setScene(mainScene);
-        window.setMaximized(true);
+        window.setMaximized(false);
         window.show();
         
         run.setL(counter);

@@ -3,8 +3,10 @@
  *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
  *  Date & time: Feb 5, 2016, 8:55:28 PM
  */
-package classes;
+package edu.lexaron.cells;
 
+import edu.lexaron.world.Tile;
+import edu.lexaron.world.World;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -15,7 +17,7 @@ import javafx.scene.shape.Circle;
 public class Cell {
 
     private int ID;
-    private int energy; // if > 0, alive
+    int energy; // if > 0, alive
     private boolean alive;
     private int x;
     private int y; // position
@@ -35,7 +37,9 @@ public class Cell {
             this.alive = true;
         }
     }
-
+    public void hunt(World w){
+        
+    }
     public void moveRight(World w) {
         if (this.isAlive()) {
             if (this.energy - this.movement >= 0) {
@@ -44,7 +48,7 @@ public class Cell {
                 w.getTheWorld()[this.getX()][this.getY()].setCell(this);
                 this.energy = this.energy - this.movement;
                 System.out.println("Cell " + this.ID + " moved to " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-                eat(w);
+                eat(w);                
             } else {
                 this.setAlive(false);
                 System.out.println("Cell " + this.ID + "  died on  " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
@@ -83,6 +87,7 @@ public class Cell {
     }
 
     public Circle drawCell() {
+        System.out.println("doing this");
         Circle cell = new Circle();
         if (this.energy > 50) {
             cell.setRadius(5);
@@ -93,10 +98,10 @@ public class Cell {
         } 
 
         if (this.isAlive()) {
-            cell.setFill(Color.web("#66ff33"));
+            cell.setFill(Color.web("#00ffff"));
         } else {
             cell.setRadius(5);
-            cell.setFill(Color.web("#134d00"));
+            cell.setFill(Color.web("#008080"));
         }
         return cell;
     }
