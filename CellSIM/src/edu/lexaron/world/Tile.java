@@ -12,18 +12,12 @@ import edu.lexaron.cells.Cell;
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Tile {
-    private final int id;
-    private Cell cell;
-    private int sugar; // -5 to 5
+    Cell cell;
+    int sugar; // -5 to 5
 
-    public Tile(int id, Cell cell, int sugar) {
-        this.id = id;
+    public Tile(Cell cell, int sugar) {
         this.cell = cell;
         this.sugar = sugar;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getSugar() {

@@ -14,22 +14,7 @@
 .backgroundColorMenu {
     -fx-background-color: #666666;
 }
-.accentText {
-    -fx-text-fill: #cccccc;
-}
-.greenText {
-    -fx-text-fill: #269900;
-}
-.bigText {
-    -fx-font-size: 20;
-}
-.biggerText {
-    -fx-font-size: 30;
-}
-.backgroundColorAccent {
-    -fx-background-color: #595959;
-}
-.darkGrayBorder {
-    -fx-border-color: #1a1a1a;
-    -fx-border-width: 2px;
+.emptyCell {
+    -fx-background-color: black, white ;
+    -fx-background-insets: 0, 0 0.1 0.1 0 ;
 }
