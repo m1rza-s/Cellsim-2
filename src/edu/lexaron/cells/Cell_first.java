@@ -23,25 +23,31 @@ public class Cell_first extends Cell {
     public void hunt(World w) {
         int[] food = lookForFood(w);
         if (food != null) {
-            System.out.println("Found sugar! " + food[0] + "," + food[1]);
+//            System.out.println("Found food! " + food[0] + "," + food[1]);
         }
+
     }
 
-    private int[] lookForFood(World w) {
+    @Override
+    public int[] lookForFood(World w) {
         int[] sugarLocation = new int[2];
         for (int i = (this.getX() - this.getVision()); i <= (this.getX() + this.getVision()); i++) {
             for (int j = (this.getY() - this.getVision()); j <= (this.getY() + this.getVision()); j++) {
-                if (w.getTheWorld()[i][j].getSugar() > 0) {
-                    sugarLocation[0] = i;
-                    sugarLocation[1] = j;
-                    return sugarLocation;
+                try {
+                    if (w.getTheWorld()[j][i].getSugar() > 0) {
+                        sugarLocation[0] = i;
+                        sugarLocation[1] = j;                        
+                        return sugarLocation;
+                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
+
                 }
+
             }
         }
-        
         return null;
     }
-    
+
     @Override
     public Circle drawCell() {
         Circle cell = new Circle();

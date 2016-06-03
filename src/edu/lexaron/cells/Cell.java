@@ -37,9 +37,30 @@ public class Cell {
             this.alive = true;
         }
     }
-    public void hunt(World w){
-        
+
+    public void hunt(World w) {
+        System.out.println("Cell type dependant!");
+        lookForFood(w);
     }
+
+    public int[] lookForFood(World w) {
+        int[] sugarLocation = new int[2];
+        for (int i = (this.getX() - this.getVision()); i <= (this.getX() + this.getVision()); i++) {
+            for (int j = (this.getY() - this.getVision()); j <= (this.getY() + this.getVision()); j++) {
+                try {
+                    if (w.getTheWorld()[j][i].getSugar() > 0) {
+                        sugarLocation[0] = i;
+                        sugarLocation[1] = j;                        
+                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
+
+                }
+
+            }
+        }
+        return null;
+    }
+
     public void moveRight(World w) {
         if (this.isAlive()) {
             if (this.energy - this.movement >= 0) {
@@ -48,10 +69,10 @@ public class Cell {
                 w.getTheWorld()[this.getX()][this.getY()].setCell(this);
                 this.energy = this.energy - this.movement;
                 System.out.println("Cell " + this.ID + " moved to " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-                eat(w);                
+                eat(w);
             } else {
                 this.setAlive(false);
-                System.out.println("Cell " + this.ID + "  died on  " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
+                System.out.println("Cell " + this.ID + "  died on " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
             }
         }
 
@@ -67,27 +88,20 @@ public class Cell {
             eat(w);
         } else {
             this.setAlive(false);
-            System.out.println("Cell " + this.ID + "  died on  " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
+            System.out.println("Cell " + this.ID + "  died on " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
         }
     }
 
     public void eat(World w) {
-        if (w.getTheWorld()[this.getX()][this.getY()].getSugar() > 0) {            
+        if (w.getTheWorld()[this.getX()][this.getY()].getSugar() > 0) {
             this.setEnergy(this.getEnergy() + w.getTheWorld()[this.getX()][this.getY()].getSugar());
             System.out.println("Cell " + this.ID + "   ate on " + this.getX() + "," + this.getY() + ", energy +" + w.getTheWorld()[this.getX()][this.getY()].getSugar());
             w.getTheWorld()[this.getX()][this.getY()].setSugar(0);
-            
+
         }
     }
 
-    public Tile[][] look(Tile[][] theWorld) {
-        Tile[][] perception = new Tile[vision][vision];
-
-        return perception;
-    }
-
     public Circle drawCell() {
-        System.out.println("doing this");
         Circle cell = new Circle();
         if (this.energy > 50) {
             cell.setRadius(5);
@@ -95,7 +109,7 @@ public class Cell {
             cell.setRadius(4);
         } else {
             cell.setRadius(3);
-        } 
+        }
 
         if (this.isAlive()) {
             cell.setFill(Color.web("#00ffff"));

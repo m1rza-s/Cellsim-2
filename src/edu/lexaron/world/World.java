@@ -27,18 +27,19 @@ public class World {
         Random r = new Random();
 
         System.out.println("Generating world...");
-        theWorld = new Tile[width][height];
+        theWorld = new Tile[height][width];
 
         int sugarTiles = (int) (((width * height)) * (sugarFactor / 100));
         System.out.println(""
                 + "Setup: "
-                + "H=" + height + ", "
-                + "W=" + width + ", "
+                + height + "x" + width + ", "
                 + "SF=" + sugarFactor + ", "
                 + "ST=" + sugarTiles);
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                theWorld[i][j] = new Tile(null, 0);
+        int tileID = 1;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {                
+                theWorld[j][i] = new Tile(tileID, null, 0);                
+                tileID++;                
             }
         }
         int x = r.nextInt(width);
@@ -48,7 +49,7 @@ public class World {
                 x = r.nextInt(width);
                 y = r.nextInt(height);
             } while (hasSugar(x, y));
-            this.theWorld[x][y].setSugar(r.nextInt(5) + 1);
+            theWorld[x][y].setSugar(r.nextInt(5) + 1);
         }
         System.out.println("Done generating world!");
         
@@ -56,14 +57,14 @@ public class World {
     }
 
     public boolean hasSugar(int x, int y) {
-        if (this.theWorld[x][y].getSugar() != 0) {
+        if (theWorld[x][y].getSugar() != 0) {
             return true;
         } else {
             return false;
         }
 
     }
-
+    
     // ONLY AFTER ALL DONE!
     public Tile[][] getTheWorld() {
         return theWorld;
