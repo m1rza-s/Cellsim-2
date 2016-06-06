@@ -49,7 +49,7 @@ public class World {
                 x = r.nextInt(width);
                 y = r.nextInt(height);
             } while (hasSugar(x, y));
-            theWorld[x][y].setSugar(r.nextInt(5) + 1);
+            theWorld[x][y].setSugar(r.nextInt(9) + 1);
         }
         System.out.println("Done generating world!");
         

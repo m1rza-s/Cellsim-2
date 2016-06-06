@@ -67,7 +67,7 @@ public class CellSIM extends Application {
         mainScene = new Scene(root, 1000, 1000);
         mainScene.getStylesheets().add("style/style.css");
         window.setScene(mainScene);
-//        window.setMaximized(true);
+        window.setMaximized(true);
         window.show();       
         
         run.startThread(root);

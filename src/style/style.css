@@ -20,6 +20,9 @@
 .greenText {
     -fx-text-fill: #269900;
 }
+.smallText {
+    -fx-font-size: 10;
+}
 .bigText {
     -fx-font-size: 20;
 }

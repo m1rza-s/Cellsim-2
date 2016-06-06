@@ -138,7 +138,11 @@ public class Engine {
                             sugar.setFill(Color.web("#ffffff"));
                             break;
                     }
-                    grid.add(sugar, j, i);
+                    Label sugLabel = new Label(String.valueOf(world.getTheWorld()[j][i].getSugar()));
+                    
+                    sugLabel.getStyleClass().addAll("accentText", "smallText");
+                    GridPane.setHalignment(sugLabel, HPos.CENTER);
+                    grid.add(sugLabel, j, i);
                 } else if (world.getTheWorld()[j][i].getSugar() == 0) {
                     Rectangle empty = new Rectangle(10, 10);
                     empty.setStroke(Color.web("#000000"));
@@ -161,6 +165,7 @@ public class Engine {
             for (int j = 0; j < world.getWidth(); j++) {
                 if (world.getTheWorld()[j][i].getCell() != null && world.getTheWorld()[j][i].getCell().isAlive()) {
                     printCellVisions(world.getTheWorld()[j][i].getCell());
+                                        
                 }
             }
         }
@@ -172,7 +177,12 @@ public class Engine {
             for (int i = (c.getX() - c.getVision()); i <= (c.getX() + c.getVision()); i++) {
                 for (int j = (c.getY() - c.getVision()); j <= (c.getY() + c.getVision()); j++) {
                     if (getNodeFromGridPane(j, i) != null) {
-                        ((Rectangle) getNodeFromGridPane(j, i)).setStroke(Color.web("#404040"));
+                        try {
+                        ((Rectangle) getNodeFromGridPane(j, i)).setFill(Color.web("#404040"));
+                    } catch (Exception ex) {
+                        ((Label) getNodeFromGridPane(j, i)).setStyle("-fx-background-color: #404040");
+                    }
+                        
                     }
                 }
             }
