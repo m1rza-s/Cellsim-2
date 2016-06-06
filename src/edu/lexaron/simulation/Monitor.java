@@ -10,9 +10,7 @@ import edu.lexaron.world.World;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -22,7 +20,7 @@ import javafx.scene.layout.VBox;
  */
 public class Monitor {
 
-    private final Set<Cell> allCells = new HashSet();
+    private volatile Set<Cell> allCells = new HashSet();
 
     public boolean worldHasLiveCells(World w) {
         boolean r = false;
@@ -45,30 +43,34 @@ public class Monitor {
                 VBox cellBox = new VBox();
                 HBox row1 = new HBox(10);
                 HBox row2 = new HBox(10);
-                row1.setPadding(new Insets(5));
+                row1.setPadding(new Insets(5, 5, 0, 5));
                 row1.getStyleClass().add("backgroundColorAccent");                
                 
-                row2.setPadding(new Insets(5));
+                row2.setPadding(new Insets(5, 0, 5, 5));
                 row2.getStyleClass().add("backgroundColorAccent");                
                 
                 Label cellID = new Label();
                 Label energy = new Label();
                 Label location = new Label();
-
+                Label vision = new Label();
+                
                 cellID.setText("ID: " + c.getID());
                 energy.setText("Energy: " + c.getEnergy());
                 location.setText("Location: (" + c.getX() + "," + c.getY() + ")");
-
+                vision.setText("V: " + c.getVision());
+                
                 cellID.getStyleClass().addAll("accentText", "bigText");
                 energy.getStyleClass().addAll("greenText", "bigText");
                 location.getStyleClass().addAll("accentText", "bigText");                
+                vision.getStyleClass().addAll("accentText", "bigText");
                 
                 row1.getChildren().addAll(
                         cellID,
                         energy                
                 );
                 row2.getChildren().addAll(
-                        location
+                        vision,
+                        location                        
                 );
                 cellBox.getChildren().addAll(row1, row2);
                 v.getChildren().add(cellBox);

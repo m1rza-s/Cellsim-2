@@ -38,7 +38,7 @@ public class World {
         int tileID = 1;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {                
-                theWorld[j][i] = new Tile(tileID, null, 0);                
+                theWorld[i][j] = new Tile(tileID, null, 0);                
                 tileID++;                
             }
         }

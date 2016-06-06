@@ -18,34 +18,37 @@ public class Cell_first extends Cell {
     public Cell_first(int ID, int x, int y, int energy, int vision, int movement, int efficiency) {
         super(ID, x, y, energy, vision, movement, efficiency);
     }
-
-    @Override
-    public void hunt(World w) {
-        int[] food = lookForFood(w);
-        if (food != null) {
-//            System.out.println("Found food! " + food[0] + "," + food[1]);
-        }
-
-    }
+// Teach cell to lock onto found food's coords, only go for closer!
 
     @Override
     public int[] lookForFood(World w) {
+        // Cell type FIRST is only interested in the FIRST sugar tile it finds.
+        System.out.println("Cell " + getID() + " looking for food from " + getX() + "," + getY() + "...");
         int[] sugarLocation = new int[2];
+        boolean found = false;
+        outerloop:
         for (int i = (this.getX() - this.getVision()); i <= (this.getX() + this.getVision()); i++) {
             for (int j = (this.getY() - this.getVision()); j <= (this.getY() + this.getVision()); j++) {
                 try {
-                    if (w.getTheWorld()[j][i].getSugar() > 0) {
+//                    System.out.print("(" + i + "," + j + ")");
+                    if (w.getTheWorld()[i][j].getSugar() > 0) {
                         sugarLocation[0] = i;
-                        sugarLocation[1] = j;                        
-                        return sugarLocation;
+                        sugarLocation[1] = j;
+                        found = true;
+                        break outerloop;
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
 
                 }
-
             }
+//            System.out.print("\n");
         }
-        return null;
+        if (found) {
+            return sugarLocation;
+        } else {
+            return null;
+        }
+
     }
 
     @Override

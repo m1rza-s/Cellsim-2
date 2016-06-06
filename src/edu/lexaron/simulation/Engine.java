@@ -8,11 +8,8 @@ package edu.lexaron.simulation;
 import edu.lexaron.cells.Cell;
 import edu.lexaron.cells.Cell_first;
 import edu.lexaron.world.World;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -33,29 +30,29 @@ import javafx.scene.shape.Rectangle;
 public class Engine {
 
     private Monitor m;
-    private Life life = new Life();
+    private final Life life = new Life();
     // ID, x, y, energy, vision, movement, efficiency
-    Cell_first a = new Cell_first(1, 1, 1, 10, 2, 1, 1);
-    Cell b = new Cell(2, 3, 3, 5, 2, 1, 1);
-    Cell_first c = new Cell_first(3, 5, 5, 15, 3, 2, 1);
+    Cell_first a = new Cell_first(1, 10, 10, 50, 1, 1, 1);
+    Cell_first b = new Cell_first(2, 20, 20, 50, 2, 1, 1);
+    Cell_first c = new Cell_first(3, 30, 30, 50, 3, 1, 1);
     // height, width
     volatile World world = new World(50, 50);
-
+    
     GridPane grid;
     VBox infoPanel = new VBox();
 
     Timer timer;
     Label l;
     int i = 0;
-    double sugarFactor = 7;
+    double sugarFactor = 10;
 
     public void startThread(BorderPane root) {
+        root.setLeft(infoPanel);
         this.timer = new Timer();
 
         m.getAllCells().add(a);
         m.getAllCells().add(b);
         m.getAllCells().add(c);
-        
         seedCells();
         
         infoPanel.setPadding(new Insets(10));
@@ -71,18 +68,15 @@ public class Engine {
                         // UI UPDATE //
                         printWorld();
                         infoPanel.getChildren().clear();
-
                         if (m.worldHasLiveCells(world)) {
                             infoPanel.getChildren().add(m.refreshLiveCellInfo());
-//                            infoPanel = m.refreshLiveCellInfo();
                         } else {
                             Label done = new Label("No live cells!");
-
                             done.getStyleClass().add("accentText");
                             done.getStyleClass().add("biggerText");
                             infoPanel.getChildren().add(done);
                         }
-                        root.setLeft(infoPanel);
+                        
                         // END OF UI UPDATE //
                         if (!m.worldHasLiveCells(world)) {
                             timer.purge();
@@ -91,10 +85,9 @@ public class Engine {
                         }
                         // CELL ACTIVITY //
                         life.allLiveCellsHunt(world, m.getAllCells());
-                        life.allLiveCellsMoveRight(world, m.getAllCells());
                         // CELL ACTIVITY END //
                         i++;
-                        l.setText("Counter: " + i + " cycles");
+                        l.setText(i + " generations");
                     }
                 });
             }

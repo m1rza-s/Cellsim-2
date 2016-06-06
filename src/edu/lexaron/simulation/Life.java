@@ -13,21 +13,12 @@ import java.util.Set;
  *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
-public class Life {
-    
+public class Life {    
     
     public void allLiveCellsHunt(World w, Set<Cell> allCells) {
         for (Cell c : allCells) {
             if (c.isAlive()) {
                 c.hunt(w);
-            }
-        }
-    }
-    
-    public void allLiveCellsMoveRight(World w, Set<Cell> allCells) {
-        for (Cell c : allCells) {
-            if (c.isAlive()) {
-                c.moveRight(w);
             }
         }
     }
