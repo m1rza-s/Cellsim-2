@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -29,147 +30,113 @@ import javafx.scene.shape.Rectangle;
  */
 public class Engine {
 
-    private Monitor m;
     private final Life life = new Life();
     // ID, x, y, energy, vision, movement, efficiency
-    Cell_first a = new Cell_first(1, 10, 10, 50, 1, 1, 1);
-    Cell_first b = new Cell_first(2, 20, 20, 50, 2, 1, 1);
-    Cell_first c = new Cell_first(3, 30, 30, 50, 3, 1, 1);
-    // height, width
-    volatile World world = new World(50, 50);
+    Cell_first a = new Cell_first(1, 25, 25, 50, 3, 1, 1);
     
+    // height, width
+    volatile World world = new World(80, 80);
+
     GridPane grid;
     VBox infoPanel = new VBox();
 
     Timer timer;
     Label l;
-    int i = 0;
-    double sugarFactor = 10;
+    int generations = 0;
+    double sugarFactor = 15;
 
     public void startThread(BorderPane root) {
         root.setLeft(infoPanel);
         this.timer = new Timer();
-
-        m.getAllCells().add(a);
-        m.getAllCells().add(b);
-        m.getAllCells().add(c);
-        seedCells();
+        grid.setAlignment(Pos.CENTER);
+        grid.getStyleClass().add("backgroundColor");
+        grid.setPadding(new Insets(10));
+        grid.setHgap(0.5);
+        grid.setVgap(0.5);
+        grid.setCache(true);
         
+        world.getMonitor().getAllCells().add(a);
+        seedCells();
+
         infoPanel.setPadding(new Insets(10));
         infoPanel.setMinWidth(300);
         infoPanel.setMaxWidth(300);
 //        infoPanel.getStyleClass().add("backgroundColorAccent");
         infoPanel.getStyleClass().add("accentText");
+        infoPanel.setCache(true);
+        
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    synchronized (world) {
-                        // UI UPDATE //
-                        printWorld();
-                        infoPanel.getChildren().clear();
-                        if (m.worldHasLiveCells(world)) {
-                            infoPanel.getChildren().add(m.refreshLiveCellInfo());
-                        } else {
-                            Label done = new Label("No live cells!");
-                            done.getStyleClass().add("accentText");
-                            done.getStyleClass().add("biggerText");
-                            infoPanel.getChildren().add(done);
-                        }
-                        
-                        // END OF UI UPDATE //
-                        if (!m.worldHasLiveCells(world)) {
-                            timer.purge();
-                            timer.cancel();
-                            System.out.println("Simulation stopped: No more live cells");
-                        }
-                        // CELL ACTIVITY //
-                        life.allLiveCellsHunt(world, m.getAllCells());
-                        // CELL ACTIVITY END //
-                        i++;
-                        l.setText(i + " generations");
+                    // UI UPDATE //
+                    printWorld();
+                    infoPanel.getChildren().clear();
+                    if (world.getMonitor().worldHasLiveCells(world)) {
+                        infoPanel.getChildren().add(world.getMonitor().refreshLiveCellInfo());
+                    } else {
+                        Label done = new Label("No live cells!");
+                        done.getStyleClass().add("accentText");
+                        done.getStyleClass().add("biggerText");
+                        infoPanel.getChildren().add(done);
                     }
+
+                    // END OF UI UPDATE //
+                    if (!world.getMonitor().worldHasLiveCells(world)) {
+                        timer.cancel();
+                        timer.purge();
+
+                        System.out.println("Simulation stopped: No more live cells");
+                    }
+                    // CELL ACTIVITY //
+                    life.allLiveCellsHunt(world, world.getMonitor().getAllCells());
+                    // CELL ACTIVITY END //
+                    generations++;
+                    l.setText(generations + " generations");
                 });
             }
         };
-        this.timer.scheduleAtFixedRate(timerTask, 0, 500);
+        this.timer.scheduleAtFixedRate(timerTask, 0, 250);
     }
 
     public void setup() {
         world.generateWorld(sugarFactor);
         grid.setAlignment(Pos.CENTER_LEFT);
-//        m.getAllCells().add(a);
-//        seedCells();
     }
 
     public void seedCells() {
-        for (Cell c : m.getAllCells()) {
+        for (Cell c : world.getMonitor().getAllCells()) {
             world.getTheWorld()[c.getY()][c.getX()].setCell(c);
         }
     }
 
     private void printWorld() {
         grid.getChildren().clear();
-        grid.setAlignment(Pos.CENTER);
-        grid.getStyleClass().add("backgroundColor");
-        grid.setPadding(new Insets(10));
-        grid.setHgap(0.5);
-        grid.setVgap(0.5);
 
         for (int i = 0; i < world.getHeight(); i++) {
             for (int j = 0; j < world.getWidth(); j++) {
-                if (world.getTheWorld()[j][i].getSugar() != 0) {
-                    Rectangle sugar = new Rectangle(10, 10);
-                    sugar.setStroke(Color.web("#000000"));
-                    switch (world.getTheWorld()[j][i].getSugar()) {
-                        case 1:
-                            sugar.setFill(Color.web("#808080"));
-                            break;
-                        case 2:
-                            sugar.setFill(Color.web("#ffff00"));
-                            break;
-                        case 3:
-                            sugar.setFill(Color.web("#ff9900"));
-                            break;
-                        case 4:
-                            sugar.setFill(Color.web("#ff0000"));
-                            break;
-                        case 5:
-                            sugar.setFill(Color.web("#ffffff"));
-                            break;
-                    }
-                    Label sugLabel = new Label(String.valueOf(world.getTheWorld()[j][i].getSugar()));
-                    
+                if (world.getTheWorld()[i][j].getSugar() != 0) {
+                    Label sugLabel = new Label(String.valueOf(world.getTheWorld()[i][j].getSugar()));
+                    sugLabel.setPadding(new Insets(0));
                     sugLabel.getStyleClass().addAll("accentText", "smallText");
                     GridPane.setHalignment(sugLabel, HPos.CENTER);
-                    grid.add(sugLabel, j, i);
-                } else if (world.getTheWorld()[j][i].getSugar() == 0) {
-                    Rectangle empty = new Rectangle(10, 10);
-                    empty.setStroke(Color.web("#000000"));
-                    if (world.getTheWorld()[j][i].getId() % 2 == 0) {
-                        empty.setFill(Color.web("#213300"));
-                    } else {
-                        empty.setFill(Color.web("#332600"));
-                    }
-                    grid.add(empty, j, i);
+                    grid.add(sugLabel, i, j);
+                } else if (world.getTheWorld()[i][j].getSugar() == 0) {
+                    grid.add(new Rectangle(10, 10), i, j);
                 }
-                if (world.getTheWorld()[j][i].getCell() != null) {
-//                    printCellVision(world.getTheWorld()[j][i].getCell());
-                    Circle cell = world.getTheWorld()[j][i].getCell().drawCell();
+                if (world.getTheWorld()[i][j].getCell() != null) {
+                    printCellVisions(world.getTheWorld()[i][j].getCell());
+                    Circle cell = world.getTheWorld()[i][j].getCell().drawCell();
                     GridPane.setHalignment(cell, HPos.CENTER);
-                    grid.add(cell, j, i);
+                    grid.add(cell, i, j);
                 }
             }
         }
-        for (int i = 0; i < world.getHeight(); i++) {
-            for (int j = 0; j < world.getWidth(); j++) {
-                if (world.getTheWorld()[j][i].getCell() != null && world.getTheWorld()[j][i].getCell().isAlive()) {
-                    printCellVisions(world.getTheWorld()[j][i].getCell());
-                                        
-                }
+        for (Cell temp : world.getMonitor().getAllCells()) {
+            if (temp.isAlive()) {
+                printCellVisions(temp);
             }
         }
-
     }
 
     private void printCellVisions(Cell c) {
@@ -178,11 +145,11 @@ public class Engine {
                 for (int j = (c.getY() - c.getVision()); j <= (c.getY() + c.getVision()); j++) {
                     if (getNodeFromGridPane(j, i) != null) {
                         try {
-                        ((Rectangle) getNodeFromGridPane(j, i)).setFill(Color.web("#404040"));
-                    } catch (Exception ex) {
-                        ((Label) getNodeFromGridPane(j, i)).setStyle("-fx-background-color: #404040");
-                    }
-                        
+                            ((Rectangle) getNodeFromGridPane(j, i)).setFill(Color.web("#404040"));
+                        } catch (Exception ex) {
+                            ((Label) getNodeFromGridPane(j, i)).setStyle("-fx-background-color: #404040");
+                        }
+
                     }
                 }
             }
@@ -216,9 +183,5 @@ public class Engine {
 
     public double getSugarFactor() {
         return sugarFactor;
-    }
-
-    public void setMonitor(Monitor m) {
-        this.m = m;
     }
 }

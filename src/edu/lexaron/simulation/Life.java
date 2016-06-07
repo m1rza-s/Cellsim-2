@@ -7,7 +7,7 @@ package edu.lexaron.simulation;
 
 import edu.lexaron.cells.Cell;
 import edu.lexaron.world.World;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -15,12 +15,20 @@ import java.util.Set;
  */
 public class Life {    
     
-    public void allLiveCellsHunt(World w, Set<Cell> allCells) {
-        for (Cell c : allCells) {
-            if (c.isAlive()) {
-                c.hunt(w);
+    public void allLiveCellsHunt(World w, List<Cell> allCells) {
+//        for (Cell c : allCells) {
+//            if (c.isAlive()) {
+//                c.hunt(w);
+//            }
+//        }
+        for (int i = 0; i < w.getHeight(); i++) {
+            for (int j = 0; j < w.getWidth(); j++) {
+                if (w.getTheWorld()[j][i].getCell() != null && w.getTheWorld()[j][i].getCell().isAlive()) {
+                    w.getTheWorld()[j][i].getCell().hunt(w);
+                }
             }
         }
+            
     }
     
 }

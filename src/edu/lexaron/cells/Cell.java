@@ -6,217 +6,214 @@
 package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
  *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
-abstract public class Cell {
+public abstract class Cell {
 
     private int ID;
-    int energy; // if > 0, alive
+    private double energy; // if > 0, alive
     private boolean alive;
     private int x;
     private int y; // position
     private int vision;
-    private int movement;
-    private int efficiency;
+    private int movementCost;
+    private double efficiency;
+    private final Queue<Integer> path = new LinkedList();
 
-    public Cell(int ID, int x, int y, int energy, int vision, int movement, int efficiency) {
+    public Cell(int ID, int x, int y, double energy, int vision, int movementCost, double efficiency) {
         this.ID = ID;
         this.x = x;
         this.y = y;
         this.energy = energy;
         this.vision = vision;
-        this.movement = movement;
+        this.movementCost = movementCost;
         this.efficiency = efficiency;
         if (energy > 0) {
             this.alive = true;
         }
-
     }
+
+    public abstract int[] lookForFood(World w);
+
+    public abstract void mutate(World w);
+
+    public abstract Circle drawCell();
 
     public void hunt(World w) {
         // CELL TYPE DEPENDANT
-        eat(w);
-        int[] food = lookForFood(w);
-        if (food != null) {
-            System.out.println("Cell " + getID() + " found food at " + food[0] + "," + food[1] + ", hunting!");
-            moveToFood(w, food);
-        } else {
-            switch (new Random().nextInt(5)) {
-                case 0:
-                    moveUp(w);
-                    break;
-                case 1:
-                    moveRight(w);
-                    break;
-                case 2:
-                    moveDown(w);
-                    break;
-                case 3:
-                    moveLeft(w);
-                    break;
-                case 4:
-                    break;
-                default:
-                    System.out.println("Unexpected roll in HUNT method.");
-                    break;
+        int[] food = null;
+        if (path.isEmpty()) {
+            food = lookForFood(w);
+            if (food != null) {
+                findPath(w, food);
+            } else {
+                randomStep(w);
+            }
+        } else if (!path.isEmpty()) {
+            usePath(w);
+            eat(w);
+        }
+
+        if (energy >= 100) {
+            mutate(w);
+            setEnergy(energy / 2);
+        }
+
+    }
+
+    public void findPath(World w, int[] foodLocation) {
+        if (path.isEmpty()) {
+            int difX = foodLocation[0] - x;
+            int difY = foodLocation[1] - y;
+//            System.out.println("Cell " + ID + " at " + x + "," + y + ", food distance: " + difX + "," + difY);
+            if (difX > 0) {
+                for (int i = 0; i < difX; i++) {
+                    path.offer(3);
+                }
+            }
+            if (difX < 0) {
+                for (int i = 0; i < Math.abs(difX); i++) {
+                    path.offer(9);
+                }
+            }
+            if (difY > 0) {
+                for (int i = 0; i < difY; i++) {
+                    path.offer(6);
+                }
+            }
+            if (difY < 0) {
+                for (int i = 0; i < Math.abs(difY); i++) {
+                    path.offer(12);
+                }
             }
         }
-        mutateVision();
     }
 
-    public void mutateVision() {
-        if (getEnergy() >= 60) {
-            System.out.println("    Cell " + getID() + " mutates: VISION +1");
-            setVision(getVision() + 1);
-        }
-    }
-
-    public void moveToFood(World w, int[] foodLocation) {
-        // coord.calc idea
-        int difX = foodLocation[0] - this.getX();
-        int difY = foodLocation[1] - this.getY();
-//        System.out.println("Cell " + getID() + " at " + this.getX() + "," + this.getY() + ", food distance: " + difX + "," + difY);
-
-        if (difX > 0) {
-            for (int i = 0; i < difX; i++) {
+    public void usePath(World w) {
+        int move = path.poll();
+        switch (move) {
+            case 3:
                 moveRight(w);
-            }
-        }
-        if (difX < 0) {
-            for (int i = 0; i < Math.abs(difX); i++) {
+                break;
+            case 9:
                 moveLeft(w);
-            }
-        }
-        if (difY > 0) {
-            for (int i = 0; i < difY; i++) {
+                break;
+            case 6:
                 moveDown(w);
-            }
-        }
-        if (difY < 0) {
-            for (int i = 0; i < Math.abs(difY); i++) {
+                break;
+            case 12:
                 moveUp(w);
-            }
-        }
-        // path idea
-//        Queue<int[]> path = new LinkedList();
-//        if (Math.abs(difX) > Math.abs(difY)) {
-//            for (int i = 0; i < Math.abs(difX); i++) {
-//                
-//            }
-//        } else if (Math.abs(difX) < Math.abs(difY)) {
-//            
-//        } else {
-//            
-//        }
-    }
-
-    public int[] lookForFood(World w) {
-        // CELL TYPE DEPENDANT
-        int[] sugarLocation = new int[2];
-
-        return null;
-    }
-
-    public void moveRight(World w) {
-        if (this.isAlive() && (getX() + movement) < w.getWidth()) {
-            if (this.energy - this.movement >= 0) {
-                w.getTheWorld()[this.getX()][this.getY()].setCell(null);
-                this.setX(this.getX() + this.movement);
-                w.getTheWorld()[this.getX()][this.getY()].setCell(this);
-                this.energy = this.energy - this.movement;
-                System.out.println("Cell " + this.ID + " moved to " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-                eat(w);
-            } else {
-                this.setAlive(false);
-                System.out.println("Cell " + this.ID + "  died on " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-            }
-        }
-
-    }
-
-    public void moveLeft(World w) {
-        if (this.isAlive() && (getX() - movement) >= 0) {
-            if (this.energy - this.movement >= 0) {
-                w.getTheWorld()[this.getX()][this.getY()].setCell(null);
-                this.setX(this.getX() - this.movement);
-                w.getTheWorld()[this.getX()][this.getY()].setCell(this);
-                this.energy = this.energy - this.movement;
-                System.out.println("Cell " + this.ID + " moved to " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-                eat(w);
-            } else {
-                this.setAlive(false);
-                System.out.println("Cell " + this.ID + "  died on " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-            }
-        }
-
-    }
-
-    public void moveDown(World w) {
-        if (this.isAlive() && (getY() + movement) < w.getHeight()) {
-            if (this.energy - this.movement >= 0) {
-                w.getTheWorld()[this.getX()][this.getY()].setCell(null);
-                this.setY(this.getY() + this.movement);
-                w.getTheWorld()[this.getX()][this.getY()].setCell(this);
-                this.energy = this.energy - this.movement;
-                System.out.println("Cell " + this.ID + " moved to " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-                eat(w);
-            } else {
-                this.setAlive(false);
-                System.out.println("Cell " + this.ID + "  died on " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-            }
+                break;
+            default:
+                System.out.println("    Unknown move direction in MOVETOFOOD!");
+                break;
         }
     }
 
-    public void moveUp(World w) {
-        if (this.isAlive() && (getY() - movement) >= 0) {
-            if (this.energy - this.movement >= 0) {
-                w.getTheWorld()[this.getX()][this.getY()].setCell(null);
-                this.setY(this.getY() - this.movement);
-                w.getTheWorld()[this.getX()][this.getY()].setCell(this);
-                this.energy = this.energy - this.movement;
-                System.out.println("Cell " + this.ID + " moved to " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-                eat(w);
+    public void randomStep(World w) {
+        switch (new Random().nextInt(4)) {
+            case 0:
+                moveUp(w);
+                break;
+            case 1:
+                moveRight(w);
+                break;
+            case 2:
+                moveDown(w);
+                break;
+            case 3:
+                moveLeft(w);
+                break;
+            default:
+                System.out.println("Unexpected roll in HUNT method.");
+                break;
+        }
+    }
+
+    public void moveRight(World w) { // code 3
+        if ((x + movementCost) < w.getWidth() && w.getTheWorld()[x + movementCost][y].getCell() == null) {
+            if (energy - movementCost >= 0) {
+                w.getTheWorld()[x][y].setCell(null);
+                setX(x + movementCost);
+                w.getTheWorld()[x][y].setCell(this);
+                setEnergy(Math.round(energy - (movementCost * efficiency)));
+//                System.out.println("Cell " + ID + " moved to " + x + "," + y + ", energy: " + energy);                
             } else {
-                this.setAlive(false);
-                System.out.println("Cell " + this.ID + "  died on " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
+                setAlive(false);
+                System.out.println("Cell " + ID + "  died on " + x + "," + y + ", energy: " + energy);
             }
+        } else {
+            moveLeft(w);
+        }
+    }
+
+    public void moveLeft(World w) { // code 9
+        if ((x - movementCost) >= 0 && w.getTheWorld()[x - movementCost][y].getCell() == null) {
+            if (energy - movementCost >= 0) {
+                w.getTheWorld()[x][y].setCell(null);
+                setX(x - movementCost);
+                w.getTheWorld()[x][y].setCell(this);
+                setEnergy(Math.round(energy - (movementCost * efficiency)));
+//                System.out.println("Cell " + ID + " moved to " + x + "," + y + ", energy: " + energy);                
+            } else {
+                setAlive(false);
+                System.out.println("Cell " + ID + "  died on " + x + "," + y + ", energy: " + energy);
+            }
+        } else {
+            moveRight(w);
+        }
+    }
+
+    public void moveDown(World w) { // code 6
+        if ((y + movementCost) < w.getHeight() && w.getTheWorld()[x][y + movementCost].getCell() == null) {
+            if (energy - movementCost >= 0) {
+                w.getTheWorld()[x][y].setCell(null);
+                setY(y + movementCost);
+                w.getTheWorld()[x][y].setCell(this);
+                setEnergy(Math.round(energy - (movementCost * efficiency)));
+//                System.out.println("Cell " + ID + " moved to " + x + "," + y + ", energy: " + energy);                
+            } else {
+                setAlive(false);
+                System.out.println("Cell " + ID + "  died on " + x + "," + y + ", energy: " + energy);
+            }
+        } else {
+            moveUp(w);
+        }
+    }
+
+    public void moveUp(World w) { // code 12
+        if ((y - movementCost) >= 0 && w.getTheWorld()[x][y - movementCost].getCell() == null) {
+            if (energy - movementCost >= 0) {
+                w.getTheWorld()[x][y].setCell(null);
+                setY(y - movementCost);
+                w.getTheWorld()[x][y].setCell(this);
+                setEnergy(Math.round(energy - (movementCost * efficiency)));
+//                System.out.println("Cell " + ID + " moved to " + x + "," + y + ", energy: " + energy);                
+            } else {
+                setAlive(false);
+                System.out.println(ID + "  died on " + x + "," + y + ", energy: " + energy);
+            }
+        } else {
+            moveDown(w);
         }
     }
 
     public void eat(World w) {
-        if (w.getTheWorld()[this.getX()][this.getY()].getSugar() > 0) {
-            this.setEnergy(this.getEnergy() + w.getTheWorld()[this.getX()][this.getY()].getSugar());
-            System.out.println("Cell " + this.ID + "   ate on " + this.getX() + "," + this.getY() + ", energy +" + w.getTheWorld()[this.getX()][this.getY()].getSugar());
-            w.getTheWorld()[this.getX()][this.getY()].setSugar(0);
-
+        if (w.getTheWorld()[x][y].getSugar() > 0) {
+            setEnergy(energy + w.getTheWorld()[x][y].getSugar());
+            System.out.println(ID + "   ate on " + x + "," + y + ": energy +" + w.getTheWorld()[x][y].getSugar());
+            w.getTheWorld()[x][y].setSugar(0);
         }
     }
 
-    public Circle drawCell() {
-        Circle cell = new Circle();
-        if (this.energy > 50) {
-            cell.setRadius(5);
-        } else if (this.energy > 40) {
-            cell.setRadius(4);
-        } else {
-            cell.setRadius(3);
-        }
-
-        if (this.isAlive()) {
-            cell.setFill(Color.web("#00ffff"));
-        } else {
-            cell.setRadius(5);
-            cell.setFill(Color.web("#008080"));
-        }
-        return cell;
-    }
-
+    // GET SET
     public int getID() {
         return ID;
     }
@@ -225,11 +222,11 @@ abstract public class Cell {
         this.ID = ID;
     }
 
-    public int getEnergy() {
+    public double getEnergy() {
         return energy;
     }
 
-    public void setEnergy(int energy) {
+    public void setEnergy(double energy) {
         this.energy = energy;
     }
 
@@ -257,19 +254,19 @@ abstract public class Cell {
         this.vision = vision;
     }
 
-    public int getMovement() {
-        return movement;
+    public int getMovementCost() {
+        return movementCost;
     }
 
-    public void setMovement(int movement) {
-        this.movement = movement;
+    public void setMovementCost(int movement) {
+        this.movementCost = movement;
     }
 
-    public int getEfficiency() {
+    public double getEfficiency() {
         return efficiency;
     }
 
-    public void setEfficiency(int efficiency) {
+    public void setEfficiency(double efficiency) {
         this.efficiency = efficiency;
     }
 

@@ -21,7 +21,7 @@
     -fx-text-fill: #269900;
 }
 .smallText {
-    -fx-font-size: 10;
+    -fx-font-size: 7;
 }
 .bigText {
     -fx-font-size: 20;

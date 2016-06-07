@@ -5,6 +5,7 @@
  */
 package edu.lexaron.world;
 
+import edu.lexaron.simulation.Monitor;
 import java.util.Random;
 
 /**
@@ -16,10 +17,12 @@ public class World {
     private Tile[][] theWorld;
     private final int height;
     private final int width;
-
+    private Monitor m;
+    
     public World(int height, int width) {
         this.height = height;
         this.width = width;
+        m = new Monitor();
     }
     
     public Tile[][] generateWorld(double sugarFactor) {
@@ -76,6 +79,10 @@ public class World {
 
     public int getWidth() {
         return width;
+    }
+
+    public Monitor getMonitor() {
+        return m;
     }
 
 }
