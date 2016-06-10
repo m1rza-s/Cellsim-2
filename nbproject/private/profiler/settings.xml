@@ -3,4 +3,5 @@
 <properties>
 <comment/>
 <entry key="ACTIVATED_FEATURES">#org.netbeans.modules.profiler.v2.features.MonitorFeature@</entry>
+<entry key="SINGLE_FEATURE">false</entry>
 </properties>

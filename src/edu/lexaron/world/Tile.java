@@ -5,8 +5,6 @@
  */
 package edu.lexaron.world;
 
-import edu.lexaron.cells.Cell;
-
 /**
  *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
@@ -14,23 +12,27 @@ import edu.lexaron.cells.Cell;
 public class Tile {
     private final int id;
     private Cell cell;
-    private int sugar; // -5 to 5
+    private Cell deadCell;
+    private Sugar sugar;
 
-    public Tile(int id, Cell cell, int sugar) {
+    public Tile(int id,Cell cell, Sugar sugar) {
         this.id = id;
         this.cell = cell;
         this.sugar = sugar;
+        
+        // Uništi potrebu za 2D nizom!
+        // CILJ: Realno pomjeranje!
     }
 
     public int getId() {
         return id;
     }
 
-    public int getSugar() {
+    public Sugar getSugar() {
         return sugar;
     }
 
-    public void setSugar(int sugar) {
+    public void setSugar(Sugar sugar) {
         this.sugar = sugar;
     }
 
@@ -41,6 +43,13 @@ public class Tile {
     public void setCell(Cell cell) {
         this.cell = cell;
     }
-    
+
+    public Cell getDeadCell() {
+        return deadCell;
+    }
+
+    public void setDeadCell(Cell deadCell) {
+        this.deadCell = deadCell;
+    }
     
 }

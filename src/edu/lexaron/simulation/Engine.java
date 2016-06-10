@@ -5,24 +5,21 @@
  */
 package edu.lexaron.simulation;
 
-import edu.lexaron.cells.Cell;
+import edu.lexaron.world.Cell;
 import edu.lexaron.cells.Cell_first;
 import edu.lexaron.world.World;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.application.Platform;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
-import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -30,32 +27,40 @@ import javafx.scene.shape.Rectangle;
  */
 public class Engine {
 
+    private final Monitor monitor = new Monitor();
     private final Life life = new Life();
     // ID, x, y, energy, vision, movement, efficiency
-    Cell_first a = new Cell_first(1, 25, 25, 50, 3, 1, 1);
-    
+    Cell_first a = new Cell_first(1, 50, 50, 95, 3, 1, 1);
+    Cell_first b = new Cell_first(1, 51, 50, 95, 3, 1, 1);
+
     // height, width
-    volatile World world = new World(80, 80);
+    private final int height = 80;
+    private final int width = 150;
+    private volatile World world = new World(width, height);
+    private Canvas canvas;
+    private GraphicsContext gc;
+    private final VBox infoPanel = new VBox();
 
-    GridPane grid;
-    VBox infoPanel = new VBox();
-
-    Timer timer;
-    Label l;
-    int generations = 0;
-    double sugarFactor = 15;
+    private Timer timer;
+    private Label gens;
+    private int generations = 0;
+    private final double sugarFactor = 10;
 
     public void startThread(BorderPane root) {
         root.setLeft(infoPanel);
         this.timer = new Timer();
-        grid.setAlignment(Pos.CENTER);
-        grid.getStyleClass().add("backgroundColor");
-        grid.setPadding(new Insets(10));
-        grid.setHgap(0.5);
-        grid.setVgap(0.5);
-        grid.setCache(true);
+
+        gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.YELLOW);
         
-        world.getMonitor().getAllCells().add(a);
+        
+        canvas.setCacheHint(CacheHint.SPEED);
+        canvas.setCache(true);
+//        canvas.setScaleX(0.5);
+//        canvas.setScaleY(0.5);
+
+        world.getAllCells().add(a);
+        world.getAllCells().add(b);
         seedCells();
 
         infoPanel.setPadding(new Insets(10));
@@ -64,113 +69,128 @@ public class Engine {
 //        infoPanel.getStyleClass().add("backgroundColorAccent");
         infoPanel.getStyleClass().add("accentText");
         infoPanel.setCache(true);
-        
+
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
                     // UI UPDATE //
-                    printWorld();
+                    
+                    gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                    paintWorld();
+                    paintGrid();
+                    world.getAllCells().stream().map((c) -> (Cell) c).forEach((c) -> {
+                        paintCells((Cell) c);
+                    });
                     infoPanel.getChildren().clear();
-                    if (world.getMonitor().worldHasLiveCells(world)) {
-                        infoPanel.getChildren().add(world.getMonitor().refreshLiveCellInfo());
+                    if (monitor.worldHasLiveCells(world)) {
+                        infoPanel.getChildren().add(monitor.refreshLiveCellInfo(world));
                     } else {
                         Label done = new Label("No live cells!");
                         done.getStyleClass().add("accentText");
                         done.getStyleClass().add("biggerText");
                         infoPanel.getChildren().add(done);
-                    }
-
-                    // END OF UI UPDATE //
-                    if (!world.getMonitor().worldHasLiveCells(world)) {
                         timer.cancel();
                         timer.purge();
 
                         System.out.println("Simulation stopped: No more live cells");
                     }
+                    // END OF UI UPDATE //                    
                     // CELL ACTIVITY //
-                    life.allLiveCellsHunt(world, world.getMonitor().getAllCells());
+                    life.allLiveCellsHunt(world, world.getAllCells());
                     // CELL ACTIVITY END //
                     generations++;
-                    l.setText(generations + " generations");
+                    gens.setText(generations + " generations");
+
                 });
             }
         };
-        this.timer.scheduleAtFixedRate(timerTask, 0, 250);
+        this.timer.scheduleAtFixedRate(timerTask, 0, 100);
     }
 
     public void setup() {
         world.generateWorld(sugarFactor);
-        grid.setAlignment(Pos.CENTER_LEFT);
     }
 
     public void seedCells() {
-        for (Cell c : world.getMonitor().getAllCells()) {
-            world.getTheWorld()[c.getY()][c.getX()].setCell(c);
+        for (Object temp : world.getAllCells()) {
+            Cell c = (Cell) temp;
+            world.getTheWorld()[c.getY()][c.getX()].setCell((Cell) c);
         }
     }
 
-    private void printWorld() {
-        grid.getChildren().clear();
-
+    private void paintWorld() {
         for (int i = 0; i < world.getHeight(); i++) {
             for (int j = 0; j < world.getWidth(); j++) {
-                if (world.getTheWorld()[i][j].getSugar() != 0) {
-                    Label sugLabel = new Label(String.valueOf(world.getTheWorld()[i][j].getSugar()));
-                    sugLabel.setPadding(new Insets(0));
-                    sugLabel.getStyleClass().addAll("accentText", "smallText");
-                    GridPane.setHalignment(sugLabel, HPos.CENTER);
-                    grid.add(sugLabel, i, j);
-                } else if (world.getTheWorld()[i][j].getSugar() == 0) {
-                    grid.add(new Rectangle(10, 10), i, j);
-                }
-                if (world.getTheWorld()[i][j].getCell() != null) {
-                    printCellVisions(world.getTheWorld()[i][j].getCell());
-                    Circle cell = world.getTheWorld()[i][j].getCell().drawCell();
-                    GridPane.setHalignment(cell, HPos.CENTER);
-                    grid.add(cell, i, j);
-                }
+                if (world.getTheWorld()[i][j].getSugar().getAmount() != 0 && world.getTheWorld()[i][j].getCell() == null) {
+                    gc.setFill(Color.YELLOW);
+//                    gc.setFont(new Font(10));
+//                    gc.fillText(String.valueOf(world.getTheWorld()[i][j].getSugar()), j*10, i*10);
+                    gc.fillRect((j - 0.5) * 10, (i - 0.5) * 10, 10, 10);
+                } 
             }
         }
-        for (Cell temp : world.getMonitor().getAllCells()) {
-            if (temp.isAlive()) {
-                printCellVisions(temp);
-            }
-        }
+        gc.restore();
     }
 
-    private void printCellVisions(Cell c) {
+    private void paintCells(Cell c) {
         if (c.isAlive()) {
-            for (int i = (c.getX() - c.getVision()); i <= (c.getX() + c.getVision()); i++) {
-                for (int j = (c.getY() - c.getVision()); j <= (c.getY() + c.getVision()); j++) {
-                    if (getNodeFromGridPane(j, i) != null) {
-                        try {
-                            ((Rectangle) getNodeFromGridPane(j, i)).setFill(Color.web("#404040"));
-                        } catch (Exception ex) {
-                            ((Label) getNodeFromGridPane(j, i)).setStyle("-fx-background-color: #404040");
-                        }
+            paintTargetFoodLine(c);
+            gc.setStroke(Color.web("#006622"));
+            gc.strokeRect(
+                    (c.getX() - c.getVision() - 0.5) * 10,
+                    (c.getY() - c.getVision() - 0.5) * 10,
+                    ((c.getVision() * 2) + 1) * 10,
+                    ((c.getVision() * 2) + 1) * 10);
 
-                    }
-                }
-            }
+            gc.setFill(Color.GREEN);
+            gc.fillRect((c.getX() - 0.5) * 10, (c.getY() - 0.5) * 10, 10, 10);
+            
+        } else if (!c.isAlive()) {
+            gc.setFill(Color.RED);
+            gc.fillRect((c.getX() - 0.5) * 10, (c.getY() - 0.5) * 10, 10, 10);
+        } else {
+            System.out.println("    UNEXPECTED CELL STATE: " + c.getID());
+        }
+        gc.restore();
+    }
+
+    private void paintGrid() {
+        gc.setStroke(Color.web("#333333"));
+        for (int i = 10; i < width * 10; i += 10) {
+            gc.strokeLine(i, 0, i, height * 10);
+        }
+        for (int i = 10; i < height * 10; i += 10) {
+            gc.strokeLine(0, i, width * 10, i);
+        }
+        gc.restore();
+    }
+
+    public void paintTargetFoodLine(Cell c) {
+        if (c.getTargetFood() != null) {
+            gc.setStroke(Color.RED);
+            gc.strokeLine(
+                    (c.getX()) * 10, (c.getY()) * 10,
+                    (c.getTargetFood()[1]) * 10, (c.getTargetFood()[0]) * 10
+            );
         }
     }
 
-    private Node getNodeFromGridPane(int row, int col) {
-        for (Node node : grid.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+        System.out.println("Canvas size: " + this.canvas.getWidth() + "x" + this.canvas.getHeight());
     }
 
-    public void setGrid(GridPane grid) {
-        this.grid = grid;
+    public int getWidth() {
+        return width;
     }
 
-    public void setL(Label l) {
-        this.l = l;
+    public int getHeight() {
+        return height;
+    }
+
+    public void setGens(Label l) {
+        this.gens = l;
     }
 
     public void setWorld(World world) {

@@ -5,7 +5,7 @@
  */
 package edu.lexaron.simulation;
 
-import edu.lexaron.cells.Cell;
+import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
 import java.util.List;
 
@@ -21,8 +21,8 @@ public class Life {
 //                c.hunt(w);
 //            }
 //        }
-        for (int i = 0; i < w.getHeight(); i++) {
-            for (int j = 0; j < w.getWidth(); j++) {
+        for (int i = 0; i < w.getWidth(); i++) {
+            for (int j = 0; j < w.getHeight(); j++) {
                 if (w.getTheWorld()[j][i].getCell() != null && w.getTheWorld()[j][i].getCell().isAlive()) {
                     w.getTheWorld()[j][i].getCell().hunt(w);
                 }

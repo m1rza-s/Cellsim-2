@@ -5,8 +5,7 @@
  */
 package edu.lexaron.cells;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
 import java.util.Random;
 
@@ -16,7 +15,7 @@ import java.util.Random;
  */
 public class Cell_first extends Cell {
 
-    int offspring = 1;
+    private int offspring = 1;
 
     public Cell_first(int ID, int x, int y, double energy, int vision, int movement, double efficiency) {
         super(ID, x, y, energy, vision, movement, efficiency);
@@ -24,31 +23,30 @@ public class Cell_first extends Cell {
 
     @Override
     public void mutate(World w) {
-        if (new Random().nextInt(3) > 0) {
-            System.out.println("    MITOSIS!");
+        if (new Random().nextInt(3) > 1) {
+            System.out.println(getID() + " MITOSIS!");
             Cell_first child = new Cell_first(getID() + offspring, getX() + 1, getY() + 1, (getEnergy() / 2), getVision(), getMovementCost(), getEfficiency());
-            if ((getX() + 1) > w.getWidth() || (getY() + 1) > w.getHeight()) {
-                w.getTheWorld()[getX() - 1][getY() - 1].setCell(child);
-                w.getMonitor().getAllCells().add(child);
+            
+            try {
+                w.getTheWorld()[getY() - 1][getX() - 1].setCell(child);
+                w.getAllCells().add(child);
                 offspring++;
-            } else {
-                w.getTheWorld()[getX() + 1][getY() + 1].setCell(child);
-                w.getMonitor().getAllCells().add(child);
-                offspring++;
+            } catch (Exception ex) {
+                System.out.println(getID() + " failed to divide.");
             }
 
         } else {
             switch (new Random().nextInt(2)) {
                 case 0:
-                    System.out.println("    MUTATION! +1 vision");
+                    System.out.println(getID() + " MUTATION! +1 vision");
                     setVision(getVision() + 1);
                     break;
                 case 1:
-                    System.out.println("    MUTATION! +0.05 efficiency");
-                    setEfficiency(getEfficiency() - 0.05);
+                    System.out.println(getID() + " MUTATION! +0.05 efficiency");
+                    setEfficiency(Math.round((getEfficiency() * 0.95) * 1000d) / 1000d);
                     break;
                 default:
-                    System.out.println("    Unknown mutation roll!");
+                    System.out.println(getID() + " Unknown mutation roll!");
                     break;
             }
         }
@@ -61,47 +59,29 @@ public class Cell_first extends Cell {
         int[] sugarLocation = new int[2];
         boolean found = false;
         outerloop:
-        for (int i = (getX() - getVision()); i <= (getX() + getVision()); i++) {
-            for (int j = (getY() - getVision()); j <= (getY() + getVision()); j++) {
+        for (int i = (getY() - getVision()); i <= (getY() + getVision()); i++) {
+            for (int j = (getX() - getVision()); j <= (getX() + getVision()); j++) {
                 try {
-//                    System.out.print("(" + i + "," + j + ")");
-                    if (w.getTheWorld()[i][j].getSugar() > 0) {
-                        sugarLocation[0] = i;
-                        sugarLocation[1] = j;
+//                    System.out.print("(" + j + "," + i + ")");
+                    if (w.getTheWorld()[i][j].getSugar().getAmount() > 0) {
+                        sugarLocation[0] = i; // Y
+                        sugarLocation[1] = j; // X
                         found = true;
                         break outerloop;
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
-
+                    
                 }
             }
 //            System.out.print("\n");
         }
         if (found) {
-            System.out.println(getID() + " found food on " + sugarLocation[0] + "," + sugarLocation[1]);
+//            System.out.println(getID() + " found food on " + sugarLocation[0] + "," + sugarLocation[1]);
             return sugarLocation;
         } else {
+//            System.out.println(getID() + " found no food.");
             return null;
         }
 
-    }
-
-    @Override
-    public Circle drawCell() {
-        Circle cell = new Circle();
-        if (getEnergy() > 50) {
-            cell.setRadius(5);
-        } else if (getEnergy() > 40) {
-            cell.setRadius(4);
-        } else {
-            cell.setRadius(3);
-        }
-        if (isAlive()) {
-            cell.setFill(Color.web("#66ff33"));
-        } else {
-            cell.setRadius(5);
-            cell.setFill(Color.web("#134d00"));
-        }
-        return cell;
     }
 }

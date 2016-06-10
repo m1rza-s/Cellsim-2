@@ -5,7 +5,8 @@
  */
 package edu.lexaron.world;
 
-import edu.lexaron.simulation.Monitor;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,15 +15,15 @@ import java.util.Random;
  */
 public class World {
 
-    private Tile[][] theWorld;
     private final int height;
     private final int width;
-    private Monitor m;
+    private Tile[][] theWorld;
     
-    public World(int height, int width) {
+    private volatile List<Cell> allCells = new LinkedList<>();    
+    private volatile List<Sugar> allSugars = new LinkedList<>();
+    public World(int width, int height) {
         this.height = height;
         this.width = width;
-        m = new Monitor();
     }
     
     public Tile[][] generateWorld(double sugarFactor) {
@@ -35,13 +36,13 @@ public class World {
         int sugarTiles = (int) (((width * height)) * (sugarFactor / 100));
         System.out.println(""
                 + "Setup: "
-                + height + "x" + width + ", "
+                + width + "x" + height + ", "
                 + "SF=" + sugarFactor + ", "
                 + "ST=" + sugarTiles);
         int tileID = 1;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {                
-                theWorld[i][j] = new Tile(tileID, null, 0);                
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {                
+                theWorld[j][i] = new Tile(tileID, null, new Sugar(j, i, 0));                
                 tileID++;                
             }
         }
@@ -51,8 +52,8 @@ public class World {
             do {
                 x = r.nextInt(width);
                 y = r.nextInt(height);
-            } while (hasSugar(x, y));
-            theWorld[x][y].setSugar(r.nextInt(9) + 1);
+            } while (hasSugar(y, x));
+            theWorld[y][x].setSugar(new Sugar(x, y, r.nextInt(9) + 1));
         }
         System.out.println("Done generating world!");
         
@@ -60,11 +61,7 @@ public class World {
     }
 
     public boolean hasSugar(int x, int y) {
-        if (theWorld[x][y].getSugar() != 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return theWorld[x][y].getSugar().getAmount() != 0;
 
     }
     
@@ -81,8 +78,8 @@ public class World {
         return width;
     }
 
-    public Monitor getMonitor() {
-        return m;
+    public List getAllCells() {
+        return allCells;
     }
-
+    
 }

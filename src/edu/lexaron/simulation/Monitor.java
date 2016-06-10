@@ -5,11 +5,9 @@
  */
 package edu.lexaron.simulation;
 
-import edu.lexaron.cells.Cell;
+import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -21,9 +19,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
-public class Monitor {
-
-    private volatile List allCells = new LinkedList();
+public class Monitor {   
 
     public boolean worldHasLiveCells(World w) {
         boolean r = false;
@@ -39,20 +35,20 @@ public class Monitor {
         return r;
     }
 
-    public VBox refreshLiveCellInfo() throws NullPointerException {
+    public VBox refreshLiveCellInfo(World w) throws NullPointerException {
         VBox v = new VBox(20);
         v.setPadding(new Insets(10));
 
-        for (Iterator it = allCells.iterator(); it.hasNext();) {
+        for (Iterator it = w.getAllCells().iterator(); it.hasNext();) {
             Cell c = (Cell) it.next();
             if (c.isAlive()) {
                 VBox cellBox = new VBox();
                 HBox row1 = new HBox(10);
                 HBox row2 = new HBox(10);
-                row1.setPadding(new Insets(5, 5, 0, 5));
+                row1.setPadding(new Insets(2, 5, 0, 2));
                 row1.getStyleClass().add("backgroundColorAccent");
 
-                row2.setPadding(new Insets(5, 0, 5, 5));
+                row2.setPadding(new Insets(2, 5, 2, 2));
                 row2.getStyleClass().add("backgroundColorAccent");
 
                 Label cellID = new Label();
@@ -73,20 +69,20 @@ public class Monitor {
                 vision.setTooltip(new Tooltip("Vision"));
                 efficiency.setTooltip(new Tooltip("Efficiency"));
                 
-                cellID.getStyleClass().addAll("accentText", "bigText");
-                energy.getStyleClass().addAll("greenText", "bigText");
-                location.getStyleClass().addAll("accentText", "bigText");
-                vision.getStyleClass().addAll("accentText", "bigText");
-                efficiency.getStyleClass().addAll("accentText", "bigText");
+                cellID.getStyleClass().addAll("accentText");
+                energy.getStyleClass().addAll("greenText");
+                location.getStyleClass().addAll("accentText");
+                vision.getStyleClass().addAll("accentText");
+                efficiency.getStyleClass().addAll("accentText");
                         
                 
                 row1.getChildren().addAll(
                         cellID,
-                        energy,
+                        vision,
                         efficiency
                 );
                 row2.getChildren().addAll(
-                        vision,
+                        energy,
                         location
                 );
                 cellBox.getChildren().addAll(row1, row2);
@@ -95,10 +91,6 @@ public class Monitor {
             }
         }
         return v;
-    }
-
-    public List<Cell> getAllCells() {
-        return allCells;
     }
 
 }
