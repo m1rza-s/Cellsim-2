@@ -20,7 +20,7 @@ public class Sugar {
         this.x = x;
         this.y = y;
     }
-    
+
     public void setAmount(int amount) {
         this.amount = amount;
     }

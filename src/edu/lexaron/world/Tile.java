@@ -10,16 +10,18 @@ package edu.lexaron.world;
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Tile {
+
     private final int id;
     private Cell cell;
     private Cell deadCell;
     private Sugar sugar;
+    private int smell;
 
-    public Tile(int id,Cell cell, Sugar sugar) {
+    public Tile(int id, Cell cell, Sugar sugar) {
         this.id = id;
         this.cell = cell;
         this.sugar = sugar;
-        
+        this.smell = 0;
         // Uništi potrebu za 2D nizom!
         // CILJ: Realno pomjeranje!
     }
@@ -51,5 +53,13 @@ public class Tile {
     public void setDeadCell(Cell deadCell) {
         this.deadCell = deadCell;
     }
-    
+
+    public int getSmell() {
+        return smell;
+    }
+
+    public void setSmell(int smell) {
+        this.smell = smell;
+    }
+
 }

@@ -21,7 +21,7 @@ public class World {
         this.height = height;
         this.width = width;
     }
-    
+
     public Tile[][] generateWorld(double sugarFactor) {
         // sf, 0 to 100 in %
         Random r = new Random();
@@ -51,7 +51,7 @@ public class World {
             this.theWorld[x][y].setSugar(r.nextInt(5) + 1);
         }
         System.out.println("Done generating world!");
-        
+
         return theWorld;
     }
 

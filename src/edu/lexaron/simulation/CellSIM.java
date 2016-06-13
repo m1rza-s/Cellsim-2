@@ -8,6 +8,7 @@ package edu.lexaron.simulation;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -32,63 +33,92 @@ public class CellSIM extends Application {
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
         window = primaryStage;
-        window.setTitle("CellSIM V.03");
+        window.setTitle("CellSIM V.05");
         window.setOnCloseRequest(e -> Platform.exit());
 
         BorderPane root = new BorderPane();
+        root.getStyleClass().add("backgroundColor");
+
         VBox menu = new VBox();
         HBox menuRow1 = new HBox();
-        HBox menuRow2 = new HBox();
-        Canvas canvas = new Canvas(run.getWidth() * 10, run.getHeight() * 10);
-        
-        StackPane sp = new StackPane(new Button("LEGEND"));
-
-        // Structuring
-        root.getStyleClass().add("backgroundColor");
         menuRow1.getStyleClass().add("backgroundColorMenu");
-        menuRow1.setPadding(new Insets(5, 15, 15, 15));
+//        menuRow1.setPadding(new Insets(5, 15, 15, 15));
         menuRow1.setSpacing(20);
-        menuRow2.getStyleClass().add("backgroundColorMenu");
-        menuRow2.setPadding(new Insets(15, 15, 5, 15));
-        menuRow2.setSpacing(20);
+        menuRow1.setAlignment(Pos.CENTER);
 
-        // GUI elements
+        HBox stats = new HBox();
+        stats.getStyleClass().add("backgroundColorMenu");
+        stats.setPadding(new Insets(5, 5, 5, 5));
+        stats.setSpacing(20);
+
+        Canvas canvas = new Canvas(run.getWidth() * 5, run.getHeight() * 5);
+        StackPane spc = new StackPane(canvas);
+        spc.setAlignment(Pos.CENTER);
+
+        VBox sp = new VBox(new Button("LEGEND"));
+        sp.setPadding(new Insets(20));
+        sp.setAlignment(Pos.TOP_CENTER);
+
         Label sugarFactor_L = new Label("Sugar factor: " + String.valueOf(run.getSugarFactor()) + "%");
         Label counter = new Label();
         counter.getStyleClass().add("accentText");
+
+        Label liveCells = new Label();
+        liveCells.getStyleClass().addAll("greenText", "bigText");
+
+        Label deadCells = new Label();
+        deadCells.getStyleClass().addAll("redText", "bigText");
+
+        Label totalCells = new Label();
+        totalCells.getStyleClass().addAll("bigText");
+
         Button start = new Button("Start");
-        // Adding elements to menuRow1 and 2
-        menuRow1.getChildren().addAll(
-                start
-        );
-        menuRow2.getChildren().addAll(
-                sugarFactor_L,
-                new Label("World Size: " + run.getWorld().getHeight() + "x" + run.getWorld().getWidth()),
-                new Label("No. of Tiles: " + (run.getWorld().getHeight() * run.getWorld().getWidth())),
-                counter
-        );
-        menu.getChildren().addAll(menuRow2, menuRow1);
-        run.setCanvas(canvas);
-        
-        run.setup();
-        run.setGens(counter);
-
-        // Display!        
-        root.setTop(menu);
-        root.setCenter(canvas);
-        root.setBottom(sp);
-
-        mainScene = new Scene(root, 1000, 800);
-        mainScene.getStylesheets().add("style/style.css");
-        window.setScene(mainScene);
-        window.setMaximized(true);
-        window.show();
-
         start.setOnAction(e -> {
             run.startThread(root);
             System.out.println("Simulation started...");
             start.setDisable(true);
-        });       
+        });
+        Button generateWorld = new Button("Generate World");
+
+        // STRUCTURING
+        menuRow1.getChildren().addAll(
+                sugarFactor_L,
+                new Label("World Size: " + run.getWorld().getHeight() + "x" + run.getWorld().getWidth()),
+                new Label("No. of Tiles: " + (run.getWorld().getHeight() * run.getWorld().getWidth())),
+                counter,
+                liveCells,
+                deadCells,
+                totalCells
+        );
+        stats.getChildren().addAll(
+                start,
+                generateWorld
+        );
+        menu.getChildren().addAll(
+                menuRow1,
+                stats
+        );
+
+        run.setCanvas(canvas);
+        run.setup();
+
+        run.setGens(counter);
+        run.setAlive(liveCells);
+        run.setDead(deadCells);
+        run.setTotal(totalCells);
+
+        // Display!        
+        root.setTop(menu);
+        root.setCenter(spc);
+
+        mainScene = new Scene(root, 1000, 800);
+        mainScene.getStylesheets().add("style/style.css");
+
+        window.setScene(mainScene);
+        window.setMaximized(true);
+        window.show();
+
+        // LISTENERS
     }
 
     /**

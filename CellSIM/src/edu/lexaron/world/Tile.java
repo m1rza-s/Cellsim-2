@@ -12,6 +12,7 @@ import edu.lexaron.cells.Cell;
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Tile {
+
     Cell cell;
     int sugar; // -5 to 5
 
@@ -35,6 +36,5 @@ public class Tile {
     public void setCell(Cell cell) {
         this.cell = cell;
     }
-    
-    
+
 }

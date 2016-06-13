@@ -38,10 +38,10 @@ public class Cell_first extends Cell {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     @Override
     public Circle drawCell() {
         Circle cell = new Circle();

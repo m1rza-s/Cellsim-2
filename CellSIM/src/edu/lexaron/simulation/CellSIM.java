@@ -5,7 +5,6 @@
  */
 package edu.lexaron.simulation;
 
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -32,9 +31,7 @@ public class CellSIM extends Application {
         window = primaryStage;
         window.setTitle("CellSIM V.01");
         window.setOnCloseRequest(e -> Platform.exit());
-        
-        
-        
+
         // Prepwork
         run.setup();
 
@@ -54,13 +51,13 @@ public class CellSIM extends Application {
         // Adding elements to menu  
         menu.getChildren().addAll(
                 sugarFactor_L,
-                new Label("Size: " + run.getWorld().getHeight()+ "x" + run.getWorld().getWidth()),
+                new Label("Size: " + run.getWorld().getHeight() + "x" + run.getWorld().getWidth()),
                 new Label("Grid size: " + (run.getWorld().getHeight() * run.getWorld().getWidth())),
                 counter
         );
 
         // Painting grid
-        run.setGrid(grid);        
+        run.setGrid(grid);
 
         // Display!        
         root.setTop(menu);
@@ -70,10 +67,10 @@ public class CellSIM extends Application {
         window.setScene(mainScene);
         window.setMaximized(false);
         window.show();
-        
+
         run.setL(counter);
         run.startThread();
-        
+
     }
 
     /**

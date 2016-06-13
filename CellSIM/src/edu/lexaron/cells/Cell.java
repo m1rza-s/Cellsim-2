@@ -37,9 +37,11 @@ public class Cell {
             this.alive = true;
         }
     }
-    public void hunt(World w){
-        
+
+    public void hunt(World w) {
+
     }
+
     public void moveRight(World w) {
         if (this.isAlive()) {
             if (this.energy - this.movement >= 0) {
@@ -48,7 +50,7 @@ public class Cell {
                 w.getTheWorld()[this.getX()][this.getY()].setCell(this);
                 this.energy = this.energy - this.movement;
                 System.out.println("Cell " + this.ID + " moved to " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
-                eat(w);                
+                eat(w);
             } else {
                 this.setAlive(false);
                 System.out.println("Cell " + this.ID + "  died on  " + this.getX() + "," + this.getY() + ", energy: " + this.energy);
@@ -72,11 +74,11 @@ public class Cell {
     }
 
     public void eat(World w) {
-        if (w.getTheWorld()[this.getX()][this.getY()].getSugar() > 0) {            
+        if (w.getTheWorld()[this.getX()][this.getY()].getSugar() > 0) {
             this.setEnergy(this.getEnergy() + w.getTheWorld()[this.getX()][this.getY()].getSugar());
             System.out.println("Cell " + this.ID + "   ate on " + this.getX() + "," + this.getY() + ", energy +" + w.getTheWorld()[this.getX()][this.getY()].getSugar());
             w.getTheWorld()[this.getX()][this.getY()].setSugar(0);
-            
+
         }
     }
 
@@ -95,7 +97,7 @@ public class Cell {
             cell.setRadius(4);
         } else {
             cell.setRadius(3);
-        } 
+        }
 
         if (this.isAlive()) {
             cell.setFill(Color.web("#00ffff"));

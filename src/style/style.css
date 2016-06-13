@@ -9,7 +9,7 @@
 */
 
 .backgroundColor {
-    -fx-background-color: #262626;
+    -fx-background-color: #0d0d0d;
 }
 .backgroundColorMenu {
     -fx-background-color: #666666;
@@ -19,6 +19,9 @@
 }
 .greenText {
     -fx-text-fill: #269900;
+}
+.redText {
+    -fx-text-fill: #990000;
 }
 .smallText {
     -fx-font-size: 7;
@@ -34,5 +37,5 @@
 }
 .darkGrayBorder {
     -fx-border-color: #1a1a1a;
-    -fx-border-width: 2px;
+    -fx-border-width: 1px;
 }
