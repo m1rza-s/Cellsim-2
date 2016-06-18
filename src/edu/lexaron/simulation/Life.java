@@ -14,14 +14,30 @@ import edu.lexaron.world.World;
  */
 public class Life {
 
+    /**
+     *
+     * @param w
+     */
     public void allLiveCellsHunt(World w) {
-        for (Object o : w.getAllCells()) {
+        for (Object o : w.getNewBornCells()) {
             Cell c = (Cell) o;
-            c.hunt(w);
+//            System.out.println("NEW CELL: " + c.getGeneCode() + " @ " + c.getX() + "," + c.getY());
+            w.getWorld()[c.getY()][c.getX()].setCell(c);
         }
         w.getAllCells().addAll(w.getNewBornCells());
         w.getNewBornCells().clear();
 
+        for (Object o : w.getEatenCorpses()) {
+            Cell c = (Cell) o;
+            w.getWorld()[c.getY()][c.getX()].setDeadCell(null);
+        }
+        w.getAllCells().removeAll(w.getEatenCorpses());
+        w.getEatenCorpses().clear();
+
+        for (Object o : w.getAllCells()) {
+            Cell c = (Cell) o;
+            c.hunt(w);
+        }
     }
 
 }

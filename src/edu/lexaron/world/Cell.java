@@ -21,58 +21,61 @@ public abstract class Cell {
     private int x;
     private int y; // position
     private int vision;
-    private int movement;
+    private final int movement;
+    private double speed;
     private double efficiency;
     private final Queue<Integer> path = new LinkedList();
     private final String color;
+    private int trailSize;
     private int offspring = 1;
-    int[] targetFood = null;
+    private int[] targetFood = null;
+    private int oppositeRandomStep;
+    private int lastRandomStep;
 
-    public Cell(String ID, int x, int y, double energy, int vision, int movementCost, double efficiency, String color) {
+    /**
+     *
+     * @param ID
+     * @param x
+     * @param y
+     * @param energy
+     * @param vision
+     * @param speed
+     * @param efficiency
+     * @param color
+     */
+    public Cell(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color) {
         this.geneCode = ID;
         this.x = x;
         this.y = y;
         this.energy = energy;
         this.vision = vision;
-        this.movement = movementCost;
+        this.movement = 1;
+        this.speed = speed;
         this.efficiency = efficiency;
         if (energy > 0) {
             this.alive = true;
         }
         this.color = color;
-
+        trailSize = 50;
     }
 
+    /**
+     *
+     * @param w
+     * @return
+     */
     public abstract int[] lookForFood(World w);
 
+    /**
+     *
+     * @param w
+     */
     public abstract void mutate(World w);
 
-    public int[] findLocationFor(World w) {
-        int[] location = new int[2];
-        boolean found = false;
-        outterloop:
-        for (int i = (y - vision); i <= (y + vision); i++) {
-            for (int j = (x - vision); j <= (x + vision); j++) {
-                try {
-                    if (w.getTheWorld()[y][x].getCell() == null) {
-                        location[0] = y;
-                        location[1] = x;
-                        found = true;
-                        break outterloop;
-                    }
-                } catch (ArrayIndexOutOfBoundsException ex) {
-
-                }
-            }
-        }
-        if (found) {
-            return location;
-        } else {
-            return null;
-        }
-
-    }
-
+    /**
+     *
+     * @param w
+     */
     public void hunt(World w) {
         // CELL TYPE DEPENDANT
         if (this.isAlive()) {
@@ -84,11 +87,13 @@ public abstract class Cell {
                     randomStep(w);
                 }
             }
-            if (!path.isEmpty() && w.getTheWorld()[targetFood[0]][targetFood[1]].getSugar().getAmount() > 0) {
-                usePath(w);
+            if (!path.isEmpty() && w.getWorld()[targetFood[0]][targetFood[1]].getSugar().getAmount() > 0) {
+                for (int i = 0; i < speed; i++) {
+                    usePath(w);
+                }
+
                 if (path.isEmpty()) {
                     eat(w);
-                    targetFood = null;
                 }
             } else {
                 path.clear();
@@ -101,6 +106,10 @@ public abstract class Cell {
         }
     }
 
+    /**
+     *
+     * @param targetLocation
+     */
     public void findPathTo(int[] targetLocation) {
         if (path.isEmpty()) {
             int difY = targetLocation[0] - y;
@@ -129,42 +138,63 @@ public abstract class Cell {
         }
     }
 
+    /**
+     *
+     * @param w
+     */
     public void usePath(World w) {
-        if (!path.isEmpty()) {
-            int move = path.poll();
-            switch (move) {
-                case 3:
-                    moveRight(w);
-                    break;
-                case 9:
-                    moveLeft(w);
-                    break;
-                case 6:
-                    moveDown(w);
-                    break;
-                case 12:
-                    moveUp(w);
-                    break;
-                default:
-                    System.out.println("    Unknown move direction in MOVETOFOOD!");
-                    break;
+        for (int i = 0; i < (int) getSpeed(); i++) {
+            if (!path.isEmpty()) {
+                int move = path.poll();
+                switch (move) {
+                    case 3:
+                        moveRight(w);
+                        break;
+                    case 9:
+                        moveLeft(w);
+                        break;
+                    case 6:
+                        moveDown(w);
+                        break;
+                    case 12:
+                        moveUp(w);
+                        break;
+                    default:
+                        System.out.println("    Unknown move direction in MOVETOFOOD!");
+                        break;
+                }
             }
         }
-
     }
 
+    /**
+     *
+     * @param w
+     */
     public void randomStep(World w) {
-        switch (new Random().nextInt(5)) {
+        int roll = new Random().nextInt(5);
+        while (roll == oppositeRandomStep && roll == lastRandomStep) {
+            roll = new Random().nextInt(5);
+        }
+        switch (roll) {
             case 0:
+                oppositeRandomStep = 2;
+                lastRandomStep = 0;
                 moveUp(w);
                 break;
             case 1:
+                oppositeRandomStep = 3;
+                lastRandomStep = 1;
                 moveRight(w);
                 break;
             case 2:
+                oppositeRandomStep = 0;
+                lastRandomStep = 2;
                 moveDown(w);
                 break;
             case 3:
+                oppositeRandomStep = 1;
+                lastRandomStep = 3;
                 moveLeft(w);
                 break;
             case 4:
@@ -175,241 +205,389 @@ public abstract class Cell {
         }
     }
 
+    /**
+     *
+     * @param w
+     */
     public void moveUp(World w) { // code 12
         try {
-            if (w.getTheWorld()[y - movement][x].getCell() == null) {
-                if ((energy - (movement * efficiency)) >= 0) {
-                    w.getTheWorld()[y][x].setCell(null);
+            if (w.getWorld()[y - movement][x].getCell() == null) {
+                if ((energy - (movement * efficiency)) > 0) {
+                    w.getWorld()[y][x].setTrail(new Trail(trailSize, this));
+                    w.getWorld()[y][x].setCell(null);
                     setY(y - movement);
-                    w.getTheWorld()[y][x].setCell(this);
+                    w.getWorld()[y][x].setCell(this);
                     setEnergy(energy - (movement * efficiency));
 //                System.out.println(geneCode + " moved up...");
 //                System.out.println("Cell " + geneCode + " moved to " + x + "," + y + ", energy: " + energy);                
                 } else {
-                    setAlive(false);
-                    w.getTheWorld()[y][x].setCell(null);
-                    w.getTheWorld()[y][x].setDeadCell(this);
-                    System.out.println(geneCode + "  died on " + x + "," + y + ", energy: " + energy);
+                    alive = false;
+                    w.getWorld()[y][x].setDeadCell(this);
+                    w.getWorld()[y][x].setCell(null);
+//                    System.out.println(geneCode + "  died on " + x + "," + y + ", energy: " + energy);
                 }
             } else {
                 path.clear();
                 randomStep(w);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
-            w.getTheWorld()[0][x].setCell(null);
+            w.getWorld()[0][x].setCell(null);
             setY(w.getHeight() - 1);
-            w.getTheWorld()[y][x].setCell(this);
+            w.getWorld()[y][x].setCell(this);
             setEnergy(energy - (movement * efficiency));
             eat(w);
         }
     }
 
+    /**
+     *
+     * @param w
+     */
     public void moveRight(World w) { // code 3
         try {
             //(x + movement) < w.getWidth() && 
-            if (w.getTheWorld()[y][x + movement].getCell() == null) {
-                if ((energy - (movement * efficiency)) >= 0) {
-                    w.getTheWorld()[y][x].setCell(null);
+            if (w.getWorld()[y][x + movement].getCell() == null) {
+                if ((energy - (movement * efficiency)) > 0) {
+                    w.getWorld()[y][x].setTrail(new Trail(trailSize, this));
+                    w.getWorld()[y][x].setCell(null);
                     setX(x + movement);
-                    w.getTheWorld()[y][x].setCell(this);
+                    w.getWorld()[y][x].setCell(this);
                     setEnergy(energy - (movement * efficiency));
 //                System.out.println(geneCode + " moved right...");
 //                System.out.println("Cell " + geneCode + " moved to " + x + "," + y + ", energy: " + energy);                
                 } else {
-                    setAlive(false);
-                    w.getTheWorld()[y][x].setCell(null);
-                    w.getTheWorld()[y][x].setDeadCell(this);
-                    System.out.println(geneCode + " died on " + x + "," + y + ", energy: " + energy);
+                    alive = false;
+                    w.getWorld()[y][x].setDeadCell(this);
+                    w.getWorld()[y][x].setCell(null);
+//                    System.out.println(geneCode + " died on " + x + "," + y + ", energy: " + energy);
                 }
             } else {
                 path.clear();
                 randomStep(w);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
-            w.getTheWorld()[y][w.getWidth() - 1].setCell(null);
+            w.getWorld()[y][w.getWidth() - 1].setCell(null);
             setX(0);
-            w.getTheWorld()[y][x].setCell(this);
+            w.getWorld()[y][x].setCell(this);
             setEnergy(energy - (movement * efficiency));
             eat(w);
         }
 
     }
 
+    /**
+     *
+     * @param w
+     */
     public void moveDown(World w) { // code 6
         try {
             //(y + movement) < w.getHeight() &&
-            if (w.getTheWorld()[y + movement][x].getCell() == null) {
-                if ((energy - (movement * efficiency)) >= 0) {
-                    w.getTheWorld()[y][x].setCell(null);
+            if (w.getWorld()[y + movement][x].getCell() == null) {
+                if ((energy - (movement * efficiency)) > 0) {
+                    w.getWorld()[y][x].setTrail(new Trail(trailSize, this));
+                    w.getWorld()[y][x].setCell(null);
                     setY(y + movement);
-                    w.getTheWorld()[y][x].setCell(this);
+                    w.getWorld()[y][x].setCell(this);
                     setEnergy(energy - (movement * efficiency));
 //                System.out.println(geneCode + " moved down...");
 //                System.out.println("Cell " + geneCode + " moved to " + x + "," + y + ", energy: " + energy);                
                 } else {
-                    setAlive(false);
-                    w.getTheWorld()[y][x].setCell(null);
-                    w.getTheWorld()[y][x].setDeadCell(this);
-                    System.out.println(geneCode + " died on " + x + "," + y + ", energy: " + energy);
+                    alive = false;
+                    w.getWorld()[y][x].setDeadCell(this);
+                    w.getWorld()[y][x].setCell(null);
+//                    System.out.println(geneCode + " died on " + x + "," + y + ", energy: " + energy);
                 }
             } else {
                 path.clear();
                 randomStep(w);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
-            w.getTheWorld()[w.getHeight() - 1][x].setCell(null);
+            w.getWorld()[w.getHeight() - 1][x].setCell(null);
             setY(0);
-            w.getTheWorld()[y][x].setCell(this);
+            w.getWorld()[y][x].setCell(this);
             setEnergy(energy - (movement * efficiency));
             eat(w);
         }
 
     }
 
+    /**
+     *
+     * @param w
+     */
     public void moveLeft(World w) { // code 9
         try {
             //(x - movement) >= 0 && 
-            if (w.getTheWorld()[y][x - movement].getCell() == null) {
-                if ((energy - (movement * efficiency)) >= 0) {
-                    w.getTheWorld()[y][x].setCell(null);
+            if (w.getWorld()[y][x - movement].getCell() == null) {
+                if ((energy - (movement * efficiency)) > 0) {
+                    w.getWorld()[y][x].setTrail(new Trail(trailSize, this));
+                    w.getWorld()[y][x].setCell(null);
                     setX(x - movement);
-                    w.getTheWorld()[y][x].setCell(this);
+                    w.getWorld()[y][x].setCell(this);
                     setEnergy(energy - (movement * efficiency));
 //                System.out.println(geneCode + " moved left...");
 //                System.out.println("Cell " + geneCode + " moved to " + x + "," + y + ", energy: " + energy);                
                 } else {
-                    setAlive(false);
-                    w.getTheWorld()[y][x].setCell(null);
-                    w.getTheWorld()[y][x].setDeadCell(this);
-                    System.out.println(geneCode + " died on " + x + "," + y + ", energy: " + energy);
+                    alive = false;
+                    w.getWorld()[y][x].setDeadCell(this);
+                    w.getWorld()[y][x].setCell(null);
+//                    System.out.println(geneCode + " died on " + x + "," + y + ", energy: " + energy);
                 }
             } else {
                 path.clear();
                 randomStep(w);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
-            w.getTheWorld()[y][0].setCell(null);
+            w.getWorld()[y][0].setCell(null);
             setX(w.getWidth() - 1);
-            w.getTheWorld()[y][x].setCell(this);
+            w.getWorld()[y][x].setCell(this);
             setEnergy(energy - (movement * efficiency));
             eat(w);
         }
     }
 
+    /**
+     *
+     * @param w
+     */
     public void eat(World w) {
-        if (w.getTheWorld()[y][x].getSugar().getAmount() > 0) {
-            w.getTheWorld()[y][x].setSmell(10);
-            setEnergy(energy + w.getTheWorld()[y][x].getSugar().getAmount());
-//            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getTheWorld()[y][x].getSugar().getAmount());
-            w.getTheWorld()[y][x].getSugar().setAmount(0);
+        if (w.getWorld()[y][x].getSugar().getAmount() > 0) {
+            setEnergy(energy + w.getWorld()[y][x].getSugar().getAmount());
+            w.getWorld()[y][x].getSugar().setAmount(0);
+            path.clear();
+            targetFood = null;
+            //            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());
+
         }
     }
 
+    /**
+     *
+     * @param w
+     * @return
+     */
     public int[] findFreeTile(World w) {
         int loc[] = new int[2];
-        int rx = 0, ry = 0;
-        try {
-            do {
-                rx = new Random().nextInt((((x + vision) - (x - vision)))) + (x - vision);
-                ry = new Random().nextInt((((y + vision) - (y - vision)))) + (y - vision);
-            } while (w.getTheWorld()[ry][rx].getCell() != null || (ry < 0 || rx < 0) || (ry > w.getHeight() - 1 || rx > w.getWidth() - 1));
-//            System.out.println("FREE: " + rx + "," + ry + " for " + x + "," + y);
-        } catch (ArrayIndexOutOfBoundsException ex) {
-
+        int rx = 0;
+        int ry = 0;
+        boolean found = false;
+        while (!found) {
+            rx = new Random().nextInt((((x + vision) - (x - vision)))) + (x - vision);
+            ry = new Random().nextInt((((y + vision) - (y - vision)))) + (y - vision);
+            if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
+                if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
+                    loc[0] = ry;
+                    loc[1] = rx;
+                    found = true;
+                }
+            }
         }
-
-        loc[0] = ry;
-        loc[1] = rx;
         return loc;
     }
 
-    // GET SET
+    public void evolve() {
+        switch (new Random().nextInt(10)) {
+            case 0:
+//                    System.out.println(getGeneCode() + " MUTATION! +1 vision");
+                mutateVision();
+                break;
+            case 1:
+//                    System.out.println(getGeneCode() + " MUTATION! +0.01 efficiency");
+                mutateEfficiency();
+                break;
+            case 2:
+                mutateSpeed();
+                break;
+            case 3:
+                mutateTrailSize();
+                break;
+        }
+    }
+
+    private void mutateVision() {
+        vision++;
+    }
+
+    private void mutateEfficiency() {
+        efficiency = efficiency * 0.95;
+    }
+
+    private void mutateSpeed() {
+        speed = speed + 0.25;
+    }
+
+    private void mutateTrailSize() {
+        if ((trailSize - 2) > 0) {
+            trailSize = trailSize - 2;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
     public String getGeneCode() {
         return geneCode;
     }
 
+    /**
+     *
+     * @param geneCode
+     */
     public void setGeneCode(String geneCode) {
         this.geneCode = geneCode;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getEnergy() {
         return energy;
     }
 
+    /**
+     *
+     * @param energy
+     */
     public void setEnergy(double energy) {
         this.energy = energy;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @param x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     *
+     * @param y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getVision() {
         return vision;
     }
 
+    /**
+     *
+     * @param vision
+     */
     public void setVision(int vision) {
         this.vision = vision;
     }
 
-    public int getMovementCost() {
-        return movement;
-    }
-
-    public void setMovementCost(int movement) {
-        this.movement = movement;
-    }
-
+    /**
+     *
+     * @return
+     */
     public double getEfficiency() {
         return efficiency;
     }
 
+    /**
+     *
+     * @param efficiency
+     */
     public void setEfficiency(double efficiency) {
         this.efficiency = efficiency;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isAlive() {
         return alive;
     }
 
+    /**
+     *
+     * @param alive
+     */
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
 
+    /**
+     *
+     * @return
+     */
     public int[] getTargetFood() {
         return targetFood;
     }
 
+    /**
+     *
+     * @param targetFood
+     */
     public void setTargetFood(int[] targetFood) {
         this.targetFood = targetFood;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getOffspring() {
         return offspring;
     }
 
+    /**
+     *
+     * @param offspring
+     */
     public void setOffspring(int offspring) {
         this.offspring = offspring;
     }
 
+    /**
+     *
+     * @return
+     */
     public Queue<Integer> getPath() {
         return path;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
 }

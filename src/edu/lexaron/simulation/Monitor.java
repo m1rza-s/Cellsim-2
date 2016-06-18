@@ -5,9 +5,17 @@
  */
 package edu.lexaron.simulation;
 
+import edu.lexaron.cells.HuntClosest;
+import edu.lexaron.cells.HuntFirst;
+import edu.lexaron.cells.HuntLargest;
+import edu.lexaron.cells.Predator;
+import edu.lexaron.cells.Vulture;
 import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.TreeSet;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,7 +42,14 @@ public class Monitor {
 
     private TreeSet<String> allBreeds = new TreeSet();
 
+    /**
+     *
+     * @param w
+     * @param i
+     * @return
+     */
     public LineChart<Number, Number> drawChart(World w, int i) {
+
         liveSeries.getData().add(new XYChart.Data<>(i, countLiveCells(w)));
         deadSeries.getData().add(new XYChart.Data<>(i, countDeadCells(w)));
         return chart;
@@ -42,10 +57,30 @@ public class Monitor {
 
     ;
     
+    public int countSugar(World w) {
+        int r = 0;
+        for (int i = 0; i < w.getHeight(); i++) {
+            for (int j = 0; j < w.getWidth(); j++) {
+                r += w.getWorld()[i][j].getSugar().getAmount();
+            }
+        }
+        return r;
+    }
+
+    /**
+     *
+     * @param w
+     * @return
+     */
     public int countAllCells(World w) {
         return w.getAllCells().size();
     }
 
+    /**
+     *
+     * @param w
+     * @return
+     */
     public int countLiveCells(World w) {
         int r = 0;
         for (Object o : w.getAllCells()) {
@@ -57,6 +92,11 @@ public class Monitor {
         return r;
     }
 
+    /**
+     *
+     * @param w
+     * @return
+     */
     public int countDeadCells(World w) {
         int r = 0;
         for (Object o : w.getAllCells()) {
@@ -68,12 +108,17 @@ public class Monitor {
         return r;
     }
 
+    /**
+     *
+     * @param w
+     * @return
+     */
     public boolean worldHasLiveCells(World w) {
         boolean r = false;
         outterloop:
         for (int i = 0; i < w.getWidth(); i++) {
             for (int j = 0; j < w.getHeight(); j++) {
-                if (w.getTheWorld()[j][i].getCell() != null && w.getTheWorld()[j][i].getCell().isAlive()) {
+                if (w.getWorld()[j][i].getCell() != null && w.getWorld()[j][i].getCell().isAlive()) {
                     r = true;
                     break outterloop;
                 }
@@ -87,15 +132,24 @@ public class Monitor {
     // 2. pokazuje prosječni FOV
     // 3. prosječnu efikasnost
     // 3. žive, mrtve i ukupno iz iste vrste
+    /**
+     *
+     * @param w
+     * @return
+     * @throws NullPointerException
+     */
     public VBox refreshLiveCellInfo(World w) throws NullPointerException {
         allBreeds.clear();
         VBox v = new VBox(20);
         v.setPadding(new Insets(10));
-        v.setMinWidth(150);
+        v.setMinWidth(250);
         v.setSpacing(10);
 
-        double totalEnergy, avgEnergy, avgEffi = 0;
-        int countAlive;
+        DecimalFormat df = new DecimalFormat("#.###");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        double totalEnergy, avgEnergy, avgEffi = 0, avgSpeed = 0;
+        int countAlive, totVision = 0;
         String background;
 
         for (Iterator it = w.getAllCells().iterator(); it.hasNext();) {
@@ -105,65 +159,120 @@ public class Monitor {
 
         for (Iterator i = allBreeds.iterator(); i.hasNext();) {
             String breed = (String) i.next();
-            totalEnergy = 0;
-            avgEnergy = 0;
             countAlive = 0;
+            totalEnergy = 0;
+            totVision = 0;
+            avgEffi = 0;
+            avgSpeed = 0;
+
             background = "";
             for (Iterator j = w.getAllCells().iterator(); j.hasNext();) {
                 Cell c = (Cell) j.next();
                 if (c.isAlive() && c.getClass().getSimpleName().equalsIgnoreCase(breed)) {
                     countAlive++;
                     totalEnergy = totalEnergy + c.getEnergy();
-                    avgEffi = c.getEfficiency() / countAlive;
-                    avgEnergy = totalEnergy / countAlive;
+                    totVision += (c.getVision() * c.getVision());
+                    avgEffi = avgEffi + c.getEfficiency();
+                    avgSpeed = avgSpeed + c.getSpeed();
                     background = c.getColor();
                 }
             }
-            Label countLive = new Label(breed + ", alive: " + countAlive);
-            Label totEne = new Label("Total Energy: " + (int) totalEnergy);
-            totEne.getStyleClass().add("accentText");
-            ProgressBar avgEne = new ProgressBar();
+            if (countAlive > 0) {
+                avgEnergy = totalEnergy / countAlive;
+                avgEffi = avgEffi / countAlive;
+                avgSpeed = avgSpeed / countAlive;
 
-            avgEne.setProgress(avgEnergy / 100);
+                Label countLive_L = new Label(breed + ", alive: " + countAlive);
+                countLive_L.getStyleClass().add("bigText");
+                Label totEne_L = new Label("Force: " + (int) totalEnergy);
+                totEne_L.getStyleClass().addAll("accentText", "bigText");
 
-            HBox row1 = new HBox(10);
-            row1.getChildren().add(countLive);
-            if (background.length() != 0) {
-                row1.setStyle("-fx-background-color: " + background);
+                Label avgEffi_L = new Label("Efficiency: " + df.format(avgEffi));
+                avgEffi_L.getStyleClass().add("accentText");
+
+                Label avgSpeed_L = new Label("Avg. Speed: " + df.format(avgSpeed));
+                avgSpeed_L.getStyleClass().add("accentText");
+
+                Label totVision_L = new Label("ZoC: " + totVision);
+                totVision_L.getStyleClass().addAll("accentText", "bigText");
+
+                ProgressBar avgEne_PB = new ProgressBar();
+                avgEne_PB.setMinWidth(200);
+                avgEne_PB.setProgress(avgEnergy / 100);
+
+                HBox row1 = new HBox(10);
+                row1.getChildren().add(countLive_L);
+                if (background.length() != 0) {
+                    row1.setStyle("-fx-background-color: " + background);
+                }
+                row1.setAlignment(Pos.CENTER);
+
+                HBox row2 = new HBox(10);
+                row2.getChildren().addAll(
+                        //                        new Label("Avg E: "),
+                        avgEne_PB
+                );
+                row2.setAlignment(Pos.CENTER);
+
+                HBox row3 = new HBox(10);
+                row3.getChildren().addAll(totEne_L, totVision_L);
+                row3.getStyleClass().add("accentText");
+
+                HBox row4 = new HBox(10);
+                row4.getChildren().addAll(avgEffi_L, avgSpeed_L);
+
+                VBox breedBox = new VBox();
+                breedBox.setPadding(new Insets(5));
+                breedBox.setSpacing(5);
+                breedBox.setMinWidth(150);
+                breedBox.getChildren().addAll(row1, row2, row3, row4);
+                breedBox.getStyleClass().add("backgroundColorAccent");
+                v.getChildren().add(breedBox);
+            } else {
+                switch (breed) {
+                    case "Vulture":
+                        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 10, 1, 0.2, "#33ffff"));
+                        break;
+                    case "Predator":
+                        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 5, 3, 0.2, "#ff0000"));
+                        break;
+                    case "HuntFirst":
+                        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 2, 2, 1, "#66ff33"));
+                        break;
+                    case "HuntLargest":
+                        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 2, 1, 1, "#ffff33"));
+                        break;
+                    case "HuntClosest":
+                        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 2, 1, 1, "#ff33ff"));
+                        break;
+                }
             }
-            row1.setAlignment(Pos.CENTER);
 
-            HBox row2 = new HBox(10);
-            row2.getChildren().addAll(
-                    new Label("Energy "),
-                    avgEne
-            );
-            row2.setAlignment(Pos.CENTER);
-
-            HBox row3 = new HBox(10);
-            row3.getChildren().add(totEne);
-            row3.getStyleClass().add("accentText");
-
-            VBox breedBox = new VBox();
-            breedBox.setPadding(new Insets(5));
-            breedBox.setSpacing(5);
-            breedBox.setMinWidth(150);
-            breedBox.getChildren().addAll(row1, row2, row3);
-            breedBox.getStyleClass().add("backgroundColorAccent");
-            v.getChildren().add(breedBox);
         }
 
         return v;
     }
 
+    /**
+     *
+     * @return
+     */
     public LineChart<Number, Number> getChart() {
         return chart;
     }
 
+    /**
+     *
+     * @return
+     */
     public XYChart.Series getliveSeries() {
         return liveSeries;
     }
 
+    /**
+     *
+     * @return
+     */
     public XYChart.Series getdeadSeries() {
         return deadSeries;
     }

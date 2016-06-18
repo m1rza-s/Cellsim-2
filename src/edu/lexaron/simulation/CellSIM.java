@@ -79,7 +79,16 @@ public class CellSIM extends Application {
             start.setDisable(true);
         });
         Button generateWorld = new Button("Generate World");
+        generateWorld.setOnAction(e -> {
+            run.setCanvas(canvas);
+            run.setup();
 
+            run.setGens(counter);
+            run.setAlive(liveCells);
+            run.setDead(deadCells);
+            run.setTotal(totalCells);
+            run.paintWorld();
+        });
         // STRUCTURING
         menuRow1.getChildren().addAll(
                 sugarFactor_L,

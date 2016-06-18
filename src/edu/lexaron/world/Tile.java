@@ -15,51 +15,91 @@ public class Tile {
     private Cell cell;
     private Cell deadCell;
     private Sugar sugar;
-    private int smell;
+    private Trail trail;
 
-    public Tile(int id, Cell cell, Sugar sugar) {
+    /**
+     *
+     * @param id
+     * @param cell
+     * @param sugar
+     * @param trail
+     */
+    public Tile(int id, Cell cell, Sugar sugar, Trail trail) {
         this.id = id;
         this.cell = cell;
         this.sugar = sugar;
-        this.smell = 0;
-        // Uništi potrebu za 2D nizom!
-        // CILJ: Realno pomjeranje!
+        this.trail = trail;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Sugar getSugar() {
         return sugar;
     }
 
+    /**
+     *
+     * @param sugar
+     */
     public void setSugar(Sugar sugar) {
         this.sugar = sugar;
     }
 
+    /**
+     *
+     * @return
+     */
     public Cell getCell() {
         return cell;
     }
 
+    /**
+     *
+     * @param cell
+     */
     public void setCell(Cell cell) {
         this.cell = cell;
     }
 
+    /**
+     *
+     * @return
+     */
     public Cell getDeadCell() {
         return deadCell;
     }
 
+    /**
+     *
+     * @param deadCell
+     */
     public void setDeadCell(Cell deadCell) {
         this.deadCell = deadCell;
     }
 
-    public int getSmell() {
-        return smell;
+    /**
+     *
+     * @return
+     */
+    public Trail getTrail() {
+        return trail;
     }
 
-    public void setSmell(int smell) {
-        this.smell = smell;
+    /**
+     *
+     * @param trail
+     */
+    public void setTrail(Trail trail) {
+        this.trail = trail;
     }
-
 }

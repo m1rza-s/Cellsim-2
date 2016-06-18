@@ -3,13 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/cells/Predator.java</file>
             <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/world/World.java</file>
             <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/simulation/Monitor.java</file>
-            <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/world/Sugar.java</file>
+            <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/cells/HuntLargest.java</file>
+            <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/cells/HuntClosest.java</file>
             <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/world/Cell.java</file>
+            <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/cells/Vulture.java</file>
             <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/cells/HuntFirst.java</file>
             <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/world/Tile.java</file>
-            <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/simulation/CellSIM.java</file>
             <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/simulation/Engine.java</file>
             <file>file:/C:/Users/Mirza/Documents/NetBeansProjects/CellSIM/src/edu/lexaron/simulation/Life.java</file>
         </group>

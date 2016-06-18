@@ -15,24 +15,46 @@ public class Sugar {
     private final int x;
     private final int y;
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param amount
+     */
     public Sugar(int x, int y, int amount) {
         this.amount = amount;
         this.x = x;
         this.y = y;
     }
 
+    /**
+     *
+     * @param amount
+     */
     public void setAmount(int amount) {
         this.amount = amount;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAmount() {
         return amount;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
