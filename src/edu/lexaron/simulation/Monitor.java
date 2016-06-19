@@ -8,7 +8,9 @@ package edu.lexaron.simulation;
 import edu.lexaron.cells.HuntClosest;
 import edu.lexaron.cells.HuntFirst;
 import edu.lexaron.cells.HuntLargest;
+import edu.lexaron.cells.Leech;
 import edu.lexaron.cells.Predator;
+import edu.lexaron.cells.Tree;
 import edu.lexaron.cells.Vulture;
 import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
@@ -27,6 +29,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.Effect;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -183,6 +186,7 @@ public class Monitor {
                 avgSpeed = avgSpeed / countAlive;
 
                 Label countLive_L = new Label(breed + ", alive: " + countAlive);
+                countLive_L.setTextFill(Color.web(background));
                 countLive_L.getStyleClass().add("bigText");
                 Label totEne_L = new Label("Force: " + (int) totalEnergy);
                 totEne_L.getStyleClass().addAll("accentText", "bigText");
@@ -203,7 +207,7 @@ public class Monitor {
                 HBox row1 = new HBox(10);
                 row1.getChildren().add(countLive_L);
                 if (background.length() != 0) {
-                    row1.setStyle("-fx-background-color: " + background);
+//                    row1.setStyle("-fx-text-fill: " + background);
                 }
                 row1.setAlignment(Pos.CENTER);
 
@@ -229,21 +233,26 @@ public class Monitor {
                 breedBox.getStyleClass().add("backgroundColorAccent");
                 v.getChildren().add(breedBox);
             } else {
-                switch (breed) {
+                switch (breed) { // String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color
                     case "Vulture":
-                        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 10, 1, 0.2, "#33ffff"));
+                        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 5, 1, 0.5, "#33ffff"));
                         break;
                     case "Predator":
-                        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 5, 3, 0.2, "#ff0000"));
+                        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 5, 1, 0.33, "#ff0000"));
                         break;
                     case "HuntFirst":
-                        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 2, 2, 1, "#66ff33"));
+                        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 1, 1, 2, "#66ff33"));
                         break;
                     case "HuntLargest":
-                        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 2, 1, 1, "#ffff33"));
+                        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 1, 1, 2, "#ffff33"));
                         break;
                     case "HuntClosest":
-                        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth() - 1), new Random().nextInt(w.getHeight() - 1), 95, 2, 1, 1, "#ff33ff"));
+                        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 1, 1, 2, "#ff33ff"));
+                        break;
+                    case "Tree":
+                        w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 10, 1, 0.5, "#ffffff"));
+                    case "Leech":
+                        w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 5, 2, 0.2, "#003366"));
                         break;
                 }
             }

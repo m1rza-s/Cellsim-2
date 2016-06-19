@@ -14,13 +14,12 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Side;
 import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -34,8 +33,9 @@ public class Engine {
     private final Life life = new Life();
 
     // height, width
-    private final int height = 150;
-    private final int width = 300;
+    private final int height = 200;
+    private final int width = 330;
+    private final double globalScale = 5;
     private volatile World world = new World(width, height);
     private Canvas canvas;
     private GraphicsContext gc;
@@ -48,55 +48,37 @@ public class Engine {
     private Label total;
     private int generations = 0;
     private final double sugarFactor = 100;
+    private Image vulture, predator, tree, huntClosest, huntLargest, huntFirst, leech;
 
     /**
      *
      * @param root
      */
     public void startThread(BorderPane root) {
-//        ScrollPane scroll = new ScrollPane(infoPanel);
-//        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-//        scroll.setMinWidth(250);
-//        scroll.setMaxWidth(250);
-//        scroll.getStyleClass().add("backgroundColorAccent");
-//        scroll.setCache(true);
-//        scroll.setCacheHint(CacheHint.SPEED);
-
         root.setRight(infoPanel);
-//        StackPane stack = new StackPane(monitor.getChart());
-//        monitor.getChart().setScaleY(0.3);
-//        monitor.getChart().setAnimated(true);
-//        monitor.getChart().setLegendVisible(true);
-//        monitor.getChart().setLegendSide(Side.RIGHT);
-//        monitor.getChart().setCache(true);
-//        monitor.getChart().setMinHeight(150);
-//        monitor.getChart().setMaxHeight(150);
-//        monitor.getChart().getData().add(monitor.getliveSeries());
-//        monitor.getliveSeries().setName("Live Cells");
-//        monitor.getChart().getData().add(monitor.getdeadSeries());
-//        monitor.getdeadSeries().setName("Sugar");
-//        stack.setAlignment(Pos.TOP_LEFT);
-//        root.setBottom(stack);
 
         this.timer = new Timer();
 
-        
         gc.setStroke(Color.YELLOW);
 
         canvas.setCache(true);
         canvas.setCacheHint(CacheHint.SPEED);
 
         // ID, x, y, energy, vision, speed, efficiency
-        HuntFirst f = new HuntFirst("F", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 2, 1, "#66ff33");
-        HuntLargest l = new HuntLargest("L", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 1, 1, "#ffff33");
-        HuntClosest c = new HuntClosest("C", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 1, 1, "#ff33ff");
-        Predator p = new Predator("P", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 2, 0.2, "#ff0000");
-        Vulture v = new Vulture("V", new Random().nextInt(width), new Random().nextInt(height), 95, 10, 1, 0.2, "#33ffff");
+        HuntFirst f = new HuntFirst("F", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 1, 2, "#66ff33");
+        HuntLargest l = new HuntLargest("L", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 1, 2, "#ffff33");
+        HuntClosest c = new HuntClosest("C", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 1, 2, "#ff33ff");
+        Predator p = new Predator("P", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 2, 0.33, "#ff0000");
+        Vulture v = new Vulture("V", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 1, 0.5, "#33ffff");
+        Tree t = new Tree("T", new Random().nextInt(width), new Random().nextInt(height), 95, 10, 1, 0.5, "#ffffff");
+        Leech e = new Leech("L", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 2, 0.2, "#003366");
         world.getNewBornCells().add(f);
         world.getNewBornCells().add(l);
         world.getNewBornCells().add(c);
         world.getNewBornCells().add(p);
         world.getNewBornCells().add(v);
+        world.getNewBornCells().add(t);
+        world.getNewBornCells().add(e);
 
         infoPanel.setPadding(new Insets(10));
         infoPanel.setMinWidth(200);
@@ -120,7 +102,7 @@ public class Engine {
                     paintWorld();
                     world.getAllCells().stream().map((c) -> (Cell) c).forEach((c) -> {
                         Cell temp = (Cell) c;
-                        if (world.getWorld()[temp.getY()][temp.getX()].getCell() != null && !temp.isAlive()) {                            
+                        if (world.getWorld()[temp.getY()][temp.getX()].getCell() != null && !temp.isAlive()) {
                             world.getWorld()[temp.getY()][temp.getX()].setCell(null);
                             world.getWorld()[temp.getY()][temp.getX()].setDeadCell(temp);
                         }
@@ -166,20 +148,20 @@ public class Engine {
                 if (world.getWorld()[i][j].getSugar().getAmount() > 0) {
                     int a = world.getWorld()[i][j].getSugar().getAmount();
                     if (a == 10) {
-                        gc.setFill(Color.web("#f2f2f2"));
+                        gc.setFill(Color.web("#80ff00"));
                     } else if (a < 10 && a >= 8) {
-                        gc.setFill(Color.web("#cccccc"));
+                        gc.setFill(Color.web("#66cc00"));
                     } else if (a < 8 && a >= 6) {
-                        gc.setFill(Color.web("#999999"));
+                        gc.setFill(Color.web("#4d9900"));
                     } else if (a < 6 && a >= 4) {
-                        gc.setFill(Color.web("#666666"));
+                        gc.setFill(Color.web("#336600"));
                     } else if (a < 4 && a > 0) {
-                        gc.setFill(Color.web("#333333"));
+                        gc.setFill(Color.web("#1a3300"));
                     } else {
-                        gc.setFill(Color.web("#333333"));
+                        gc.setFill(Color.web("#0d1a00"));
                     }
 
-                    gc.fillRect((j - 0.25) * 5, (i - 0.25) * 5, 5, 5);
+                    gc.fillRect((j - 0.25) * globalScale, (i - 0.25) * globalScale, 5, 5);
                 }
                 gc.setGlobalAlpha(0.5);
                 if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
@@ -197,7 +179,7 @@ public class Engine {
                     } else if (a < 20 && a > 0) {
                         gc.setGlobalAlpha(0.1);
                     }
-                    gc.fillRect((j - 0.25) * 5, (i - 0.25) * 5, 5, 5);
+                    gc.fillRect((j - 0.25) * globalScale, (i - 0.25) * globalScale, 5, 5);
 
                 }
             }
@@ -206,24 +188,61 @@ public class Engine {
     }
 
     private void paintCells(Cell c) {
-        if (!c.isAlive()) {            
+        if (!c.isAlive()) {
             gc.setGlobalAlpha(0.2);
             gc.setFill(Color.web(c.getColor()));
-            gc.fillOval((c.getX() - 0.25) * 5, (c.getY() - 0.25) * 5, 6, 6);
-//                        gc.fillText(c.getGeneCode(), (c.getX() + 0.25) * 5, (c.getY() + 0.5) * 5);
+            gc.fillOval((c.getX() - 0.25) * globalScale, (c.getY() - 0.25) * globalScale, 6, 6);
+//                        gc.fillText(c.getGeneCode(), (c.getX() + 0.25) * globalScale, (c.getY() + 0.5) * globalScale);
         } else if (c.isAlive()) {
-            gc.setStroke(Color.web(c.getColor()));
-            gc.setGlobalAlpha(0.3);
-            gc.strokeRect(
-                    (c.getX() - c.getVision() - 0.25) * 5,
-                    (c.getY() - c.getVision() - 0.25) * 5,
-                    ((c.getVision() * 2) + 1) * 5,
-                    ((c.getVision() * 2) + 1) * 5);
-            gc.setGlobalAlpha(1);
             gc.setFill(Color.web(c.getColor()));
-            gc.fillOval((c.getX() - 0.25) * 5, (c.getY() - 0.25) * 5, 6, 6);
+            gc.setGlobalAlpha(0.05);
+            gc.fillRect(
+                    (c.getX() - c.getVision() - 0.25) * globalScale,
+                    (c.getY() - c.getVision() - 0.25) * globalScale,
+                    ((c.getVision() * 2) + 1) * globalScale,
+                    ((c.getVision() * 2) + 1) * globalScale);
+            gc.setFill(Color.web(c.getColor()));
+            double a = c.getEnergy();
+            gc.setGlobalAlpha(1);
+            if (a < 50 && a >= 40) {
+                gc.setGlobalAlpha(0.9);
+            } else if (a < 40 && a >= 30) {
+                gc.setGlobalAlpha(0.8);
+            } else if (a < 30 && a >= 20) {
+                gc.setGlobalAlpha(0.7);
+            } else if (a < 20 && a > 0) {
+                gc.setGlobalAlpha(0.6);
+            }
+            switch (c.getClass().getSimpleName()) {
+                case "Tree":
+                    gc.drawImage(tree, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                    break;
+                case "Vulture":
+                    gc.drawImage(vulture, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                    break;
+                case "Predator":
+                    gc.drawImage(predator, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                    break;
+                case "HuntClosest":
+                    gc.drawImage(huntClosest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                    break;
+                case "HuntLargest":
+                    gc.drawImage(huntLargest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                    break;
+                    case "HuntFirst":
+                    gc.drawImage(huntFirst, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                    break;
+                case "Leech":
+                    gc.drawImage(leech, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                    break;
+                default:
+                    gc.fillOval((c.getX() - 0.25) * globalScale, (c.getY() - 0.25) * globalScale, 6, 6);
+                    break;
+
+            }
+
             gc.setFill(Color.YELLOW);
-            gc.fillText((int) c.getEnergy()+"", (c.getX() + 1) * 5, (c.getY() + 2) * 5);
+//            gc.fillText((int) c.getEnergy()+"", (c.getX() + 1) * globalScale, (c.getY() + 2) * globalScale);
             paintTargetLine(c);
         }
         gc.restore();
@@ -231,11 +250,11 @@ public class Engine {
 
     private void paintGrid() {
         gc.setStroke(Color.web("#1a1a1a"));
-        for (int i = 5; i < width * 5; i += 5) {
-            gc.strokeLine(i, 0, i, height * 5);
+        for (int i = 5; i < width * globalScale; i += 5) {
+            gc.strokeLine(i, 0, i, height * globalScale);
         }
-        for (int i = 5; i < height * 5; i += 5) {
-            gc.strokeLine(0, i, width * 5, i);
+        for (int i = 5; i < height * globalScale; i += 5) {
+            gc.strokeLine(0, i, width * globalScale, i);
         }
         gc.restore();
     }
@@ -247,22 +266,30 @@ public class Engine {
     public void paintTargetLine(Cell c) {
         if (c.getTargetFood() != null) {
             gc.setGlobalAlpha(2);
-            gc.setStroke(Color.web(c.getColor()));
+            gc.setStroke(Color.RED);
             gc.strokeLine(
-                    (c.getX() + 0.25) * 5, (c.getY() + 0.25) * 5,
-                    (c.getTargetFood()[1] + 0.25) * 5, (c.getTargetFood()[0] + 0.25) * 5
+                    (c.getX() + 0.25) * globalScale, (c.getY() + 0.25) * globalScale,
+                    (c.getTargetFood()[1] + 0.25) * globalScale, (c.getTargetFood()[0] + 0.25) * globalScale
             );
         }
-        gc.setGlobalAlpha(1);
+        gc.restore();
     }
 
     /**
      *
      */
     public void setup() {
-        world.generateWorld(sugarFactor);        
+        world.generateWorld(sugarFactor);
         gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        vulture = new Image("gfx/maggot.png");
+        predator = new Image("gfx/spider.png");
+        tree = new Image("gfx/tree.png");
+        huntFirst = new Image("gfx/green-ant.png");
+        huntClosest = new Image("gfx/purple-ant.png");
+        huntLargest = new Image("gfx/yellow-ant.png");
+        leech = new Image("gfx/leech.png");
+
     }
 
     /**

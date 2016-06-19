@@ -101,7 +101,7 @@ public abstract class Cell {
 
             if (energy >= 100) {
                 mutate(w);
-                setEnergy(energy / 2);
+                setEnergy(energy / 3);
             }
         }
     }
@@ -386,7 +386,7 @@ public abstract class Cell {
     }
 
     public void evolve() {
-        switch (new Random().nextInt(10)) {
+        switch (new Random().nextInt(4)) {
             case 0:
 //                    System.out.println(getGeneCode() + " MUTATION! +1 vision");
                 mutateVision();

@@ -43,14 +43,15 @@ public class Predator extends Cell {
                 if (getTargetFood() != null) {
                     findPathTo(getTargetFood());
                     usePath(w);
-                } else //                    randomStep(w);
-                    moveUp(w);
-                randomStep(w);
-//                if (getEnergy() > 0) {
-//                    this.setEnergy(getEnergy() - 0.20);
-//                } else {
-//                    setAlive(false);
-//                }
+                } else {
+                    if (getEnergy() < 0) {
+                        setAlive(false);
+                        w.getWorld()[getY()][getX()].setDeadCell(this);
+                        w.getWorld()[getY()][getX()].setCell(null);
+                    }
+                    setEnergy(getEnergy() - (getSpeed() * getEfficiency()));
+                }
+
             }
             if (!getPath().isEmpty()
                     && (w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell() != null
@@ -102,11 +103,12 @@ public class Predator extends Cell {
                     if (w.getWorld()[i][j].getCell() != null
                             && w.getWorld()[i][j].getCell() != this
                             && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase(getClass().getSimpleName()) //                            && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("vulture")
-                            ) {
+                            && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree")) {
                         setEnergy(getEnergy() + (w.getWorld()[i][j].getCell().getEnergy()));
                         w.getWorld()[i][j].getCell().setAlive(false);
                         w.getWorld()[i][j].setDeadCell(w.getWorld()[i][j].getCell());
                         w.getWorld()[i][j].setCell(null);
+                        w.getWorld()[i][j].getSugar().setAmount(10);
 //                        System.out.println("KILLED " + w.getWorld()[i][j].getCell().getGeneCode());
                         setTargetFood(null);
                         break outterloop;
@@ -139,8 +141,8 @@ public class Predator extends Cell {
                     try {
 //                    System.out.print("(" + j + "," + i + ")");
                         if (w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell().isAlive()) {
-                            if (!w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase(this.getClass().getSimpleName()) //                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("vulture")
-                                    ) {
+                            if (!w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase(this.getClass().getSimpleName())
+                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree")) {
                                 foodLocation[0] = i; // Y
                                 foodLocation[1] = j; // X
                                 found = true;
@@ -178,20 +180,15 @@ public class Predator extends Cell {
      */
     @Override
     public void mutate(World w) {
-        if (new Random().nextInt(2) == 0) {
-//            System.out.println(getGeneCode() + " MITOSIS!");
-            int[] childLocation = findFreeTile(w);
-            Predator child = new Predator(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 2), getVision(), getSpeed(), getEfficiency(), getColor());
-            try {
-                child.eat(w);
-                w.getNewBornCells().add(child);
-                setOffspring(getOffspring() + 1);
-            } catch (Exception ex) {
-                System.out.println(getGeneCode() + " failed to divide.");
-            }
-
-        } else {
-            evolve();
+        int[] childLocation = findFreeTile(w);
+        Predator child = new Predator(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
+        try {
+            child.evolve();
+            w.getNewBornCells().add(child);
+            setOffspring(getOffspring() + 1);
+            setEnergy(getEnergy() / 3);
+        } catch (Exception ex) {
+            System.out.println(getGeneCode() + " failed to divide.");
         }
     }
 

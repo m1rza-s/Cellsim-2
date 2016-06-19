@@ -33,7 +33,7 @@ public class Vulture extends Cell {
                     findPathTo(getTargetFood());
                 } else {
 //                    this.setEnergy(getEnergy() - 0.10);
-randomStep(w);
+                    randomStep(w);
                     moveRight(w);
                 }
             }
@@ -64,6 +64,7 @@ randomStep(w);
             if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
                 w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
                 w.getWorld()[getY()][getX()].setDeadCell(null);
+                w.getWorld()[getY()][getX()].getSugar().setAmount(10);
             }
 //            else if (w.getWorld()[getY()][getX()].getCell() != null) {
 //                w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getCell());
@@ -140,19 +141,15 @@ randomStep(w);
 
     @Override
     public void mutate(World w) {
-        if (new Random().nextInt(2) == 0) {
-//            System.out.println(getGeneCode() + " MITOSIS!");
-            int[] childLocation = findFreeTile(w);
-            Vulture child = new Vulture(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
-            try {
-                w.getNewBornCells().add(child);
-                setOffspring(getOffspring() + 1);
-            } catch (Exception ex) {
-                System.out.println(getGeneCode() + " failed to divide.");
-            }
-
-        } else {
-            evolve();
+        int[] childLocation = findFreeTile(w);
+        Vulture child = new Vulture(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
+        try {
+            child.evolve();
+            w.getNewBornCells().add(child);
+            setOffspring(getOffspring() + 1);
+            setEnergy(getEnergy() / 3);
+        } catch (Exception ex) {
+            System.out.println(getGeneCode() + " failed to divide.");
         }
     }
 

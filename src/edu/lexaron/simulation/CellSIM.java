@@ -33,7 +33,7 @@ public class CellSIM extends Application {
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
         window = primaryStage;
-        window.setTitle("CellSIM V.05");
+        window.setTitle("CellSIM V.08");
         window.setOnCloseRequest(e -> Platform.exit());
 
         BorderPane root = new BorderPane();
@@ -125,6 +125,7 @@ public class CellSIM extends Application {
 
         window.setScene(mainScene);
         window.setMaximized(true);
+        window.setFullScreen(true);
         window.show();
 
         // LISTENERS

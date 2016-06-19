@@ -79,20 +79,16 @@ public class HuntLargest extends Cell {
      */
     @Override
     public void mutate(World w) {
-        if (new Random().nextInt(2) == 0) {
-//            System.out.println(getGeneCode() + " MITOSIS!");
-            int[] childLocation = findFreeTile(w);
-            HuntLargest child = new HuntLargest(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
-            try {
-                child.eat(w);
-                w.getNewBornCells().add(child);
-                setOffspring(getOffspring() + 1);
-            } catch (Exception ex) {
-                System.out.println(getGeneCode() + " failed to divide.");
-            }
-
-        } else {
-            evolve();
+        int[] childLocation = findFreeTile(w);
+        HuntLargest child = new HuntLargest(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
+        try {
+            child.eat(w);
+            child.evolve();
+            w.getNewBornCells().add(child);
+            setOffspring(getOffspring() + 1);
+            setEnergy(getEnergy() / 3);
+        } catch (Exception ex) {
+            System.out.println(getGeneCode() + " failed to divide.");
         }
     }
 }
