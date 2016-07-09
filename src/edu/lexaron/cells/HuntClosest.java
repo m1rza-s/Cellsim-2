@@ -7,7 +7,6 @@ package edu.lexaron.cells;
 
 import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
-import java.util.Random;
 
 /**
  *
@@ -26,8 +25,8 @@ public class HuntClosest extends Cell {
      * @param efficiency
      * @param color
      */
-    public HuntClosest(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color) {
-        super(ID, x, y, energy, vision, speed, efficiency, color);
+    public HuntClosest(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
+        super(ID, x, y, energy, vision, speed, efficiency, color, biteSize);
     }
 
     /**
@@ -42,19 +41,18 @@ public class HuntClosest extends Cell {
         int[] foodLocation = new int[2];
         boolean found = false;
         outterloop:
-        for (int v = 1; v <= getVision(); v++) {
+        for (int v = 0; v <= getVision(); v++) {
             for (int i = (getY() - v); i <= (getY() + v); i++) {
                 for (int j = (getX() - v); j <= (getX() + v); j++) {
                     try {
 //                    System.out.print("(" + j + "," + i + ")");        
-                        if (w.getWorld()[i][j].getCell() != this) {
-                            if (w.getWorld()[i][j].getSugar().getAmount() > 0) {
+                        if (w.getWorld()[i][j].getSugar().getAmount() > 0) {
                                 foodLocation[0] = i; // Y
                                 foodLocation[1] = j; // X
+//                                System.out.println("FOUND: " + j + "," + i);
                                 found = true;
                                 break outterloop;
                             }
-                        }
                     } catch (ArrayIndexOutOfBoundsException ex) {
 
                     }
@@ -79,7 +77,7 @@ public class HuntClosest extends Cell {
     @Override
     public void mutate(World w) {
         int[] childLocation = findFreeTile(w);
-        HuntClosest child = new HuntClosest(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
+        HuntClosest child = new HuntClosest(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor(), getBiteSize());
         try {
             child.eat(w);
             child.evolve();
@@ -87,7 +85,7 @@ public class HuntClosest extends Cell {
             setOffspring(getOffspring() + 1);
             setEnergy(getEnergy() / 3);
         } catch (Exception ex) {
-            System.out.println(getGeneCode() + " failed to divide.");
+            System.out.println(getGeneCode() + " failed to divide:\n" + ex);
         }
     }
 }

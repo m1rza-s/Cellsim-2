@@ -72,13 +72,16 @@ public class CellSIM extends Application {
         Label totalCells = new Label();
         totalCells.getStyleClass().addAll("bigText");
 
+        Label totalSugar = new Label();
+        totalSugar.getStyleClass().addAll("bigText", "whiteText");
+
         Button start = new Button("Start");
         start.setOnAction(e -> {
             run.startThread(root);
             System.out.println("Simulation started...");
             start.setDisable(true);
         });
-        Button generateWorld = new Button("Generate World");
+        Button generateWorld = new Button("DROP ALL THE SUGAR!");
         generateWorld.setOnAction(e -> {
             run.setCanvas(canvas);
             run.setup();
@@ -87,6 +90,7 @@ public class CellSIM extends Application {
             run.setAlive(liveCells);
             run.setDead(deadCells);
             run.setTotal(totalCells);
+            run.setTotalSugar(totalSugar);
             run.paintWorld();
         });
         // STRUCTURING
@@ -97,7 +101,8 @@ public class CellSIM extends Application {
                 counter,
                 liveCells,
                 deadCells,
-                totalCells
+                totalCells,
+                totalSugar
         );
         stats.getChildren().addAll(
                 start,
@@ -115,7 +120,7 @@ public class CellSIM extends Application {
         run.setAlive(liveCells);
         run.setDead(deadCells);
         run.setTotal(totalCells);
-
+        run.setTotalSugar(totalSugar);
         // Display!        
         root.setTop(menu);
         root.setCenter(spc);

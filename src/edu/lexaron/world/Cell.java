@@ -31,6 +31,7 @@ public abstract class Cell {
     private int[] targetFood = null;
     private int oppositeRandomStep;
     private int lastRandomStep;
+    private double biteSize;
 
     /**
      *
@@ -42,8 +43,9 @@ public abstract class Cell {
      * @param speed
      * @param efficiency
      * @param color
+     * @param biteSize
      */
-    public Cell(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color) {
+    public Cell(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
         this.geneCode = ID;
         this.x = x;
         this.y = y;
@@ -56,7 +58,9 @@ public abstract class Cell {
             this.alive = true;
         }
         this.color = color;
-        trailSize = 50;
+        this.trailSize = 50;
+        this.targetFood = null;
+        this.biteSize = biteSize;
     }
 
     /**
@@ -79,31 +83,42 @@ public abstract class Cell {
     public void hunt(World w) {
         // CELL TYPE DEPENDANT
         if (this.isAlive()) {
+            upkeep(w);
             if (path.isEmpty()) {
-                targetFood = lookForFood(w);
-                if (targetFood != null) {
-                    findPathTo(targetFood);
+                if (w.getWorld()[y][x].getSugar().getAmount() <= 0) {
+                    targetFood = lookForFood(w);
+                    if (targetFood != null) {
+                        findPathTo(targetFood);
+                        usePath(w);
+                    } else {
+                        randomStep(w);
+                    }
                 } else {
-                    randomStep(w);
-                }
-            }
-            if (!path.isEmpty() && w.getWorld()[targetFood[0]][targetFood[1]].getSugar().getAmount() > 0) {
-                for (int i = 0; i < speed; i++) {
-                    usePath(w);
-                }
-
-                if (path.isEmpty()) {
                     eat(w);
                 }
             } else {
-                path.clear();
+                usePath(w);
             }
 
             if (energy >= 100) {
                 mutate(w);
                 setEnergy(energy / 3);
             }
+            if (offspring >= 5) {
+                alive = false;
+                w.getWorld()[y][x].setDeadCell(this);
+                w.getWorld()[y][x].setCell(null);
+            }
         }
+    }
+
+    public void upkeep(World w) {
+        if (energy < 0) {
+            alive = false;
+            w.getWorld()[y][x].setDeadCell(this);
+            w.getWorld()[y][x].setCell(null);
+        }
+        energy = energy - ((efficiency) / 3);
     }
 
     /**
@@ -351,13 +366,13 @@ public abstract class Cell {
      * @param w
      */
     public void eat(World w) {
+        //((targetFood[0] >= y-vision && targetFood[0] <= y+vision) && (targetFood[1] >= x-vision && targetFood[1] <= x+vision)) && 
         if (w.getWorld()[y][x].getSugar().getAmount() > 0) {
-            setEnergy(energy + w.getWorld()[y][x].getSugar().getAmount());
-            w.getWorld()[y][x].getSugar().setAmount(0);
-            path.clear();
-            targetFood = null;
+            energy = energy + biteSize;
+            w.getWorld()[y][x].getSugar().setAmount(w.getWorld()[y][x].getSugar().getAmount() - biteSize);
             //            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());
-
+        } else {
+            targetFood = null;
         }
     }
 
@@ -386,7 +401,7 @@ public abstract class Cell {
     }
 
     public void evolve() {
-        switch (new Random().nextInt(4)) {
+        switch (new Random().nextInt(5)) {
             case 0:
 //                    System.out.println(getGeneCode() + " MUTATION! +1 vision");
                 mutateVision();
@@ -401,11 +416,20 @@ public abstract class Cell {
             case 3:
                 mutateTrailSize();
                 break;
+            case 4:
+                mutateBiteSIze();
+                break;
+
         }
     }
 
     private void mutateVision() {
-        vision++;
+        if (vision < 10) {
+            vision++;
+        } else {
+            mutateEfficiency();
+        }
+        
     }
 
     private void mutateEfficiency() {
@@ -417,9 +441,13 @@ public abstract class Cell {
     }
 
     private void mutateTrailSize() {
-        if ((trailSize - 2) > 0) {
+        if ((trailSize - 2) > 2) {
             trailSize = trailSize - 2;
         }
+    }
+
+    private void mutateBiteSIze() {
+        biteSize = biteSize + 0.5;
     }
 
     /**
@@ -588,6 +616,10 @@ public abstract class Cell {
 
     public double getSpeed() {
         return speed;
+    }
+
+    public double getBiteSize() {
+        return biteSize;
     }
 
 }

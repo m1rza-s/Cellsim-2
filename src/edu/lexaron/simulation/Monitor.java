@@ -21,12 +21,8 @@ import java.util.Random;
 import java.util.TreeSet;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.effect.Effect;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -37,28 +33,8 @@ import javafx.scene.paint.Color;
  */
 public class Monitor {
 
-    private final NumberAxis x = new NumberAxis();
-    private final NumberAxis y = new NumberAxis();
-    private final LineChart<Number, Number> chart = new LineChart<>(x, y);
-    private XYChart.Series liveSeries = new XYChart.Series();
-    private XYChart.Series deadSeries = new XYChart.Series();
-
     private TreeSet<String> allBreeds = new TreeSet();
 
-    /**
-     *
-     * @param w
-     * @param i
-     * @return
-     */
-    public LineChart<Number, Number> drawChart(World w, int i) {
-
-        liveSeries.getData().add(new XYChart.Data<>(i, countLiveCells(w)));
-        deadSeries.getData().add(new XYChart.Data<>(i, countDeadCells(w)));
-        return chart;
-    }
-
-    ;
     
     public int countSugar(World w) {
         int r = 0;
@@ -189,7 +165,7 @@ public class Monitor {
                 countLive_L.setTextFill(Color.web(background));
                 countLive_L.getStyleClass().add("bigText");
                 Label totEne_L = new Label("Force: " + (int) totalEnergy);
-                totEne_L.getStyleClass().addAll("accentText", "bigText");
+                totEne_L.getStyleClass().addAll("accentText");
 
                 Label avgEffi_L = new Label("Efficiency: " + df.format(avgEffi));
                 avgEffi_L.getStyleClass().add("accentText");
@@ -198,7 +174,7 @@ public class Monitor {
                 avgSpeed_L.getStyleClass().add("accentText");
 
                 Label totVision_L = new Label("ZoC: " + totVision);
-                totVision_L.getStyleClass().addAll("accentText", "bigText");
+                totVision_L.getStyleClass().addAll("accentText");
 
                 ProgressBar avgEne_PB = new ProgressBar();
                 avgEne_PB.setMinWidth(200);
@@ -233,26 +209,26 @@ public class Monitor {
                 breedBox.getStyleClass().add("backgroundColorAccent");
                 v.getChildren().add(breedBox);
             } else {
-                switch (breed) { // String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color
+                switch (breed) { // String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize
                     case "Vulture":
-                        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 5, 1, 0.5, "#33ffff"));
+                        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 0.5, "#33ffff", 1));
                         break;
                     case "Predator":
-                        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 5, 1, 0.33, "#ff0000"));
+                        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 0.33, "#ff0000", 1));
                         break;
                     case "HuntFirst":
-                        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 1, 1, 2, "#66ff33"));
+                        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 3, 1, "#66ff33", 1));
                         break;
                     case "HuntLargest":
-                        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 1, 1, 2, "#ffff33"));
+                        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 2, 1, "#ffff33", 1));
                         break;
                     case "HuntClosest":
-                        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 1, 1, 2, "#ff33ff"));
+                        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 1, "#ff33ff", 1));
                         break;
                     case "Tree":
-                        w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 10, 1, 0.5, "#ffffff"));
+                        w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 1, "#ffffff", 0.5));
                     case "Leech":
-                        w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 5, 2, 0.2, "#003366"));
+                        w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 4, 2, 0.33, "#0000ff", 1));
                         break;
                 }
             }
@@ -260,30 +236,6 @@ public class Monitor {
         }
 
         return v;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public LineChart<Number, Number> getChart() {
-        return chart;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public XYChart.Series getliveSeries() {
-        return liveSeries;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public XYChart.Series getdeadSeries() {
-        return deadSeries;
     }
 
 }

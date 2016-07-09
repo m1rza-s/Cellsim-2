@@ -7,12 +7,21 @@ package edu.lexaron.simulation;
 
 import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
+import static java.lang.Thread.sleep;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
-public class Life {
+public class Life implements Runnable {
+
+    private final World w;
+
+    public Life(World w) {
+        this.w = w;
+    }
 
     /**
      *
@@ -38,6 +47,32 @@ public class Life {
             Cell c = (Cell) o;
             c.hunt(w);
         }
+        w.getAllCells().stream().map((java.lang.Object c1) -> (Cell) c1).forEach((java.lang.Object c2) -> {
+            Cell temp = (Cell) c2;
+            if (w.getWorld()[temp.getY()][temp.getX()].getCell() != null && !temp.isAlive()) {
+                w.getWorld()[temp.getY()][temp.getX()].setCell(null);
+                w.getWorld()[temp.getY()][temp.getX()].setDeadCell(temp);
+            }
+//                        paintCells((Cell) temp);
+        });
+
+    }
+
+    @Override
+    public void run() {
+        synchronized (w) {
+            allLiveCellsHunt(w);
+        }
+//        while (true) {
+//            synchronized (w) {
+//                allLiveCellsHunt(w);
+//            }
+//            try {
+//                sleep(50);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(Life.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
 
 }

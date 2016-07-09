@@ -7,7 +7,6 @@ package edu.lexaron.cells;
 
 import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
-import java.util.Random;
 
 /**
  *
@@ -26,8 +25,8 @@ public class HuntFirst extends Cell {
      * @param efficiency
      * @param color
      */
-    public HuntFirst(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color) {
-        super(ID, x, y, energy, vision, speed, efficiency, color);
+    public HuntFirst(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
+        super(ID, x, y, energy, vision, speed, efficiency, color, biteSize);
     }
 
     /**
@@ -46,13 +45,11 @@ public class HuntFirst extends Cell {
             for (int j = (getX() - getVision()); j <= (getX() + getVision()); j++) {
                 try {
 //                    System.out.print("(" + j + "," + i + ")");
-                    if (w.getWorld()[i][j].getCell() != this) {
-                        if (w.getWorld()[i][j].getSugar().getAmount() > 0) {
-                            foodLocation[0] = i; // Y
-                            foodLocation[1] = j; // X
-                            found = true;
-                            break outerloop;
-                        }
+                    if (w.getWorld()[i][j].getSugar().getAmount() > 0) {
+                        foodLocation[0] = i; // Y
+                        foodLocation[1] = j; // X
+                        found = true;
+                        break outerloop;
                     }
 
                 } catch (ArrayIndexOutOfBoundsException ex) {
@@ -78,7 +75,7 @@ public class HuntFirst extends Cell {
     @Override
     public void mutate(World w) {
         int[] childLocation = findFreeTile(w);
-        HuntFirst child = new HuntFirst(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
+        HuntFirst child = new HuntFirst(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor(), getBiteSize());
         try {
             child.eat(w);
             child.evolve();
@@ -86,7 +83,7 @@ public class HuntFirst extends Cell {
             setOffspring(getOffspring() + 1);
             setEnergy(getEnergy() / 3);
         } catch (Exception ex) {
-            System.out.println(getGeneCode() + " failed to divide.");
+            System.out.println(getGeneCode() + " failed to divide:\n" + ex);
         }
     }
 }

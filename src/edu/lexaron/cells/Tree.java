@@ -15,16 +15,16 @@ import java.util.Random;
  */
 public class Tree extends Cell {
 
-    public Tree(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color) {
-        super(ID, x, y, energy, vision, speed, efficiency, color);
+    public Tree(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
+        super(ID, x, y, energy, vision, speed, efficiency, color, biteSize);
     }
 
     @Override
     public void hunt(World w) {
         if (isAlive()) {
+            upkeep(w);
             if (getTargetFood() == null) {
                 setTargetFood(lookForFood(w));
-                setEnergy(getEnergy() - (getSpeed() * getEfficiency()));
             } else {
                 for (int i = 0; i < (int) getSpeed(); i++) {
                     eat(w);
@@ -39,6 +39,11 @@ public class Tree extends Cell {
                 mutate(w);
                 setEnergy(getEnergy() / 10);
             }
+            if (getOffspring() >= 3) {
+                setAlive(false);
+                w.getWorld()[getY()][getX()].setDeadCell(this);
+                w.getWorld()[getY()][getX()].setCell(null);
+            }
         }
 
     }
@@ -46,18 +51,21 @@ public class Tree extends Cell {
     @Override
     public void eat(World w) {
         if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getSugar().getAmount() > 0) {
-            setEnergy(getEnergy() + 1);
-            w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getSugar().setAmount(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getSugar().getAmount() - 1);
+            setEnergy(getEnergy() + getBiteSize());
+            w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getSugar().setAmount(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getSugar().getAmount() - getBiteSize());
             if (w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getSugar().getAmount() < 1) {
                 setTargetFood(null);
             }
             //            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());
         } else if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().getEnergy() > 0) {
-            w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().setEnergy(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().getEnergy() - 1);
-            setEnergy(getEnergy() + 1);
-            if (w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().getEnergy() < 10) {
+            w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().setEnergy(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().getEnergy() - getBiteSize());
+            setEnergy(getEnergy() + getBiteSize());
+            if (w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().getEnergy() < 0) {
                 setTargetFood(null);
             }
+        } else if(getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().getClass().equals(this.getClass())) {
+            setEnergy(getEnergy() + getBiteSize());
+            w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().setEnergy(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().getEnergy() - getBiteSize());
         } else {
             setTargetFood(null);
         }
@@ -75,13 +83,15 @@ public class Tree extends Cell {
         ry = new Random().nextInt((((getY() + getVision()) - (getY() - getVision())))) + (getY() - getVision() + 1);
         try {
             if ((rx < w.getWidth() && ry < w.getHeight() && rx >= 0 && ry >= 0)
-                    && (w.getWorld()[ry][rx].getSugar().getAmount() > 0 || (w.getWorld()[ry][rx].getDeadCell() != null && w.getWorld()[ry][rx].getDeadCell().getEnergy() > 10))) {
+                    && (w.getWorld()[ry][rx].getSugar().getAmount() > 0 || (w.getWorld()[ry][rx].getDeadCell() != null && w.getWorld()[ry][rx].getDeadCell().getEnergy() > 0))
+                    || (w.getWorld()[ry][ry].getCell() != null && w.getWorld()[ry][ry].getCell().getClass().equals(this.getClass()))
+                    ) {
                 foodLocation[0] = ry;
                 foodLocation[1] = rx;
                 found = true;
             }
             if (!found && new Random().nextInt(3) == 2) {
-                w.getWorld()[ry][rx].getSugar().setAmount(w.getWorld()[ry][rx].getSugar().getAmount() + 1);
+                w.getWorld()[ry][rx].getSugar().setAmount(1);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
 
@@ -98,15 +108,14 @@ public class Tree extends Cell {
     @Override
     public void mutate(World w) {
         int[] childLocation = findFreeTile(w);
-        Tree child = new Tree(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
+        Tree child = new Tree(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor(), getBiteSize());
         try {
-
             child.evolve();
             w.getNewBornCells().add(child);
             setOffspring(getOffspring() + 1);
             setEnergy(getEnergy() / 3);
         } catch (Exception ex) {
-            System.out.println(getGeneCode() + " failed to divide.");
+            System.out.println(getGeneCode() + " failed to divide:\n" + ex);
         }
     }
 

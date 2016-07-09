@@ -23,6 +23,9 @@
 .redText {
     -fx-text-fill: #990000;
 }
+.whiteText {
+    -fx-text-fill: #ffffff;
+}
 .smallText {
     -fx-font-size: 7;
 }

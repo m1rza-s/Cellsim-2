@@ -11,6 +11,8 @@ import edu.lexaron.world.World;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,24 +32,26 @@ import javafx.scene.paint.Color;
 public class Engine {
 
     final Monitor monitor = new Monitor();
-    private final Life life = new Life();
 
     // height, width
     private final int height = 200;
     private final int width = 330;
     private final double globalScale = 5;
-    private volatile World world = new World(width, height);
+    private final World world = new World(width, height);
+    private final Life life = new Life(world);
     private Canvas canvas;
     private GraphicsContext gc;
     private final VBox infoPanel = new VBox();
 
     private Timer timer;
     private Label gens;
-    private Label alive;
-    private Label dead;
-    private Label total;
+    private Label aliveCells;
+    private Label totalDeadCells;
+    private Label totalCells;
+    private Label totalSugar;
     private int generations = 0;
-    private final double sugarFactor = 100;
+    private int sugar = 0;
+    private final double sugarFactor = 50;
     private Image vulture, predator, tree, huntClosest, huntLargest, huntFirst, leech;
 
     /**
@@ -56,22 +60,18 @@ public class Engine {
      */
     public void startThread(BorderPane root) {
         root.setRight(infoPanel);
-
         this.timer = new Timer();
-
-        gc.setStroke(Color.YELLOW);
-
         canvas.setCache(true);
         canvas.setCacheHint(CacheHint.SPEED);
 
-        // ID, x, y, energy, vision, speed, efficiency
-        HuntFirst f = new HuntFirst("F", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 1, 2, "#66ff33");
-        HuntLargest l = new HuntLargest("L", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 1, 2, "#ffff33");
-        HuntClosest c = new HuntClosest("C", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 1, 2, "#ff33ff");
-        Predator p = new Predator("P", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 2, 0.33, "#ff0000");
-        Vulture v = new Vulture("V", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 1, 0.5, "#33ffff");
-        Tree t = new Tree("T", new Random().nextInt(width), new Random().nextInt(height), 95, 10, 1, 0.5, "#ffffff");
-        Leech e = new Leech("L", new Random().nextInt(width), new Random().nextInt(height), 95, 5, 2, 0.2, "#003366");
+        // ID, x, y, energy, vision, speed, efficiency, color, bitesize
+        Vulture v = new Vulture("V", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 0.5, "#33ffff", 1);
+        Predator p = new Predator("P", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 0.33, "#ff0000", 1);
+        HuntFirst f = new HuntFirst("F", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 3, 1, "#66ff33", 1);
+        HuntLargest l = new HuntLargest("L", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 2, 1, "#ffff33", 1);
+        HuntClosest c = new HuntClosest("C", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 1, "#ff33ff", 1);
+        Tree t = new Tree("T", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 1, "#ffffff", 0.5);
+        Leech e = new Leech("L", new Random().nextInt(width), new Random().nextInt(height), 95, 4, 2, 0.33, "#0000ff", 1);
         world.getNewBornCells().add(f);
         world.getNewBornCells().add(l);
         world.getNewBornCells().add(c);
@@ -89,28 +89,30 @@ public class Engine {
         infoPanel.setCache(true);
         infoPanel.setCacheHint(CacheHint.SPEED);
 
+        Thread lifeThred = new Thread(life);
+
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
                     // CELL ACTIVITY //
-                    life.allLiveCellsHunt(world);
+                    synchronized (world) {
+                        lifeThred.run();
+                    }
                     // CELL ACTIVITY END //
                     // UI UPDATE //
                     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 //                    paintGrid();
                     paintWorld();
-                    world.getAllCells().stream().map((c) -> (Cell) c).forEach((c) -> {
-                        Cell temp = (Cell) c;
-                        if (world.getWorld()[temp.getY()][temp.getX()].getCell() != null && !temp.isAlive()) {
-                            world.getWorld()[temp.getY()][temp.getX()].setCell(null);
-                            world.getWorld()[temp.getY()][temp.getX()].setDeadCell(temp);
-                        }
-                        paintCells((Cell) temp);
-                    });
-
-                    infoPanel.getChildren().clear();
+                    for (Object o : world.getAllCells()) {
+                        Cell c = (Cell) o;
+                        paintCells(c);
+                    }
+                    synchronized (world) {
+                        world.notifyAll();
+                    }                    
                     if (monitor.worldHasLiveCells(world)) {
+                        infoPanel.getChildren().clear();
                         infoPanel.getChildren().add(monitor.refreshLiveCellInfo(world));
                     } else {
                         Label done = new Label("No live cells!");
@@ -122,64 +124,65 @@ public class Engine {
                     }
                     generations++;
                     gens.setText(generations + " generations");
-                    alive.setText("Alive: " + monitor.countLiveCells(world));
-                    dead.setText("Dead: " + monitor.countDeadCells(world));
-                    total.setText("Total: " + monitor.countAllCells(world));
-                    if (generations % 100 == 0) {
-//                        monitor.drawChart(world, generations);
-                        for (int i = 0; i < (new Random().nextInt(1000) + 1000); i++) {
+                    aliveCells.setText("Alive: " + monitor.countLiveCells(world));
+                    totalDeadCells.setText("Dead: " + monitor.countDeadCells(world));
+                    totalCells.setText("Total: " + monitor.countAllCells(world));
+                    totalSugar.setText("Sugar in world: " + sugar);
+                    sugar = 0;
+                    if (generations % 25 == 0) {
+                        for (int i = 0; i < (new Random().nextInt(1000)); i++) {
                             world.newFood();
                         }
                     }
-
-                    // END OF UI UPDATE // 
+                    // END OF UI UPDATE //
 //                    System.out.println("\t" + generations);
+
                 });
             }
         };
         this.timer.schedule(timerTask, 100, 50);
+
+//        lifeThred.start();
     }
 
     public void paintWorld() {
         for (int i = 0; i < world.getHeight(); i++) {
             for (int j = 0; j < world.getWidth(); j++) {
                 world.getWorld()[i][j].getTrail().setAmount(world.getWorld()[i][j].getTrail().getAmount() - 1);
-                gc.setGlobalAlpha(0.2);
-                if (world.getWorld()[i][j].getSugar().getAmount() > 0) {
-                    int a = world.getWorld()[i][j].getSugar().getAmount();
-                    if (a == 10) {
-                        gc.setFill(Color.web("#80ff00"));
-                    } else if (a < 10 && a >= 8) {
+                gc.setGlobalAlpha(0.25);
+                sugar += world.getWorld()[i][j].getSugar().getAmount();
+                    int sugarTemp = (int) world.getWorld()[i][j].getSugar().getAmount();
+                    if (sugarTemp >= 10) {
+                        gc.setFill(Color.web("#ffff00"));
+                    } else if (sugarTemp < 10 && sugarTemp >= 8) {
                         gc.setFill(Color.web("#66cc00"));
-                    } else if (a < 8 && a >= 6) {
+                    } else if (sugarTemp < 8 && sugarTemp >= 6) {
                         gc.setFill(Color.web("#4d9900"));
-                    } else if (a < 6 && a >= 4) {
+                    } else if (sugarTemp < 6 && sugarTemp >= 4) {
                         gc.setFill(Color.web("#336600"));
-                    } else if (a < 4 && a > 0) {
-                        gc.setFill(Color.web("#1a3300"));
+                    } else if (sugarTemp < 4 && sugarTemp >= 1) {
+                        gc.setFill(Color.web("#264d00"));
                     } else {
-                        gc.setFill(Color.web("#0d1a00"));
+                        gc.setFill(Color.web("#331a00"));
                     }
-
-                    gc.fillRect((j - 0.25) * globalScale, (i - 0.25) * globalScale, 5, 5);
-                }
+                    gc.fillRect((j - 0.5) * globalScale, (i - 0.5) * globalScale, 5, 5);
                 gc.setGlobalAlpha(0.5);
                 if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
 
-                    int a = world.getWorld()[i][j].getTrail().getAmount();
+                    int trailTemp = world.getWorld()[i][j].getTrail().getAmount();
                     gc.setFill(Color.web(world.getWorld()[i][j].getTrail().getSource().getColor()));
-                    if (a == 50) {
+                    if (trailTemp == 50) {
                         gc.setGlobalAlpha(0.5);
-                    } else if (a < 50 && a >= 40) {
+                    } else if (trailTemp < 50 && trailTemp >= 40) {
                         gc.setGlobalAlpha(0.4);
-                    } else if (a < 40 && a >= 30) {
+                    } else if (trailTemp < 40 && trailTemp >= 30) {
                         gc.setGlobalAlpha(0.3);
-                    } else if (a < 30 && a >= 20) {
+                    } else if (trailTemp < 30 && trailTemp >= 20) {
                         gc.setGlobalAlpha(0.2);
-                    } else if (a < 20 && a > 0) {
+                    } else if (trailTemp < 20 && trailTemp > 0) {
                         gc.setGlobalAlpha(0.1);
                     }
-                    gc.fillRect((j - 0.25) * globalScale, (i - 0.25) * globalScale, 5, 5);
+                    gc.fillRect((j - 0.5) * globalScale, (i - 0.5) * globalScale, 5, 5);
 
                 }
             }
@@ -190,12 +193,10 @@ public class Engine {
     private void paintCells(Cell c) {
         if (!c.isAlive()) {
             gc.setGlobalAlpha(0.2);
-            gc.setFill(Color.web(c.getColor()));
-            gc.fillOval((c.getX() - 0.25) * globalScale, (c.getY() - 0.25) * globalScale, 6, 6);
-//                        gc.fillText(c.getGeneCode(), (c.getX() + 0.25) * globalScale, (c.getY() + 0.5) * globalScale);
+            paintCellGFX(c);
         } else if (c.isAlive()) {
             gc.setFill(Color.web(c.getColor()));
-            gc.setGlobalAlpha(0.05);
+            gc.setGlobalAlpha(0.1);
             gc.fillRect(
                     (c.getX() - c.getVision() - 0.25) * globalScale,
                     (c.getY() - c.getVision() - 0.25) * globalScale,
@@ -213,7 +214,15 @@ public class Engine {
             } else if (a < 20 && a > 0) {
                 gc.setGlobalAlpha(0.6);
             }
-            switch (c.getClass().getSimpleName()) {
+            paintCellGFX(c);
+            gc.setFill(Color.YELLOW);
+//            gc.fillText((int) c.getEnergy()+"", (c.getX() + 1) * globalScale, (c.getY() + 2) * globalScale);
+            paintTargetLine(c);
+        }
+        gc.restore();
+    }
+    private void paintCellGFX(Cell c) {
+        switch (c.getClass().getSimpleName()) {
                 case "Tree":
                     gc.drawImage(tree, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
                     break;
@@ -229,7 +238,7 @@ public class Engine {
                 case "HuntLargest":
                     gc.drawImage(huntLargest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
                     break;
-                    case "HuntFirst":
+                case "HuntFirst":
                     gc.drawImage(huntFirst, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
                     break;
                 case "Leech":
@@ -240,14 +249,7 @@ public class Engine {
                     break;
 
             }
-
-            gc.setFill(Color.YELLOW);
-//            gc.fillText((int) c.getEnergy()+"", (c.getX() + 1) * globalScale, (c.getY() + 2) * globalScale);
-            paintTargetLine(c);
-        }
-        gc.restore();
     }
-
     private void paintGrid() {
         gc.setStroke(Color.web("#1a1a1a"));
         for (int i = 5; i < width * globalScale; i += 5) {
@@ -266,7 +268,7 @@ public class Engine {
     public void paintTargetLine(Cell c) {
         if (c.getTargetFood() != null) {
             gc.setGlobalAlpha(2);
-            gc.setStroke(Color.RED);
+            gc.setStroke(Color.web(c.getColor()));
             gc.strokeLine(
                     (c.getX() + 0.25) * globalScale, (c.getY() + 0.25) * globalScale,
                     (c.getTargetFood()[1] + 0.25) * globalScale, (c.getTargetFood()[0] + 0.25) * globalScale
@@ -330,7 +332,7 @@ public class Engine {
      * @param alive
      */
     public void setAlive(Label alive) {
-        this.alive = alive;
+        this.aliveCells = alive;
     }
 
     /**
@@ -338,7 +340,7 @@ public class Engine {
      * @param dead
      */
     public void setDead(Label dead) {
-        this.dead = dead;
+        this.totalDeadCells = dead;
     }
 
     /**
@@ -346,15 +348,7 @@ public class Engine {
      * @param total
      */
     public void setTotal(Label total) {
-        this.total = total;
-    }
-
-    /**
-     *
-     * @param world
-     */
-    public void setWorld(World world) {
-        this.world = world;
+        this.totalCells = total;
     }
 
     /**
@@ -372,4 +366,9 @@ public class Engine {
     public double getSugarFactor() {
         return sugarFactor;
     }
+
+    public void setTotalSugar(Label totalSugar) {
+        this.totalSugar = totalSugar;
+    }
+
 }

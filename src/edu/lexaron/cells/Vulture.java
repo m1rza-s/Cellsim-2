@@ -15,8 +15,8 @@ import java.util.Random;
  */
 public class Vulture extends Cell {
 
-    public Vulture(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color) {
-        super(ID, x, y, energy, vision, speed, efficiency, color);
+    public Vulture(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
+        super(ID, x, y, energy, vision, speed, efficiency, color, biteSize);
     }
 
     /**
@@ -27,6 +27,7 @@ public class Vulture extends Cell {
     public void hunt(World w) {
         // CELL TYPE DEPENDANT
         if (this.isAlive()) {
+            upkeep(w);
             if (getPath().isEmpty()) {
                 setTargetFood(lookForFood(w));
                 if (getTargetFood() != null) {
@@ -50,6 +51,11 @@ public class Vulture extends Cell {
                 mutate(w);
                 setEnergy(getEnergy() / 3);
             }
+            if (getOffspring() >= 5) {
+                setAlive(false);
+                w.getWorld()[getY()][getX()].setDeadCell(this);
+                w.getWorld()[getY()][getX()].setCell(null);
+            }
         }
     }
 
@@ -66,33 +72,11 @@ public class Vulture extends Cell {
                 w.getWorld()[getY()][getX()].setDeadCell(null);
                 w.getWorld()[getY()][getX()].getSugar().setAmount(10);
             }
-//            else if (w.getWorld()[getY()][getX()].getCell() != null) {
-//                w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getCell());
-////                w.getWorld()[getY()][getX()].setCell(null);
-//            }
 
             setTargetFood(null);
             getPath().clear();
 //            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());
         }
-
-//        outterloop:
-//        for (int i = (getY() - 1); i <= (getY() + 1); i++) {
-//            for (int j = (getX() - 1); j <= (getX() + 1); j++) {
-//                try {
-//                    if (w.getWorld()[i][j].getDeadCell() != null) {
-//                        setEnergy(getEnergy() + 15);
-//                        w.getEatenCorpses().add(w.getWorld()[i][j].getDeadCell());
-////                        w.getWorld()[i][j].setDeadCell(null);
-////                        w.getWorld()[i][j].setCell(null);
-//
-//                        break outterloop;
-//                    }
-//                } catch (ArrayIndexOutOfBoundsException ex) {
-//
-//                }
-//            }
-//        }
     }
 
     @Override
@@ -142,14 +126,14 @@ public class Vulture extends Cell {
     @Override
     public void mutate(World w) {
         int[] childLocation = findFreeTile(w);
-        Vulture child = new Vulture(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor());
+        Vulture child = new Vulture(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor(), getBiteSize());
         try {
             child.evolve();
             w.getNewBornCells().add(child);
             setOffspring(getOffspring() + 1);
             setEnergy(getEnergy() / 3);
         } catch (Exception ex) {
-            System.out.println(getGeneCode() + " failed to divide.");
+            System.out.println(getGeneCode() + " failed to divide:\n" + ex);
         }
     }
 

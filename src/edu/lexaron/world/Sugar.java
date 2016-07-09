@@ -11,7 +11,7 @@ package edu.lexaron.world;
  */
 public class Sugar {
 
-    private int amount;
+    private double amount;
     private final int x;
     private final int y;
 
@@ -31,7 +31,7 @@ public class Sugar {
      *
      * @param amount
      */
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -39,7 +39,7 @@ public class Sugar {
      *
      * @return
      */
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 

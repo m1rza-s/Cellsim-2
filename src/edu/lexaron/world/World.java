@@ -65,7 +65,7 @@ public class World {
                 x = r.nextInt(width);
                 y = r.nextInt(height);
             } while (hasSugar(y, x));
-            world[y][x].setSugar(new Sugar(x, y, r.nextInt(9) + 1));
+            world[y][x].setSugar(new Sugar(x, y, r.nextInt(21)));
         }
         System.out.println("Done generating world!");
 
@@ -90,12 +90,13 @@ public class World {
         int x, y;
 //        x = r.nextInt(((width / 4) * 3) - (width / 4)) + (width / 4);
 //        y = r.nextInt(((height / 4) * 3) - (height / 4)) + (height / 4);
-        x = r.nextInt(width);
-        y = r.nextInt(height);
-        if (world[y][x].getSugar().getAmount() == 0) {
-            world[y][x].getSugar().setAmount(r.nextInt(8) + 1);
-        } else if (world[y][x].getSugar().getAmount() < 9) {
-            world[y][x].getSugar().setAmount(world[y][x].getSugar().getAmount() + 1);
+        x = r.nextInt(width - 2) + 1;
+        y = r.nextInt(height - 2) + 1;
+        if (world[y][x].getSugar().getAmount() <= 0) {
+            world[y][x].getSugar().setAmount(r.nextInt(9) + 1);
+        } else {
+            //if (world[y][x].getSugar().getAmount() <= 18) 
+            world[y][x].getSugar().setAmount(world[y][x].getSugar().getAmount() + 2);
         }
 
     }
