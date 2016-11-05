@@ -35,7 +35,6 @@ public class Monitor {
 
     private TreeSet<String> allBreeds = new TreeSet();
 
-    
     public int countSugar(World w) {
         int r = 0;
         for (int i = 0; i < w.getHeight(); i++) {
@@ -93,17 +92,13 @@ public class Monitor {
      * @return
      */
     public boolean worldHasLiveCells(World w) {
-        boolean r = false;
-        outterloop:
-        for (int i = 0; i < w.getWidth(); i++) {
-            for (int j = 0; j < w.getHeight(); j++) {
-                if (w.getWorld()[j][i].getCell() != null && w.getWorld()[j][i].getCell().isAlive()) {
-                    r = true;
-                    break outterloop;
-                }
+        for (Object o : w.getAllCells()) {
+            Cell c = (Cell) o;
+            if (c.isAlive()) {
+                return true;
             }
         }
-        return r;
+        return false;
     }
 
     // Promjeni ovaj metod tako da u jednom polju:
@@ -127,13 +122,16 @@ public class Monitor {
         DecimalFormat df = new DecimalFormat("#.###");
         df.setRoundingMode(RoundingMode.CEILING);
 
-        double totalEnergy, avgEnergy, avgEffi = 0, avgSpeed = 0;
+        double totalEnergy, avgEnergy, avgEffi = 0, avgSpeed = 0, avgBiteSize = 0;
         int countAlive, totVision = 0;
         String background;
 
         for (Iterator it = w.getAllCells().iterator(); it.hasNext();) {
             Cell c = (Cell) it.next();
-            allBreeds.add(c.getClass().getSimpleName());
+            if (!allBreeds.contains(c.getClass().getSimpleName())) {
+                allBreeds.add(c.getClass().getSimpleName());
+            }
+
         }
 
         for (Iterator i = allBreeds.iterator(); i.hasNext();) {
@@ -143,6 +141,7 @@ public class Monitor {
             totVision = 0;
             avgEffi = 0;
             avgSpeed = 0;
+            avgBiteSize = 0;
 
             background = "";
             for (Iterator j = w.getAllCells().iterator(); j.hasNext();) {
@@ -153,6 +152,7 @@ public class Monitor {
                     totVision += (c.getVision() * c.getVision());
                     avgEffi = avgEffi + c.getEfficiency();
                     avgSpeed = avgSpeed + c.getSpeed();
+                    avgBiteSize = avgBiteSize + c.getBiteSize();
                     background = c.getColor();
                 }
             }
@@ -160,6 +160,7 @@ public class Monitor {
                 avgEnergy = totalEnergy / countAlive;
                 avgEffi = avgEffi / countAlive;
                 avgSpeed = avgSpeed / countAlive;
+                avgBiteSize = avgBiteSize / countAlive;
 
                 Label countLive_L = new Label(breed + ", alive: " + countAlive);
                 countLive_L.setTextFill(Color.web(background));
@@ -167,14 +168,17 @@ public class Monitor {
                 Label totEne_L = new Label("Force: " + (int) totalEnergy);
                 totEne_L.getStyleClass().addAll("accentText");
 
-                Label avgEffi_L = new Label("Efficiency: " + df.format(avgEffi));
+                Label avgEffi_L = new Label("Avg.Eff.: " + df.format(avgEffi));
                 avgEffi_L.getStyleClass().add("accentText");
 
-                Label avgSpeed_L = new Label("Avg. Speed: " + df.format(avgSpeed));
+                Label avgSpeed_L = new Label("Avg.Spd.: " + df.format(avgSpeed));
                 avgSpeed_L.getStyleClass().add("accentText");
 
                 Label totVision_L = new Label("ZoC: " + totVision);
                 totVision_L.getStyleClass().addAll("accentText");
+
+                Label avgBiteSize_L = new Label("Avg.Bite: " + df.format(avgBiteSize));
+                avgBiteSize_L.getStyleClass().addAll("accentText");
 
                 ProgressBar avgEne_PB = new ProgressBar();
                 avgEne_PB.setMinWidth(200);
@@ -195,7 +199,7 @@ public class Monitor {
                 row2.setAlignment(Pos.CENTER);
 
                 HBox row3 = new HBox(10);
-                row3.getChildren().addAll(totEne_L, totVision_L);
+                row3.getChildren().addAll(totEne_L, totVision_L, avgBiteSize_L);
                 row3.getStyleClass().add("accentText");
 
                 HBox row4 = new HBox(10);
@@ -209,33 +213,46 @@ public class Monitor {
                 breedBox.getStyleClass().add("backgroundColorAccent");
                 v.getChildren().add(breedBox);
             } else {
-                switch (breed) { // String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize
+//                System.out.println("\tDETECTED EXTINCT CELL: " + breed);
+                switch (breed) {
                     case "Vulture":
-                        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 0.5, "#33ffff", 1));
-                        break;
-                    case "Predator":
-                        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 0.33, "#ff0000", 1));
+                        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 50, 3, 1, 0.5, "#33ffff", 1));
                         break;
                     case "HuntFirst":
-                        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 3, 1, "#66ff33", 1));
+                        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 50, 3, 3, 1, "#66ff33", 2));
                         break;
                     case "HuntLargest":
-                        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 2, 1, "#ffff33", 1));
+                        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 50, 3, 2, 1, "#ffff33", 2));
                         break;
                     case "HuntClosest":
-                        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 1, "#ff33ff", 1));
+                        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 50, 3, 1, 1, "#ff33ff", 2));
+                        break;
+                    case "Predator":
+                        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 50, 5, 1, 0.33, "#ff0000", 1));
                         break;
                     case "Tree":
-                        w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 1, "#ffffff", 0.5));
+                        w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 50, 10, 1, 0.5, "#ffffff", 0.5));
                     case "Leech":
-                        w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 4, 2, 0.33, "#0000ff", 1));
+                        w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 50, 5, 3, 0.33, "#0000ff", 2));
+                        break;
+                    default:
+                        System.out.println("No such breed!");
                         break;
                 }
             }
-
         }
 
         return v;
+    }
+
+    public void reseed(World w) {
+        w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 0.5, "#33ffff", 1));
+        w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 0.33, "#ff0000", 1));
+        w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 3, 1, "#66ff33", 1));
+        w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 2, 1, "#ffff33", 1));
+        w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 1, "#ff33ff", 1));
+        w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 3, 1, 1, "#ffffff", 0.5));
+        w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight()), 95, 4, 2, 0.33, "#0000ff", 1));
     }
 
 }

@@ -43,9 +43,11 @@ public class Predator extends Cell {
                 if (getTargetFood() != null) {
                     findPathTo(getTargetFood());
                     usePath(w);
-                }else {
-                    moveRight(w);
-                    randomStep(w);
+                } else {
+                    for (int i = 1; i <= (int) getSpeed(); i++) {
+                        moveUp(w);
+                        randomStep(w);
+                    }
                 }
             }
             if (!getPath().isEmpty()
@@ -56,9 +58,8 @@ public class Predator extends Cell {
             }
             if (getEnergy() >= 100) {
                 mutate(w);
-                setEnergy(getEnergy() / 3);
             }
-            if (getOffspring() >= 5) {
+            if (getOffspring() >= 3) {
                 setAlive(false);
                 w.getWorld()[getY()][getX()].setDeadCell(this);
                 w.getWorld()[getY()][getX()].setCell(null);
@@ -79,8 +80,9 @@ public class Predator extends Cell {
                     if (w.getWorld()[i][j].getCell() != null
                             && w.getWorld()[i][j].getCell() != this
                             && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase(getClass().getSimpleName()) //                            && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("vulture")
-                            && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree")) {
-                        setEnergy(getEnergy() + (w.getWorld()[i][j].getCell().getEnergy()));
+//                            && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree")
+                            ) {
+                        setEnergy(getEnergy() + (w.getWorld()[i][j].getCell().getEnergy() / 2));
                         w.getWorld()[i][j].getCell().setAlive(false);
                         w.getWorld()[i][j].setDeadCell(w.getWorld()[i][j].getCell());
                         w.getWorld()[i][j].setCell(null);
@@ -118,15 +120,15 @@ public class Predator extends Cell {
 //                    System.out.print("(" + j + "," + i + ")");
                         if (w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell().isAlive()) {
                             if (!w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase(this.getClass().getSimpleName())
-                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree")
-                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("vulture")) {
+//                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree") //                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("vulture")
+                                    ) {
                                 foodLocation[0] = i; // Y
                                 foodLocation[1] = j; // X
                                 found = true;
                                 break outterloop;
                             }
                         } else if (w.getWorld()[i][j].getTrail().getSource() != null && !w.getWorld()[i][j].getTrail().getSource().getClass().getSimpleName().equalsIgnoreCase(this.getClass().getSimpleName())
-                                && !w.getWorld()[i][j].getTrail().getSource().getClass().getSimpleName().equalsIgnoreCase("vulture")
+                                //                                && !w.getWorld()[i][j].getTrail().getSource().getClass().getSimpleName().equalsIgnoreCase("vulture")
                                 && w.getWorld()[i][j].getTrail().getAmount() > foundSmell) {
                             foundSmell = w.getWorld()[i][j].getTrail().getAmount();
                             foodLocation[0] = i; // Y

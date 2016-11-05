@@ -33,7 +33,6 @@ public class Vulture extends Cell {
                 if (getTargetFood() != null) {
                     findPathTo(getTargetFood());
                 } else {
-//                    this.setEnergy(getEnergy() - 0.10);
                     randomStep(w);
                     moveRight(w);
                 }
@@ -49,9 +48,8 @@ public class Vulture extends Cell {
 
             if (getEnergy() >= 100) {
                 mutate(w);
-                setEnergy(getEnergy() / 3);
             }
-            if (getOffspring() >= 5) {
+            if (getOffspring() >= 3) {
                 setAlive(false);
                 w.getWorld()[getY()][getX()].setDeadCell(this);
                 w.getWorld()[getY()][getX()].setCell(null);
@@ -67,11 +65,11 @@ public class Vulture extends Cell {
     public void eat(World w) {
         if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
             setEnergy(getEnergy() + (new Random().nextInt(11) + 10) + w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
-            if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
+//            if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
                 w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
                 w.getWorld()[getY()][getX()].setDeadCell(null);
                 w.getWorld()[getY()][getX()].getSugar().setAmount(10);
-            }
+//            }
 
             setTargetFood(null);
             getPath().clear();

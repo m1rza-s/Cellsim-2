@@ -15,23 +15,24 @@ import java.util.Random;
  */
 public abstract class Cell {
 
-    private String geneCode;
-    private double energy; // if > 0, alive
     private boolean alive;
+    private String geneCode;
+    private final String color;
+    private double energy; // if > 0, alive    
+    private double speed;
+    private double efficiency;
+    private double biteSize;
     private int x;
     private int y; // position
     private int vision;
-    private final int movement;
-    private double speed;
-    private double efficiency;
-    private final Queue<Integer> path = new LinkedList();
-    private final String color;
     private int trailSize;
-    private int offspring = 1;
-    private int[] targetFood = null;
+    private int offspring = 0;
     private int oppositeRandomStep;
     private int lastRandomStep;
-    private double biteSize;
+    private int[] targetFood = null;
+    private final int movement;
+
+    private final Queue<Integer> path = new LinkedList();
 
     /**
      *
@@ -91,7 +92,10 @@ public abstract class Cell {
                         findPathTo(targetFood);
                         usePath(w);
                     } else {
-                        randomStep(w);
+                        for (int i = 1; i <= speed; i++) {
+                            moveLeft(w);
+                            randomStep(w);
+                        }
                     }
                 } else {
                     eat(w);
@@ -101,10 +105,9 @@ public abstract class Cell {
             }
 
             if (energy >= 100) {
-                mutate(w);
-                setEnergy(energy / 3);
+                mutate(w);                
             }
-            if (offspring >= 5) {
+            if (offspring >= 3) {
                 alive = false;
                 w.getWorld()[y][x].setDeadCell(this);
                 w.getWorld()[y][x].setCell(null);
@@ -118,7 +121,7 @@ public abstract class Cell {
             w.getWorld()[y][x].setDeadCell(this);
             w.getWorld()[y][x].setCell(null);
         }
-        energy = energy - ((efficiency) / 3);
+        energy = energy - ((efficiency) / 5);
     }
 
     /**
@@ -158,7 +161,7 @@ public abstract class Cell {
      * @param w
      */
     public void usePath(World w) {
-        for (int i = 0; i < (int) getSpeed(); i++) {
+        for (int i = 1; i <= getSpeed(); i++) {
             if (!path.isEmpty()) {
                 int move = path.poll();
                 switch (move) {
@@ -383,19 +386,18 @@ public abstract class Cell {
      */
     public int[] findFreeTile(World w) {
         int loc[] = new int[2];
-        int rx = 0;
-        int ry = 0;
+        int rx, ry;        
         boolean found = false;
         while (!found) {
-            rx = new Random().nextInt((((x + vision) - (x - vision)))) + (x - vision);
-            ry = new Random().nextInt((((y + vision) - (y - vision)))) + (y - vision);
-            if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
-                if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
-                    loc[0] = ry;
-                    loc[1] = rx;
-                    found = true;
-                }
+        rx = new Random().nextInt(((x + vision) - (x - vision)) + 1) + (x - vision);
+        ry = new Random().nextInt(((y + vision) - (y - vision)) + 1) + (y - vision);
+        if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
+            if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
+                loc[0] = ry;
+                loc[1] = rx;
+                found = true;
             }
+        }
         }
         return loc;
     }
@@ -417,7 +419,7 @@ public abstract class Cell {
                 mutateTrailSize();
                 break;
             case 4:
-                mutateBiteSIze();
+                mutateBiteSize();
                 break;
 
         }
@@ -429,7 +431,7 @@ public abstract class Cell {
         } else {
             mutateEfficiency();
         }
-        
+
     }
 
     private void mutateEfficiency() {
@@ -446,7 +448,7 @@ public abstract class Cell {
         }
     }
 
-    private void mutateBiteSIze() {
+    private void mutateBiteSize() {
         biteSize = biteSize + 0.5;
     }
 

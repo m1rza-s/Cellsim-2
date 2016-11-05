@@ -7,9 +7,6 @@ package edu.lexaron.simulation;
 
 import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
-import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -30,7 +27,7 @@ public class Life implements Runnable {
     public void allLiveCellsHunt(World w) {
         for (Object o : w.getNewBornCells()) {
             Cell c = (Cell) o;
-//            System.out.println("NEW CELL: " + c.getGeneCode() + " @ " + c.getX() + "," + c.getY());
+//            System.out.println("NEW CELL: " + c.getGeneCode() + " @ (" + c.getX() + "," + c.getY() + ")");
             w.getWorld()[c.getY()][c.getX()].setCell(c);
         }
         w.getAllCells().addAll(w.getNewBornCells());
@@ -63,16 +60,6 @@ public class Life implements Runnable {
         synchronized (w) {
             allLiveCellsHunt(w);
         }
-//        while (true) {
-//            synchronized (w) {
-//                allLiveCellsHunt(w);
-//            }
-//            try {
-//                sleep(50);
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(Life.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
     }
 
 }

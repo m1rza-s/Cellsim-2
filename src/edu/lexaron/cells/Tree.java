@@ -37,9 +37,8 @@ public class Tree extends Cell {
             }
             if (getEnergy() >= 100) {
                 mutate(w);
-                setEnergy(getEnergy() / 10);
             }
-            if (getOffspring() >= 3) {
+            if (getOffspring() >= 2) {
                 setAlive(false);
                 w.getWorld()[getY()][getX()].setDeadCell(this);
                 w.getWorld()[getY()][getX()].setCell(null);
@@ -63,7 +62,7 @@ public class Tree extends Cell {
             if (w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell().getEnergy() < 0) {
                 setTargetFood(null);
             }
-        } else if(getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().getClass().equals(this.getClass())) {
+        } else if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().getClass().equals(this.getClass())) {
             setEnergy(getEnergy() + getBiteSize());
             w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().setEnergy(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().getEnergy() - getBiteSize());
         } else {
@@ -79,22 +78,19 @@ public class Tree extends Cell {
         boolean found = false;
         int rx, ry;
 
-        rx = new Random().nextInt((((getX() + getVision()) - (getX() - getVision())))) + (getX() - getVision() + 1);
-        ry = new Random().nextInt((((getY() + getVision()) - (getY() - getVision())))) + (getY() - getVision() + 1);
+        rx = new Random().nextInt(((getX() + getVision()) - (getX() - getVision())) + 1) + (getX() - getVision());
+        ry = new Random().nextInt(((getY() + getVision()) - (getY() - getVision())) + 1) + (getY() - getVision());
         try {
             if ((rx < w.getWidth() && ry < w.getHeight() && rx >= 0 && ry >= 0)
-                    && (w.getWorld()[ry][rx].getSugar().getAmount() > 0 || (w.getWorld()[ry][rx].getDeadCell() != null && w.getWorld()[ry][rx].getDeadCell().getEnergy() > 0))
-                    || (w.getWorld()[ry][ry].getCell() != null && w.getWorld()[ry][ry].getCell().getClass().equals(this.getClass()))
-                    ) {
+                    && (w.getWorld()[ry][rx].getSugar().getAmount() > 0)) {
                 foodLocation[0] = ry;
                 foodLocation[1] = rx;
                 found = true;
-            }
-            if (!found && new Random().nextInt(3) == 2) {
-                w.getWorld()[ry][rx].getSugar().setAmount(1);
+            } else if ((rx < w.getWidth() && ry < w.getHeight() && rx >= 0 && ry >= 0) && !found && new Random().nextInt(3) == 2) {
+                w.getWorld()[ry][rx].getSugar().setAmount(3);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
-
+            System.out.println("Tree: " + ex + "rx: " + rx + ", ry: " + ry);
         }
         if (found) {
 //            System.out.println(getGeneCode() + " found food on " + foodLocation[0] + "," + foodLocation[1]);
@@ -113,7 +109,7 @@ public class Tree extends Cell {
             child.evolve();
             w.getNewBornCells().add(child);
             setOffspring(getOffspring() + 1);
-            setEnergy(getEnergy() / 3);
+            setEnergy(getEnergy() / 4);
         } catch (Exception ex) {
             System.out.println(getGeneCode() + " failed to divide:\n" + ex);
         }
@@ -122,12 +118,11 @@ public class Tree extends Cell {
     @Override
     public int[] findFreeTile(World w) {
         int loc[] = new int[2];
-        int rx = 0;
-        int ry = 0;
+        int rx, ry;
         boolean found = false;
         while (!found) {
-            rx = new Random().nextInt((((getX() + getVision() * 3) - (getX() - getVision() * 3)))) + (getX() - getVision() * 3);
-            ry = new Random().nextInt((((getY() + getVision() * 3) - (getY() - getVision() * 3)))) + (getY() - getVision() * 3);
+            rx = new Random().nextInt(((getX() + (getVision() * 2)) - (getX() - (getVision() * 2))) + 1) + (getX() - (getVision() * 2));
+            ry = new Random().nextInt(((getY() + (getVision() * 2)) - (getY() - (getVision() * 2))) + 1) + (getY() - (getVision() * 2));
             if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
                 if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
                     loc[0] = ry;

@@ -29,8 +29,11 @@ public class Leech extends Cell {
                     findPathTo(getTargetFood());
                     usePath(w);
                 } else {
-                    moveLeft(w);
-                    randomStep(w);
+                    for (int i = 1; i <= (int) getSpeed(); i++) {
+                        moveDown(w);
+                        moveRight(w);
+                        randomStep(w);
+                    }
                 }
             }
             if (!getPath().isEmpty() && getTargetFood() != null
@@ -46,9 +49,8 @@ public class Leech extends Cell {
 
             if (getEnergy() >= 100) {
                 mutate(w);
-                setEnergy(getEnergy() / 3);
             }
-            if (getOffspring() >= 5) {
+            if (getOffspring() >= 3) {
                 setAlive(false);
                 w.getWorld()[getY()][getX()].setDeadCell(this);
                 w.getWorld()[getY()][getX()].setCell(null);
@@ -83,11 +85,11 @@ public class Leech extends Cell {
                 for (int j = (getX() - v); j <= (getX() + v); j++) {
                     try {
 //                    System.out.print("(" + j + "," + i + ")");        
-                        if (w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell() != this && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equals(this.getClass().getSimpleName())) {                        
-                                foodLocation[0] = i; // Y
-                                foodLocation[1] = j; // X
-                                found = true;
-                                break outterloop;                        
+                        if (w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell() != this && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equals(this.getClass().getSimpleName())) {
+                            foodLocation[0] = i; // Y
+                            foodLocation[1] = j; // X
+                            found = true;
+                            break outterloop;
 //                        } else if (getTargetFood() == null && w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell().isAlive() && w.getWorld()[i][j].getCell().getClass().equals(this.getClass()) && w.getWorld()[i][j].getCell().getTargetFood() != null                                ) {
 //                            setTargetFood(w.getWorld()[i][j].getCell().getTargetFood());
 ////                            System.out.println("GOT COORDS: " + getTargetFood()[1] + "," + getTargetFood()[0]);

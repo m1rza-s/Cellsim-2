@@ -47,12 +47,12 @@ public class HuntClosest extends Cell {
                     try {
 //                    System.out.print("(" + j + "," + i + ")");        
                         if (w.getWorld()[i][j].getSugar().getAmount() > 0) {
-                                foodLocation[0] = i; // Y
-                                foodLocation[1] = j; // X
+                            foodLocation[0] = i; // Y
+                            foodLocation[1] = j; // X
 //                                System.out.println("FOUND: " + j + "," + i);
-                                found = true;
-                                break outterloop;
-                            }
+                            found = true;
+                            break outterloop;
+                        }
                     } catch (ArrayIndexOutOfBoundsException ex) {
 
                     }

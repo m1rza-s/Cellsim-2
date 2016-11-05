@@ -11,8 +11,6 @@ import edu.lexaron.world.World;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -51,7 +49,7 @@ public class Engine {
     private Label totalSugar;
     private int generations = 0;
     private int sugar = 0;
-    private final double sugarFactor = 50;
+    private final double sugarFactor = new Random().nextInt(100);
     private Image vulture, predator, tree, huntClosest, huntLargest, huntFirst, leech;
 
     /**
@@ -65,18 +63,18 @@ public class Engine {
         canvas.setCacheHint(CacheHint.SPEED);
 
         // ID, x, y, energy, vision, speed, efficiency, color, bitesize
-        Vulture v = new Vulture("V", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 0.5, "#33ffff", 1);
-        Predator p = new Predator("P", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 0.33, "#ff0000", 1);
-        HuntFirst f = new HuntFirst("F", new Random().nextInt(width), new Random().nextInt(height), 95, 2, 3, 1, "#66ff33", 1);
-        HuntLargest l = new HuntLargest("L", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 2, 1, "#ffff33", 1);
-        HuntClosest c = new HuntClosest("C", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 1, "#ff33ff", 1);
-        Tree t = new Tree("T", new Random().nextInt(width), new Random().nextInt(height), 95, 3, 1, 1, "#ffffff", 0.5);
-        Leech e = new Leech("L", new Random().nextInt(width), new Random().nextInt(height), 95, 4, 2, 0.33, "#0000ff", 1);
+        Vulture v = new Vulture("V", new Random().nextInt(width), new Random().nextInt(height), 50, 3, 1, 0.5, "#33ffff", 1);
+        HuntFirst f = new HuntFirst("F", new Random().nextInt(width), new Random().nextInt(height), 50, 3, 3, 1, "#66ff33", 2);
+        HuntLargest l = new HuntLargest("L", new Random().nextInt(width), new Random().nextInt(height), 50, 3, 2, 1, "#ffff33", 2);
+        HuntClosest c = new HuntClosest("C", new Random().nextInt(width), new Random().nextInt(height), 50, 3, 1, 1, "#ff33ff", 2);
+        Predator p = new Predator("P", new Random().nextInt(width), new Random().nextInt(height), 50, 5, 1, 0.33, "#ff0000", 1);
+        Tree t = new Tree("T", new Random().nextInt(width), new Random().nextInt(height), 50, 10, 1, 0.5, "#ffffff", 0.5);
+        Leech e = new Leech("L", new Random().nextInt(width), new Random().nextInt(height), 50, 5, 3, 0.33, "#0000ff", 2);
+        world.getNewBornCells().add(v);
         world.getNewBornCells().add(f);
         world.getNewBornCells().add(l);
         world.getNewBornCells().add(c);
         world.getNewBornCells().add(p);
-        world.getNewBornCells().add(v);
         world.getNewBornCells().add(t);
         world.getNewBornCells().add(e);
 
@@ -89,7 +87,7 @@ public class Engine {
         infoPanel.setCache(true);
         infoPanel.setCacheHint(CacheHint.SPEED);
 
-        Thread lifeThred = new Thread(life);
+        Thread lifeThread = new Thread(life);
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -97,7 +95,7 @@ public class Engine {
                 Platform.runLater(() -> {
                     // CELL ACTIVITY //
                     synchronized (world) {
-                        lifeThred.run();
+                        lifeThread.run();
                     }
                     // CELL ACTIVITY END //
                     // UI UPDATE //
@@ -110,11 +108,12 @@ public class Engine {
                     }
                     synchronized (world) {
                         world.notifyAll();
-                    }                    
+                    }
                     if (monitor.worldHasLiveCells(world)) {
                         infoPanel.getChildren().clear();
                         infoPanel.getChildren().add(monitor.refreshLiveCellInfo(world));
                     } else {
+                        infoPanel.getChildren().clear();
                         Label done = new Label("No live cells!");
                         done.getStyleClass().addAll("accentText", "biggerText");
                         infoPanel.getChildren().add(done);
@@ -139,10 +138,12 @@ public class Engine {
 
                 });
             }
-        };
-        this.timer.schedule(timerTask, 100, 50);
 
-//        lifeThred.start();
+            // Ovdje nekako provjeri da li je EDT živ i nastavi task ako jeste.
+        };
+        this.timer.schedule(timerTask, 200, 75);
+
+//        lifeThread.start();
     }
 
     public void paintWorld() {
@@ -151,21 +152,24 @@ public class Engine {
                 world.getWorld()[i][j].getTrail().setAmount(world.getWorld()[i][j].getTrail().getAmount() - 1);
                 gc.setGlobalAlpha(0.25);
                 sugar += world.getWorld()[i][j].getSugar().getAmount();
-                    int sugarTemp = (int) world.getWorld()[i][j].getSugar().getAmount();
-                    if (sugarTemp >= 10) {
-                        gc.setFill(Color.web("#ffff00"));
-                    } else if (sugarTemp < 10 && sugarTemp >= 8) {
-                        gc.setFill(Color.web("#66cc00"));
-                    } else if (sugarTemp < 8 && sugarTemp >= 6) {
-                        gc.setFill(Color.web("#4d9900"));
-                    } else if (sugarTemp < 6 && sugarTemp >= 4) {
-                        gc.setFill(Color.web("#336600"));
-                    } else if (sugarTemp < 4 && sugarTemp >= 1) {
-                        gc.setFill(Color.web("#264d00"));
-                    } else {
-                        gc.setFill(Color.web("#331a00"));
-                    }
-                    gc.fillRect((j - 0.5) * globalScale, (i - 0.5) * globalScale, 5, 5);
+                if (world.getWorld()[i][j].getSugar().getAmount() < 0) {
+                    world.getWorld()[i][j].getSugar().setAmount(0);
+                }
+                int sugarTemp = (int) world.getWorld()[i][j].getSugar().getAmount();
+                if (sugarTemp >= 10) {
+                    gc.setFill(Color.web("#ffff00"));
+                } else if (sugarTemp < 10 && sugarTemp >= 8) {
+                    gc.setFill(Color.web("#66cc00"));
+                } else if (sugarTemp < 8 && sugarTemp >= 6) {
+                    gc.setFill(Color.web("#4d9900"));
+                } else if (sugarTemp < 6 && sugarTemp >= 4) {
+                    gc.setFill(Color.web("#336600"));
+                } else if (sugarTemp < 4 && sugarTemp >= 1) {
+                    gc.setFill(Color.web("#264d00"));
+                } else {
+                    gc.setFill(Color.web("#331a00"));
+                }
+                gc.fillRect((j - 0.5) * globalScale, (i - 0.5) * globalScale, 5, 5);
                 gc.setGlobalAlpha(0.5);
                 if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
 
@@ -202,7 +206,7 @@ public class Engine {
                     (c.getY() - c.getVision() - 0.25) * globalScale,
                     ((c.getVision() * 2) + 1) * globalScale,
                     ((c.getVision() * 2) + 1) * globalScale);
-            gc.setFill(Color.web(c.getColor()));
+//            gc.setFill(Color.web(c.getColor()));
             double a = c.getEnergy();
             gc.setGlobalAlpha(1);
             if (a < 50 && a >= 40) {
@@ -215,41 +219,43 @@ public class Engine {
                 gc.setGlobalAlpha(0.6);
             }
             paintCellGFX(c);
-            gc.setFill(Color.YELLOW);
-//            gc.fillText((int) c.getEnergy()+"", (c.getX() + 1) * globalScale, (c.getY() + 2) * globalScale);
+            gc.setStroke(Color.web(c.getColor()));
+            gc.fillText((int) c.getEnergy() + "", (c.getX() - 3) * globalScale, (c.getY() - 1.5) * globalScale);
             paintTargetLine(c);
         }
         gc.restore();
     }
+
     private void paintCellGFX(Cell c) {
         switch (c.getClass().getSimpleName()) {
-                case "Tree":
-                    gc.drawImage(tree, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-                    break;
-                case "Vulture":
-                    gc.drawImage(vulture, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-                    break;
-                case "Predator":
-                    gc.drawImage(predator, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-                    break;
-                case "HuntClosest":
-                    gc.drawImage(huntClosest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-                    break;
-                case "HuntLargest":
-                    gc.drawImage(huntLargest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-                    break;
-                case "HuntFirst":
-                    gc.drawImage(huntFirst, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-                    break;
-                case "Leech":
-                    gc.drawImage(leech, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-                    break;
-                default:
-                    gc.fillOval((c.getX() - 0.25) * globalScale, (c.getY() - 0.25) * globalScale, 6, 6);
-                    break;
-
-            }
+            case "Tree":
+                gc.drawImage(tree, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                break;
+            case "Vulture":
+                gc.drawImage(vulture, (c.getX() - 3) * globalScale, (c.getY() - 1.5) * globalScale);
+                break;
+            case "Predator":
+                gc.drawImage(predator, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                break;
+            case "HuntClosest":
+                gc.drawImage(huntClosest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                break;
+            case "HuntLargest":
+                gc.drawImage(huntLargest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                break;
+            case "HuntFirst":
+                gc.drawImage(huntFirst, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                break;
+            case "Leech":
+                gc.drawImage(leech, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+                break;
+            default:
+                gc.fillOval((c.getX() - 0.25) * globalScale, (c.getY() - 0.25) * globalScale, 6, 6);
+                break;
+        }
+        gc.restore();
     }
+
     private void paintGrid() {
         gc.setStroke(Color.web("#1a1a1a"));
         for (int i = 5; i < width * globalScale; i += 5) {
@@ -279,19 +285,22 @@ public class Engine {
 
     /**
      *
+     * @param cellsToo
      */
-    public void setup() {
+    public void setup(boolean cellsToo) {
         world.generateWorld(sugarFactor);
         gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        vulture = new Image("gfx/maggot.png");
-        predator = new Image("gfx/spider.png");
-        tree = new Image("gfx/tree.png");
-        huntFirst = new Image("gfx/green-ant.png");
-        huntClosest = new Image("gfx/purple-ant.png");
-        huntLargest = new Image("gfx/yellow-ant.png");
-        leech = new Image("gfx/leech.png");
-
+        vulture = new Image("edu/lexaron/gfx/vulture.png");
+        predator = new Image("edu/lexaron/gfx/predator.png");
+        tree = new Image("edu/lexaron/gfx/tree.png");
+        huntFirst = new Image("edu/lexaron/gfx/huntFirst.png");
+        huntClosest = new Image("edu/lexaron/gfx/huntClosest.png");
+        huntLargest = new Image("edu/lexaron/gfx/huntLargest.png");
+        leech = new Image("edu/lexaron/gfx/leech.png");
+        if (cellsToo) {
+            monitor.reseed(world);
+        }
     }
 
     /**

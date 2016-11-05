@@ -5,6 +5,7 @@
  */
 package edu.lexaron.world;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -20,9 +21,9 @@ public class World {
     private Tile[][] world;
     private final Random r = new Random();
 
-    private volatile List<Cell> allCells = new LinkedList<>();
-    private List<Cell> newBornCells = new LinkedList();
-    private List<Cell> eatenCorpses = new LinkedList();
+    private volatile List<Cell> allCells = new ArrayList<>();
+    private List<Cell> newBornCells = new ArrayList();
+    private List<Cell> eatenCorpses = new ArrayList();
 
     /**
      *

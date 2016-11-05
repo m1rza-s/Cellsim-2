@@ -41,7 +41,7 @@ public class HuntLargest extends Cell {
         int[] foodLocation = new int[2];
         boolean found = false;
         int foundSugar = 0;
-        
+
         outterloop:
         for (int v = getVision(); v > 0; v--) {
             for (int i = (getY() - v); i <= (getY() + v); i++) {

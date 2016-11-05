@@ -59,7 +59,7 @@ public class CellSIM extends Application {
         sp.setPadding(new Insets(20));
         sp.setAlignment(Pos.TOP_CENTER);
 
-        Label sugarFactor_L = new Label("Sugar factor: " + String.valueOf(run.getSugarFactor()) + "%");
+        Label sugarFactor_L = new Label("Initial sugar factor: " + String.valueOf(run.getSugarFactor()) + "%");
         Label counter = new Label();
         counter.getStyleClass().add("accentText");
 
@@ -81,10 +81,10 @@ public class CellSIM extends Application {
             System.out.println("Simulation started...");
             start.setDisable(true);
         });
-        Button generateWorld = new Button("DROP ALL THE SUGAR!");
+        Button generateWorld = new Button("Spawn new cells & reset sugar");
         generateWorld.setOnAction(e -> {
             run.setCanvas(canvas);
-            run.setup();
+            run.setup(true);
 
             run.setGens(counter);
             run.setAlive(liveCells);
@@ -92,6 +92,7 @@ public class CellSIM extends Application {
             run.setTotal(totalCells);
             run.setTotalSugar(totalSugar);
             run.paintWorld();
+            
         });
         // STRUCTURING
         menuRow1.getChildren().addAll(
@@ -114,7 +115,7 @@ public class CellSIM extends Application {
         );
 
         run.setCanvas(canvas);
-        run.setup();
+        run.setup(false);
 
         run.setGens(counter);
         run.setAlive(liveCells);
