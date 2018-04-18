@@ -5,96 +5,95 @@
  */
 package edu.lexaron.cells;
 
-import edu.lexaron.world.Cell;
 import edu.lexaron.world.World;
+
 import java.util.Random;
 
 /**
- *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Vulture extends Cell {
 
-    public Vulture(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
-        super(ID, x, y, energy, vision, speed, efficiency, color, biteSize);
-    }
+  public Vulture(String ID, int x, int y) {
+    super(ID, x, y, 50, 3, 1, 0.5, "#33ffff", 1);
+  }
 
-    /**
-     *
-     * @param w
-     */
-    @Override
-    public void hunt(World w) {
-        // CELL TYPE DEPENDANT
-        if (this.isAlive()) {
-            upkeep(w);
-            if (getPath().isEmpty()) {
-                setTargetFood(lookForFood(w));
-                if (getTargetFood() != null) {
-                    findPathTo(getTargetFood());
-                } else {
-                    randomStep(w);
-                    moveRight(w);
-                }
-            }
-            if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell() != null) {
-                usePath(w);
-                if (getPath().isEmpty()) {
-                    eat(w);
-                }
-            } else {
-                getPath().clear();
-            }
-
-            if (getEnergy() >= 100) {
-                mutate(w);
-            }
-            if (getOffspring() >= 3) {
-                setAlive(false);
-                w.getWorld()[getY()][getX()].setDeadCell(this);
-                w.getWorld()[getY()][getX()].setCell(null);
-            }
+  /**
+   * @param w
+   */
+  @Override
+  public void hunt(World w) {
+    // CELL TYPE DEPENDANT
+    if (this.isAlive()) {
+      upkeep(w);
+      if (getPath().isEmpty()) {
+        setTargetFood(lookForFood(w));
+        if (getTargetFood() != null) {
+          findPathTo(getTargetFood());
         }
-    }
+        else {
+          randomStep(w);
+          moveRight(w);
+        }
+      }
+      if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell() != null) {
+        usePath(w);
+        if (getPath().isEmpty()) {
+          eat(w);
+        }
+      }
+      else {
+        getPath().clear();
+      }
 
-    /**
-     *
-     * @param w
-     */
-    @Override
-    public void eat(World w) {
-        if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
-            setEnergy(getEnergy() + (new Random().nextInt(11) + 10) + w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
+      if (getEnergy() >= 100) {
+        mutate(w);
+      }
+      if (getOffspring() >= 3) {
+        setAlive(false);
+        w.getWorld()[getY()][getX()].setDeadCell(this);
+        w.getWorld()[getY()][getX()].setCell(null);
+      }
+    }
+  }
+
+  /**
+   * @param w
+   */
+  @Override
+  public void eat(World w) {
+    if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
+      setEnergy(getEnergy() + (new Random().nextInt(11) + 10) + w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
 //            if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
-                w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
-                w.getWorld()[getY()][getX()].setDeadCell(null);
-                w.getWorld()[getY()][getX()].getSugar().setAmount(10);
+      w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
+      w.getWorld()[getY()][getX()].setDeadCell(null);
+      w.getWorld()[getY()][getX()].getSugar().setAmount(10);
 //            }
 
-            setTargetFood(null);
-            getPath().clear();
+      setTargetFood(null);
+      getPath().clear();
 //            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());
-        }
     }
+  }
 
-    @Override
-    public int[] lookForFood(World w) {
-        // Cell type VULTURE is only interested in dead cells.
+  @Override
+  public int[] lookForFood(World w) {
+    // Cell type VULTURE is only interested in dead cells.
 //        System.out.println("Cell " + getGeneCode() + " looking for food from " + getX() + "," + getY() + "...");
-        int[] foodLocation = new int[2];
-        boolean found = false;
+    int[] foodLocation = new int[2];
+    boolean found = false;
         outterloop:
-        for (int v = 1; v <= getVision(); v++) {
-            for (int i = (getY() - v); i <= (getY() + v); i++) {
-                for (int j = (getX() - v); j <= (getX() + v); j++) {
-                    try {
+    for (int v = 1; v <= getVision(); v++) {
+      for (int i = (getY() - v); i <= (getY() + v); i++) {
+        for (int j = (getX() - v); j <= (getX() + v); j++) {
+          try {
 //                    System.out.print("(" + j + "," + i + ")");
-                        if (w.getWorld()[i][j].getDeadCell() != null) {
-                            foodLocation[0] = i; // Y
-                            foodLocation[1] = j; // X
-                            found = true;
-                            break outterloop;
-                        }
+            if (w.getWorld()[i][j].getDeadCell() != null) {
+              foodLocation[0] = i; // Y
+              foodLocation[1] = j; // X
+              found = true;
+              break outterloop;
+            }
 //                        else if (w.getWorld()[i][j].getCell() != null
 //                                && w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("predator")) {
 //                            
@@ -104,35 +103,39 @@ public class Vulture extends Cell {
 //                            break outterloop;
 //                        }
 
-                    } catch (ArrayIndexOutOfBoundsException ex) {
+          }
+          catch (ArrayIndexOutOfBoundsException ex) {
 
-                    }
-                }
+          }
+        }
 //            System.out.print("\n");
-            }
-        }
-        if (found) {
+      }
+    }
+    if (found) {
 //            System.out.println(getGeneCode() + " found food on " + foodLocation[0] + "," + foodLocation[1]);
-            return foodLocation;
-        } else {
+      return foodLocation;
+    }
+    else {
 //            System.out.println(getGeneCode() + " found no food.");
-            return null;
-        }
-
+      return null;
     }
 
-    @Override
-    public void mutate(World w) {
-        int[] childLocation = findFreeTile(w);
-        Vulture child = new Vulture(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0], (getEnergy() / 3), getVision(), getSpeed(), getEfficiency(), getColor(), getBiteSize());
-        try {
-            child.evolve();
-            w.getNewBornCells().add(child);
-            setOffspring(getOffspring() + 1);
-            setEnergy(getEnergy() / 3);
-        } catch (Exception ex) {
-            System.out.println(getGeneCode() + " failed to divide:\n" + ex);
-        }
+  }
+
+  @Override
+  public void mutate(World w) {
+    int[] childLocation = findFreeTile(w);
+    Vulture child = new Vulture(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0]);
+    child.inheritFrom(this);
+    try {
+      child.evolve();
+      w.getNewBornCells().add(child);
+      setOffspring(getOffspring() + 1);
+      setEnergy(getEnergy() / 3);
     }
+    catch (Exception ex) {
+      System.out.println(getGeneCode() + " failed to divide:\n" + ex);
+    }
+  }
 
 }

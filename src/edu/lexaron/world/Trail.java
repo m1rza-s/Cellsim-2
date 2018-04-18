@@ -5,34 +5,35 @@
  */
 package edu.lexaron.world;
 
+import edu.lexaron.cells.Cell;
+
 /**
- *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Trail {
 
-    private int amount;
-    private Cell source;
+  private int amount;
+  private Cell source;
 
-    public Trail(int amount, Cell source) {
-        this.amount = amount;
-        this.source = source;
-    }
+  public Trail(int amount, Cell source) {
+    this.amount = amount;
+    this.source = source;
+  }
 
-    public int getAmount() {
-        return amount;
-    }
+  public int getAmount() {
+    return amount;
+  }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
+  public void setAmount(int amount) {
+    this.amount = amount;
+  }
 
-    public Cell getSource() {
-        return source;
-    }
+  public Cell getSource() {
+    return source;
+  }
 
-    public void setSource(Cell source) {
-        this.source = source;
-    }
+  public void setSource(Cell source) {
+    this.source = source;
+  }
 
 }

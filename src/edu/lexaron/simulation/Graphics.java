@@ -6,9 +6,8 @@
 package edu.lexaron.simulation;
 
 /**
- *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Graphics {
-    // Eventually move all GFX related methods here.
+  // Eventually move all GFX related methods here.
 }

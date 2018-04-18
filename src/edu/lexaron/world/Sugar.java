@@ -6,57 +6,51 @@
 package edu.lexaron.world;
 
 /**
- *
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Sugar {
 
-    private double amount;
-    private final int x;
-    private final int y;
+  private final int x;
+  private final int y;
+  private double amount;
 
-    /**
-     *
-     * @param x
-     * @param y
-     * @param amount
-     */
-    public Sugar(int x, int y, int amount) {
-        this.amount = amount;
-        this.x = x;
-        this.y = y;
-    }
+  /**
+   * @param x
+   * @param y
+   * @param amount
+   */
+  public Sugar(int x, int y, int amount) {
+    this.amount = amount;
+    this.x = x;
+    this.y = y;
+  }
 
-    /**
-     *
-     * @param amount
-     */
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+  /**
+   * @return
+   */
+  public double getAmount() {
+    return amount;
+  }
 
-    /**
-     *
-     * @return
-     */
-    public double getAmount() {
-        return amount;
-    }
+  /**
+   * @param amount
+   */
+  public void setAmount(double amount) {
+    this.amount = amount;
+  }
 
-    /**
-     *
-     * @return
-     */
-    public int getX() {
-        return x;
-    }
+  /**
+   * @return
+   */
+  public int getX() {
+    return x;
+  }
 
-    /**
-     *
-     * @return
-     */
-    public int getY() {
-        return y;
-    }
+  /**
+   * @return
+   */
+  public int getY() {
+    return y;
+  }
 
 }
