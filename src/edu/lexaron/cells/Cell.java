@@ -8,7 +8,8 @@ package edu.lexaron.cells;
 import edu.lexaron.world.Trail;
 import edu.lexaron.world.World;
 
-import java.util.LinkedList;
+import java.security.SecureRandom;
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
 
@@ -17,15 +18,16 @@ import java.util.Random;
  */
 public abstract class Cell {
 
+  private final static Random RANDOM = new SecureRandom();
   private final String color;
   private final int movement;
-  private final Queue<Integer> path = new LinkedList();
+  private final Queue<Integer> path = new ArrayDeque<>();
   private boolean alive;
-  private String geneCode;
   private double energy; // if > 0, alive
   private double speed;
   private double efficiency;
   private double biteSize;
+  private int[] targetFood = null;
   private int x;
   private int y; // position
   private int vision;
@@ -33,9 +35,9 @@ public abstract class Cell {
   private int offspring = 0;
   private int oppositeRandomStep;
   private int lastRandomStep;
-  private int[] targetFood = null;
+  private String geneCode;
 
-  public Cell(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
+  protected Cell(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
     this.geneCode = ID;
     this.x = x;
     this.y = y;
@@ -55,6 +57,11 @@ public abstract class Cell {
 
   public abstract int[] lookForFood(World w);
   public abstract void mutate(World w);
+  public abstract Breed getBreed();
+
+  static Random getRandom() {
+    return RANDOM;
+  }
 
   public void hunt(World w) {
     // CELL TYPE DEPENDANT
@@ -110,8 +117,8 @@ public abstract class Cell {
     int rx, ry;
     boolean found = false;
     while (!found) {
-      rx = new Random().nextInt(((x + vision) - (x - vision)) + 1) + (x - vision);
-      ry = new Random().nextInt(((y + vision) - (y - vision)) + 1) + (y - vision);
+      rx = getRandom().nextInt(((x + vision) - (x - vision)) + 1) + (x - vision);
+      ry = getRandom().nextInt(((y + vision) - (y - vision)) + 1) + (y - vision);
       if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
         if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
           loc[0] = ry;
@@ -124,7 +131,7 @@ public abstract class Cell {
   }
 
   public void evolve() {
-    switch (new Random().nextInt(5)) {
+    switch (getRandom().nextInt(5)) {
       case 0:
 //                    System.out.println(getGeneCode() + " MUTATION! +1 vision");
         mutateVision();
@@ -178,10 +185,6 @@ public abstract class Cell {
     return vision;
   }
 
-  public Queue<Integer> getPath() {
-    return path;
-  }
-
   public double getSpeed() {
     return speed;
   }
@@ -208,6 +211,14 @@ public abstract class Cell {
 
   public double getBiteSize() {
     return biteSize;
+  }
+
+  public void inheritFrom(Cell parent) {
+    setEnergy(parent.getEnergy() / 3);
+    setVision(parent.getVision());
+    setSpeed(parent.getSpeed());
+    setEfficiency(parent.getEfficiency());
+    setBiteSize(parent.getBiteSize());
   }
 
   void findPathTo(int[] targetLocation) {
@@ -273,9 +284,9 @@ public abstract class Cell {
   }
 
   void randomStep(World w) {
-    int roll = new Random().nextInt(5);
+    int roll = getRandom().nextInt(5);
     while (roll == oppositeRandomStep && roll == lastRandomStep) {
-      roll = new Random().nextInt(5);
+      roll = getRandom().nextInt(5);
     }
     switch (roll) {
       case 0:
@@ -409,20 +420,24 @@ public abstract class Cell {
 
   }
 
-  String getGeneCode() {
-    return geneCode;
-  }
-
   void setTargetFood(int[] targetFood) {
     this.targetFood = targetFood;
   }
 
-  int getOffspring() {
-    return offspring;
-  }
-
   void setOffspring(int offspring) {
     this.offspring = offspring;
+  }
+
+  Queue<Integer> getPath() {
+    return path;
+  }
+
+  String getGeneCode() {
+    return geneCode;
+  }
+
+  int getOffspring() {
+    return offspring;
   }
 
   private void mutateVision() {
@@ -463,14 +478,6 @@ public abstract class Cell {
 
   private void setSpeed(double speed) {
     this.speed = speed;
-  }
-
-  public void inheritFrom(Cell parent) {
-    setEnergy(parent.getEnergy() / 3);
-    setVision(parent.getVision());
-    setSpeed(parent.getSpeed());
-    setEfficiency(parent.getEfficiency());
-    setBiteSize(parent.getBiteSize());
   }
 
   private void setBiteSize(double biteSize) {

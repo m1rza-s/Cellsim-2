@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,16 +29,18 @@ import java.util.TimerTask;
  */
 public class Engine {
 
-  final Monitor monitor = new Monitor();
 
   // height, width
-  private final int height = 200;
-  private final int width = 330;
-  private final double globalScale = 5;
-  private final World world = new World(width, height);
+  private static final int HEIGHT = 200;
+  private static final int WIDTH = 330;
+  private static final double GLOBAL_SCALE = 5.0;
+  private static final Random RANDOM = new SecureRandom();
+  
+  private final Monitor monitor = new Monitor();
+  private final World world = new World(WIDTH, HEIGHT);
   private final Life life = new Life(world);
   private final VBox infoPanel = new VBox();
-  private final double sugarFactor = new Random().nextInt(100);
+  private final double sugarFactor = RANDOM.nextInt(100);
   private Canvas canvas;
   private GraphicsContext gc;
   private Timer timer;
@@ -55,18 +58,18 @@ public class Engine {
    */
   public void startThread(BorderPane root) {
     root.setRight(infoPanel);
-    this.timer = new Timer();
+    timer = new Timer();
     canvas.setCache(true);
     canvas.setCacheHint(CacheHint.SPEED);
 
     // ID, x, y, energy, vision, speed, efficiency, color, bitesize
-    Vulture v = new Vulture("V", new Random().nextInt(width), new Random().nextInt(height));
-    HuntFirst f = new HuntFirst("F", new Random().nextInt(width), new Random().nextInt(height));
-    HuntLargest l = new HuntLargest("L", new Random().nextInt(width), new Random().nextInt(height));
-    HuntClosest c = new HuntClosest("C", new Random().nextInt(width), new Random().nextInt(height));
-    Predator p = new Predator("P", new Random().nextInt(width), new Random().nextInt(height));
-    Tree t = new Tree("T", new Random().nextInt(width), new Random().nextInt(height));
-    Leech e = new Leech("L", new Random().nextInt(width), new Random().nextInt(height));
+    Vulture     v = new Vulture     ("V", RANDOM.nextInt(WIDTH), RANDOM.nextInt(HEIGHT));
+    HuntFirst   f = new HuntFirst   ("F", RANDOM.nextInt(WIDTH), RANDOM.nextInt(HEIGHT));
+    HuntLargest l = new HuntLargest ("L", RANDOM.nextInt(WIDTH), RANDOM.nextInt(HEIGHT));
+    HuntClosest c = new HuntClosest ("C", RANDOM.nextInt(WIDTH), RANDOM.nextInt(HEIGHT));
+    Predator    p = new Predator    ("P", RANDOM.nextInt(WIDTH), RANDOM.nextInt(HEIGHT));
+    Tree        t = new Tree        ("T", RANDOM.nextInt(WIDTH), RANDOM.nextInt(HEIGHT));
+    Leech       e = new Leech       ("L", RANDOM.nextInt(WIDTH), RANDOM.nextInt(HEIGHT));
     world.getNewBornCells().add(v);
     world.getNewBornCells().add(f);
     world.getNewBornCells().add(l);
@@ -84,7 +87,7 @@ public class Engine {
     infoPanel.setCache(true);
     infoPanel.setCacheHint(CacheHint.SPEED);
 
-    Thread lifeThread = new Thread(life);
+    Runnable lifeThread = new Thread(life);
 
     TimerTask timerTask = new TimerTask() {
       @Override
@@ -99,10 +102,7 @@ public class Engine {
           gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 //                    paintGrid();
           paintWorld();
-          for (Object o : world.getAllCells()) {
-            Cell c = (Cell) o;
-            paintCells(c);
-          }
+          world.getAllCells().forEach(cell -> paintCells(cell));
           synchronized (world) {
             world.notifyAll();
           }
@@ -126,11 +126,11 @@ public class Engine {
           totalCells.setText("Total: " + monitor.countAllCells(world));
           totalSugar.setText("Sugar in world: " + sugar);
           sugar = 0;
-          if (generations % 25 == 0) {
-            for (int i = 0; i < (new Random().nextInt(1000)); i++) {
-              world.newFood();
-            }
-          }
+//          if (generations % 25 == 0) {
+//            for (int i = 0; i < (RANDOM.nextInt(1000)); i++) {
+//              world.newFood();
+//            }
+//          }
           // END OF UI UPDATE //
 //                    System.out.println("\t" + generations);
 
@@ -172,7 +172,7 @@ public class Engine {
         else {
           gc.setFill(Color.web("#331a00"));
         }
-        gc.fillRect((j - 0.5) * globalScale, (i - 0.5) * globalScale, 5, 5);
+        gc.fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
         gc.setGlobalAlpha(0.5);
         if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
 
@@ -193,7 +193,7 @@ public class Engine {
           else if (trailTemp < 20 && trailTemp > 0) {
             gc.setGlobalAlpha(0.1);
           }
-          gc.fillRect((j - 0.5) * globalScale, (i - 0.5) * globalScale, 5, 5);
+          gc.fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
 
         }
       }
@@ -209,11 +209,11 @@ public class Engine {
     else if (c.isAlive()) {
       gc.setFill(Color.web(c.getColor()));
       gc.setGlobalAlpha(0.1);
-      gc.fillRect(
-          (c.getX() - c.getVision() - 0.25) * globalScale,
-          (c.getY() - c.getVision() - 0.25) * globalScale,
-          ((c.getVision() * 2) + 1) * globalScale,
-          ((c.getVision() * 2) + 1) * globalScale);
+//      gc.fillRect(
+//          (c.getX() - c.getVision() - 0.25) * globalScale,
+//          (c.getY() - c.getVision() - 0.25) * globalScale,
+//          ((c.getVision() * 2) + 1) * globalScale,
+//          ((c.getVision() * 2) + 1) * globalScale);
 //            gc.setFill(Color.web(c.getColor()));
       double a = c.getEnergy();
       gc.setGlobalAlpha(1);
@@ -231,37 +231,34 @@ public class Engine {
       }
       paintCellGFX(c);
       gc.setStroke(Color.web(c.getColor()));
-      gc.fillText((int) c.getEnergy() + "", (c.getX() - 3) * globalScale, (c.getY() - 1.5) * globalScale);
+      gc.fillText((int) c.getEnergy() + "", (c.getX() - 3) * GLOBAL_SCALE, (c.getY() - 1.5) * GLOBAL_SCALE);
       paintTargetLine(c);
     }
     gc.restore();
   }
 
-  private void paintCellGFX(Cell c) {
-    switch (c.getClass().getSimpleName()) {
-      case "Tree":
-        gc.drawImage(tree, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+  private void paintCellGFX(Cell cell) {
+    switch (cell.getBreed()) {
+      case TREE:
+        gc.drawImage(tree, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
-      case "Vulture":
-        gc.drawImage(vulture, (c.getX() - 3) * globalScale, (c.getY() - 1.5) * globalScale);
+      case VULTURE:
+        gc.drawImage(vulture, (cell.getX() - 3) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
-      case "Predator":
-        gc.drawImage(predator, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+      case PREDATOR:
+        gc.drawImage(predator, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
-      case "HuntClosest":
-        gc.drawImage(huntClosest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+      case HUNT_CLOSEST:
+        gc.drawImage(huntClosest, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
-      case "HuntLargest":
-        gc.drawImage(huntLargest, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+      case HUNT_LARGEST:
+        gc.drawImage(huntLargest, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
-      case "HuntFirst":
-        gc.drawImage(huntFirst, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
+      case HUNT_FIRST:
+        gc.drawImage(huntFirst, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
-      case "Leech":
-        gc.drawImage(leech, (c.getX() - 1.5) * globalScale, (c.getY() - 1.5) * globalScale);
-        break;
-      default:
-        gc.fillOval((c.getX() - 0.25) * globalScale, (c.getY() - 0.25) * globalScale, 6, 6);
+      case LEECH:
+        gc.drawImage(leech, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
     }
     gc.restore();
@@ -269,11 +266,11 @@ public class Engine {
 
   private void paintGrid() {
     gc.setStroke(Color.web("#1a1a1a"));
-    for (int i = 5; i < width * globalScale; i += 5) {
-      gc.strokeLine(i, 0, i, height * globalScale);
+    for (int i = 5; i < WIDTH * GLOBAL_SCALE; i += 5) {
+      gc.strokeLine(i, 0, i, HEIGHT * GLOBAL_SCALE);
     }
-    for (int i = 5; i < height * globalScale; i += 5) {
-      gc.strokeLine(0, i, width * globalScale, i);
+    for (int i = 5; i < HEIGHT * GLOBAL_SCALE; i += 5) {
+      gc.strokeLine(0, i, WIDTH * GLOBAL_SCALE, i);
     }
     gc.restore();
   }
@@ -286,8 +283,8 @@ public class Engine {
       gc.setGlobalAlpha(2);
       gc.setStroke(Color.web(c.getColor()));
       gc.strokeLine(
-          (c.getX() + 0.25) * globalScale, (c.getY() + 0.25) * globalScale,
-          (c.getTargetFood()[1] + 0.25) * globalScale, (c.getTargetFood()[0] + 0.25) * globalScale
+          (c.getX() + 0.25) * GLOBAL_SCALE, (c.getY() + 0.25) * GLOBAL_SCALE,
+          (c.getTargetFood()[1] + 0.25) * GLOBAL_SCALE, (c.getTargetFood()[0] + 0.25) * GLOBAL_SCALE
       );
     }
     gc.restore();
@@ -324,14 +321,14 @@ public class Engine {
    * @return
    */
   public int getWidth() {
-    return width;
+    return WIDTH;
   }
 
   /**
    * @return
    */
   public int getHeight() {
-    return height;
+    return HEIGHT;
   }
 
   /**

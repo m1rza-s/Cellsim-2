@@ -24,10 +24,7 @@ import javafx.stage.Stage;
  */
 public class CellSIM extends Application {
 
-  Stage window;
-  Scene mainScene;
-  Monitor m = new Monitor();
-  Engine run = new Engine();
+  private final Engine run = new Engine();
 
   /**
    * @param args the command line arguments
@@ -38,9 +35,8 @@ public class CellSIM extends Application {
 
   @Override
   public void start(Stage primaryStage) throws InterruptedException {
-    window = primaryStage;
-    window.setTitle("CellSIM V.08");
-    window.setOnCloseRequest(e -> Platform.exit());
+    primaryStage.setTitle("CellSIM V.08");
+    primaryStage.setOnCloseRequest(e -> Platform.exit());
 
     BorderPane root = new BorderPane();
     root.getStyleClass().add("backgroundColor");
@@ -132,13 +128,13 @@ public class CellSIM extends Application {
     root.setTop(menu);
     root.setCenter(spc);
 
-    mainScene = new Scene(root, 1000, 800);
+    Scene mainScene = new Scene(root, 1000, 800);
     mainScene.getStylesheets().add("style/style.css");
 
-    window.setScene(mainScene);
-    window.setMaximized(true);
-    window.setFullScreen(true);
-    window.show();
+    primaryStage.setScene(mainScene);
+    primaryStage.setMaximized(true);
+    primaryStage.setFullScreen(true);
+    primaryStage.show();
 
     // LISTENERS
   }

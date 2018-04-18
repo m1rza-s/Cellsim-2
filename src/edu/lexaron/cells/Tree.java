@@ -7,15 +7,18 @@ package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
 
-import java.util.Random;
-
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Tree extends Cell {
 
   public Tree(String ID, int x, int y) {
-    super(ID, x, y, 50, 10, 1, 0.5, "#ffffff", 0.5);
+    super(ID, x, y, 50, 10, 1, 0.1, "#ffffff", 0.2);
+  }
+
+  @Override
+  public Breed getBreed() {
+    return Breed.TREE;
   }
 
   @Override
@@ -81,8 +84,8 @@ public class Tree extends Cell {
     boolean found = false;
     int rx, ry;
 
-    rx = new Random().nextInt(((getX() + getVision()) - (getX() - getVision())) + 1) + (getX() - getVision());
-    ry = new Random().nextInt(((getY() + getVision()) - (getY() - getVision())) + 1) + (getY() - getVision());
+    rx = getRandom().nextInt(((getX() + getVision()) - (getX() - getVision())) + 1) + (getX() - getVision());
+    ry = getRandom().nextInt(((getY() + getVision()) - (getY() - getVision())) + 1) + (getY() - getVision());
     try {
       if ((rx < w.getWidth() && ry < w.getHeight() && rx >= 0 && ry >= 0)
           && (w.getWorld()[ry][rx].getSugar().getAmount() > 0)) {
@@ -90,7 +93,7 @@ public class Tree extends Cell {
         foodLocation[1] = rx;
         found = true;
       }
-      else if ((rx < w.getWidth() && ry < w.getHeight() && rx >= 0 && ry >= 0) && !found && new Random().nextInt(3) == 2) {
+      else if ((rx < w.getWidth() && ry < w.getHeight() && rx >= 0 && ry >= 0) && !found && getRandom().nextInt(3) == 2) {
         w.getWorld()[ry][rx].getSugar().setAmount(3);
       }
     }
@@ -129,8 +132,8 @@ public class Tree extends Cell {
     int rx, ry;
     boolean found = false;
     while (!found) {
-      rx = new Random().nextInt(((getX() + (getVision() * 2)) - (getX() - (getVision() * 2))) + 1) + (getX() - (getVision() * 2));
-      ry = new Random().nextInt(((getY() + (getVision() * 2)) - (getY() - (getVision() * 2))) + 1) + (getY() - (getVision() * 2));
+      rx = getRandom().nextInt(((getX() + (getVision() * 2)) - (getX() - (getVision() * 2))) + 1) + (getX() - (getVision() * 2));
+      ry = getRandom().nextInt(((getY() + (getVision() * 2)) - (getY() - (getVision() * 2))) + 1) + (getY() - (getVision() * 2));
       if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
         if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
           loc[0] = ry;

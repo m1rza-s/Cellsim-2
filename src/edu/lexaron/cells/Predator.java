@@ -15,6 +15,11 @@ public class Predator extends Cell {
     super(ID, x, y, 50, 5, 1, 0.33, "#ff0000", 1);
   }
 
+  @Override
+  public Breed getBreed() {
+    return Breed.PREDATOR;
+  }
+
   /**
    * @param w
    */
@@ -63,9 +68,10 @@ public class Predator extends Cell {
       for (int j = (getX() - 1); j <= (getX() + 1); j++) {
         try {
           if (w.getWorld()[i][j].getCell() != null
-              && w.getWorld()[i][j].getCell() != this
-              && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase(getClass().getSimpleName()) //                            && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("vulture")
-              && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree")
+              && !w.getWorld()[i][j].getCell().equals(this)
+              && w.getWorld()[i][j].getCell().getBreed() != getBreed()
+//              && w.getWorld()[i][j].getCell().getBreed() != Breed.VULTURE
+//              && w.getWorld()[i][j].getCell().getBreed() != Breed.TREE
               ) {
             setEnergy(getEnergy() + (w.getWorld()[i][j].getCell().getEnergy() / 2));
             w.getWorld()[i][j].getCell().setAlive(false);
@@ -104,8 +110,9 @@ public class Predator extends Cell {
           try {
 //                    System.out.print("(" + j + "," + i + ")");
             if (w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell().isAlive()) {
-              if (!w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase(this.getClass().getSimpleName())
-//                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("tree") //                                    && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("vulture")
+              if (w.getWorld()[i][j].getCell().getBreed() != getBreed()
+//              && w.getWorld()[i][j].getCell().getBreed() != Breed.VULTURE
+//              && w.getWorld()[i][j].getCell().getBreed() != Breed.TREE
                   ) {
                 foodLocation[0] = i; // Y
                 foodLocation[1] = j; // X
@@ -113,8 +120,9 @@ public class Predator extends Cell {
                 break outterloop;
               }
             }
-            else if (w.getWorld()[i][j].getTrail().getSource() != null && !w.getWorld()[i][j].getTrail().getSource().getClass().getSimpleName().equalsIgnoreCase(this.getClass().getSimpleName())
-                //                                && !w.getWorld()[i][j].getTrail().getSource().getClass().getSimpleName().equalsIgnoreCase("vulture")
+            else if (w.getWorld()[i][j].getTrail().getSource() != null
+                && w.getWorld()[i][j].getTrail().getSource().getBreed() != getBreed()
+//              && w.getWorld()[i][j].getCell().getBreed() != Breed.VULTURE
                 && w.getWorld()[i][j].getTrail().getAmount() > foundSmell) {
               foundSmell = w.getWorld()[i][j].getTrail().getAmount();
               foodLocation[0] = i; // Y

@@ -15,6 +15,11 @@ public class HuntClosest extends Cell {
     super(ID, x, y, 95, 3, 1, 1, "#ff33ff", 1);
   }
 
+  @Override
+  public Breed getBreed() {
+    return Breed.HUNT_CLOSEST;
+  }
+
   /**
    * @param w
    * @return

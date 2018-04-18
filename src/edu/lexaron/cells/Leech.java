@@ -13,7 +13,12 @@ import edu.lexaron.world.World;
 public class Leech extends Cell {
 
   public Leech(String ID, int x, int y) {
-    super(ID, x, y, 50, 5, 3, 0.1, "#0000ff", 0.5);
+    super(ID, x, y, 50, 5, 3, 0.25, "#0000ff", 0.5);
+  }
+
+  @Override
+  public Breed getBreed() {
+    return Breed.LEECH;
   }
 
   @Override
@@ -86,7 +91,7 @@ public class Leech extends Cell {
         for (int j = (getX() - v); j <= (getX() + v); j++) {
           try {
 //                    System.out.print("(" + j + "," + i + ")");        
-            if (w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell() != this && !w.getWorld()[i][j].getCell().getClass().getSimpleName().equals(this.getClass().getSimpleName())) {
+            if (w.getWorld()[i][j].getCell() != null && !w.getWorld()[i][j].getCell().equals(this) && w.getWorld()[i][j].getCell().getBreed() != getBreed()) {
               foodLocation[0] = i; // Y
               foodLocation[1] = j; // X
               found = true;
@@ -97,8 +102,9 @@ public class Leech extends Cell {
 //                            found = true;
 //                            break outterloop;
             }
-            else if (w.getWorld()[i][j].getTrail().getSource() != null && !w.getWorld()[i][j].getTrail().getSource().getClass().getSimpleName().equalsIgnoreCase(this.getClass().getSimpleName())
-                //                                && !w.getWorld()[i][j].getTrail().getSource().equalsIgnoreCase("vulture")
+            else if (w.getWorld()[i][j].getTrail().getSource() != null
+                && w.getWorld()[i][j].getTrail().getSource().getBreed() != getBreed()
+//                && !w.getWorld()[i][j].getTrail().getSource().equalsIgnoreCase("vulture")
                 && w.getWorld()[i][j].getTrail().getAmount() > foundSmell) {
               foundSmell = w.getWorld()[i][j].getTrail().getAmount();
               foodLocation[0] = i; // Y

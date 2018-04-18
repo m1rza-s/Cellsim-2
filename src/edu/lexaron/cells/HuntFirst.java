@@ -15,6 +15,11 @@ public class HuntFirst extends Cell {
     super(ID, x, y, 95, 3, 3, 1, "#66ff33", 1);
   }
 
+  @Override
+  public Breed getBreed() {
+    return Breed.HUNT_FIRST;
+  }
+
   /**
    * @param w
    * @return

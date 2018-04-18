@@ -5,7 +5,6 @@
  */
 package edu.lexaron.simulation;
 
-import edu.lexaron.cells.Cell;
 import edu.lexaron.world.World;
 
 /**
@@ -13,50 +12,37 @@ import edu.lexaron.world.World;
  */
 public class Life implements Runnable {
 
-  private final World w;
+  private final World world;
 
-  public Life(World w) {
-    this.w = w;
+  Life(World world) {
+    this.world = world;
   }
 
   /**
-   * @param w
    */
-  public void allLiveCellsHunt(World w) {
-    for (Object o : w.getNewBornCells()) {
-      Cell c = (Cell) o;
-//            System.out.println("NEW CELL: " + c.getGeneCode() + " @ (" + c.getX() + "," + c.getY() + ")");
-      w.getWorld()[c.getY()][c.getX()].setCell(c);
-    }
-    w.getAllCells().addAll(w.getNewBornCells());
-    w.getNewBornCells().clear();
+  private void allLiveCellsHunt() {
+    world.getNewBornCells().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setCell(cell));
+    world.getAllCells().addAll(world.getNewBornCells());
+    world.getNewBornCells().clear();
 
-    for (Object o : w.getEatenCorpses()) {
-      Cell c = (Cell) o;
-      w.getWorld()[c.getY()][c.getX()].setDeadCell(null);
-    }
-    w.getAllCells().removeAll(w.getEatenCorpses());
-    w.getEatenCorpses().clear();
+    world.getEatenCorpses().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setDeadCell(null));
+    world.getAllCells().removeAll(world.getEatenCorpses());
+    world.getEatenCorpses().clear();
 
-    for (Object o : w.getAllCells()) {
-      Cell c = (Cell) o;
-      c.hunt(w);
-    }
-    w.getAllCells().stream().map((java.lang.Object c1) -> (Cell) c1).forEach((java.lang.Object c2) -> {
-      Cell temp = (Cell) c2;
-      if (w.getWorld()[temp.getY()][temp.getX()].getCell() != null && !temp.isAlive()) {
-        w.getWorld()[temp.getY()][temp.getX()].setCell(null);
-        w.getWorld()[temp.getY()][temp.getX()].setDeadCell(temp);
+    world.getAllCells().forEach(cell -> cell.hunt(world));
+    world.getAllCells().forEach(cell -> {
+      if (world.getWorld()[cell.getY()][cell.getX()].getCell() != null && !cell.isAlive()) {
+        world.getWorld()[cell.getY()][cell.getX()].setCell(null);
+        world.getWorld()[cell.getY()][cell.getX()].setDeadCell(cell);
       }
-//                        paintCells((Cell) temp);
     });
 
   }
 
   @Override
   public void run() {
-    synchronized (w) {
-      allLiveCellsHunt(w);
+    synchronized (world) {
+      allLiveCellsHunt();
     }
   }
 

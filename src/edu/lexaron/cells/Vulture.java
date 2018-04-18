@@ -7,8 +7,6 @@ package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
 
-import java.util.Random;
-
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
@@ -16,6 +14,11 @@ public class Vulture extends Cell {
 
   public Vulture(String ID, int x, int y) {
     super(ID, x, y, 50, 3, 1, 0.5, "#33ffff", 1);
+  }
+
+  @Override
+  public Breed getBreed() {
+    return Breed.VULTURE;
   }
 
   /**
@@ -63,7 +66,7 @@ public class Vulture extends Cell {
   @Override
   public void eat(World w) {
     if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
-      setEnergy(getEnergy() + (new Random().nextInt(11) + 10) + w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
+      setEnergy(getEnergy() + (getRandom().nextInt(11) + 10) + w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
 //            if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
       w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
       w.getWorld()[getY()][getX()].setDeadCell(null);
@@ -94,9 +97,9 @@ public class Vulture extends Cell {
               found = true;
               break outterloop;
             }
-//                        else if (w.getWorld()[i][j].getCell() != null
-//                                && w.getWorld()[i][j].getCell().getClass().getSimpleName().equalsIgnoreCase("predator")) {
-//                            
+//           else if (w.getWorld()[i][j].getCell() != null
+//              && w.getWorld()[i][j].getCell().getBreed() != Breed.PREDATOR) {
+//
 //                            foodLocation[0] = i; // Y
 //                            foodLocation[1] = j; // X
 //                            found = true;

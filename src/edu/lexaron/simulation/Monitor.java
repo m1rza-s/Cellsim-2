@@ -16,17 +16,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.math.RoundingMode;
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Monitor {
+  private static final Random RANDOM = new SecureRandom(); 
 
-  private TreeSet<String> allBreeds = new TreeSet();
+  private final Set<Breed> allBreeds = new TreeSet<>();
 
   public int countSugar(World w) {
     int r = 0;
@@ -50,30 +53,16 @@ public class Monitor {
    * @param w
    * @return
    */
-  public int countLiveCells(World w) {
-    int r = 0;
-    for (Object o : w.getAllCells()) {
-      Cell c = (Cell) o;
-      if (c.isAlive()) {
-        r++;
-      }
-    }
-    return r;
+  public long countLiveCells(World w) {
+    return w.getAllCells().stream().filter(Cell::isAlive).count();
   }
 
   /**
    * @param w
    * @return
    */
-  public int countDeadCells(World w) {
-    int r = 0;
-    for (Object o : w.getAllCells()) {
-      Cell c = (Cell) o;
-      if (!c.isAlive()) {
-        r++;
-      }
-    }
-    return r;
+  public long countDeadCells(World w) {
+    return w.getAllCells().stream().filter(cell -> !cell.isAlive()).count();
   }
 
   /**
@@ -81,13 +70,7 @@ public class Monitor {
    * @return
    */
   public boolean worldHasLiveCells(World w) {
-    for (Object o : w.getAllCells()) {
-      Cell c = (Cell) o;
-      if (c.isAlive()) {
-        return true;
-      }
-    }
-    return false;
+    return w.getAllCells().stream().anyMatch(Cell::isAlive);
   }
 
   // Promjeni ovaj metod tako da u jednom polju:
@@ -117,14 +100,13 @@ public class Monitor {
 
     for (Iterator it = w.getAllCells().iterator(); it.hasNext(); ) {
       Cell c = (Cell) it.next();
-      if (!allBreeds.contains(c.getClass().getSimpleName())) {
-        allBreeds.add(c.getClass().getSimpleName());
+      if (!allBreeds.contains(c.getBreed())) {
+        allBreeds.add(c.getBreed());
       }
 
     }
 
-    for (Iterator i = allBreeds.iterator(); i.hasNext(); ) {
-      String breed = (String) i.next();
+    for (Breed breed : allBreeds) {
       countAlive = 0;
       totalEnergy = 0;
       totVision = 0;
@@ -135,21 +117,21 @@ public class Monitor {
       background = "";
       for (Iterator j = w.getAllCells().iterator(); j.hasNext(); ) {
         Cell c = (Cell) j.next();
-        if (c.isAlive() && c.getClass().getSimpleName().equalsIgnoreCase(breed)) {
+        if (c.isAlive() && c.getBreed() == breed) {
           countAlive++;
-          totalEnergy = totalEnergy + c.getEnergy();
+          totalEnergy += c.getEnergy();
           totVision += (c.getVision() * c.getVision());
-          avgEffi = avgEffi + c.getEfficiency();
-          avgSpeed = avgSpeed + c.getSpeed();
-          avgBiteSize = avgBiteSize + c.getBiteSize();
+          avgEffi += c.getEfficiency();
+          avgSpeed += c.getSpeed();
+          avgBiteSize += c.getBiteSize();
           background = c.getColor();
         }
       }
       if (countAlive > 0) {
         avgEnergy = totalEnergy / countAlive;
-        avgEffi = avgEffi / countAlive;
-        avgSpeed = avgSpeed / countAlive;
-        avgBiteSize = avgBiteSize / countAlive;
+        avgEffi /= countAlive;
+        avgSpeed /= countAlive;
+        avgBiteSize /= countAlive;
 
         Label countLive_L = new Label(breed + ", alive: " + countAlive);
         countLive_L.setTextFill(Color.web(background));
@@ -175,9 +157,9 @@ public class Monitor {
 
         HBox row1 = new HBox(10);
         row1.getChildren().add(countLive_L);
-        if (background.length() != 0) {
+//        if (background.length() != 0) {
 //                    row1.setStyle("-fx-text-fill: " + background);
-        }
+//        }
         row1.setAlignment(Pos.CENTER);
 
         HBox row2 = new HBox(10);
@@ -205,28 +187,25 @@ public class Monitor {
       else {
 //                System.out.println("\tDETECTED EXTINCT CELL: " + breed);
         switch (breed) {
-          case "Vulture":
-            w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
+          case VULTURE:
+            w.getNewBornCells().add(new Vulture("V", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
             break;
-          case "HuntFirst":
-            w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
+          case HUNT_FIRST:
+            w.getNewBornCells().add(new HuntFirst("F", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
             break;
-          case "HuntLargest":
-            w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
+          case HUNT_LARGEST:
+            w.getNewBornCells().add(new HuntLargest("L", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
             break;
-          case "HuntClosest":
-            w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
+          case HUNT_CLOSEST:
+            w.getNewBornCells().add(new HuntClosest("C", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
             break;
-          case "Predator":
-            w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
+          case PREDATOR:
+            w.getNewBornCells().add(new Predator("P", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
             break;
-          case "Tree":
-            w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-          case "Leech":
-            w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-            break;
-          default:
-            System.out.println("No such breed!");
+          case TREE:
+            w.getNewBornCells().add(new Tree("T", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
+          case LEECH:
+            w.getNewBornCells().add(new Leech("L", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
             break;
         }
       }
@@ -236,13 +215,13 @@ public class Monitor {
   }
 
   public void reseed(World w) {
-    w.getNewBornCells().add(new Vulture("V", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-    w.getNewBornCells().add(new Predator("P", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-    w.getNewBornCells().add(new HuntFirst("F", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-    w.getNewBornCells().add(new HuntLargest("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-    w.getNewBornCells().add(new HuntClosest("C", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-    w.getNewBornCells().add(new Tree("T", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
-    w.getNewBornCells().add(new Leech("L", new Random().nextInt(w.getWidth()), new Random().nextInt(w.getHeight())));
+    w.getNewBornCells().add(new Vulture("V", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
+    w.getNewBornCells().add(new Predator("P", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
+    w.getNewBornCells().add(new HuntFirst("F", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
+    w.getNewBornCells().add(new HuntLargest("L", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
+    w.getNewBornCells().add(new HuntClosest("C", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
+    w.getNewBornCells().add(new Tree("T", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
+    w.getNewBornCells().add(new Leech("L", RANDOM.nextInt(w.getWidth()), RANDOM.nextInt(w.getHeight())));
   }
 
 }
