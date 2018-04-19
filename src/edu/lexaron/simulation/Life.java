@@ -30,12 +30,13 @@ public class Life implements Runnable {
     world.getEatenCorpses().clear();
 
     world.getAllCells().forEach(cell -> cell.hunt(world));
-    world.getAllCells().forEach(cell -> {
-      if (world.getWorld()[cell.getY()][cell.getX()].getCell() != null && !cell.isAlive()) {
-        world.getWorld()[cell.getY()][cell.getX()].setCell(null);
-        world.getWorld()[cell.getY()][cell.getX()].setDeadCell(cell);
-      }
-    });
+
+//    world.getAllCells().forEach(cell -> {
+//      if (world.getWorld()[cell.getY()][cell.getX()].getCell() != null && !cell.isAlive()) {
+//        world.getWorld()[cell.getY()][cell.getX()].setCell(null);
+//        world.getWorld()[cell.getY()][cell.getX()].setDeadCell(cell);
+//      }
+//    });
 
   }
 

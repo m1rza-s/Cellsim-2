@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  */
 public class CellSIM extends Application {
 
-  private final Engine run = new Engine();
+  private final Engine engine = new Engine();
 
   /**
    * @param args the command line arguments
@@ -35,6 +35,7 @@ public class CellSIM extends Application {
   @Override
   public void start(Stage primaryStage) {
     primaryStage.setTitle("CellSIM V.10");
+    //noinspection CallToSystemExit
     primaryStage.setOnCloseRequest(e -> System.exit(0));
 
     BorderPane root = new BorderPane();
@@ -52,7 +53,7 @@ public class CellSIM extends Application {
     stats.setPadding(new Insets(5, 5, 5, 5));
     stats.setSpacing(20);
 
-    Canvas canvas = new Canvas(run.getWidth() * 5, run.getHeight() * 5);
+    Canvas canvas = new Canvas(engine.getWidth() * 5, engine.getHeight() * 5);
     StackPane spc = new StackPane(canvas);
     spc.setAlignment(Pos.CENTER);
 
@@ -60,7 +61,7 @@ public class CellSIM extends Application {
     sp.setPadding(new Insets(20));
     sp.setAlignment(Pos.TOP_CENTER);
 
-    Label sugarFactor_L = new Label("Initial sugar factor: " + String.valueOf(run.getSugarFactor()) + "%");
+    Label sugarFactor_L = new Label("Initial sugar factor: " + String.valueOf(engine.getSugarFactor()) + "%");
     Label counter = new Label();
     counter.getStyleClass().add("accentText");
 
@@ -78,28 +79,28 @@ public class CellSIM extends Application {
 
     Button start = new Button("Start");
     start.setOnAction(e -> {
-      run.startThread(root);
+      engine.startThread(root);
       System.out.println("Simulation started...");
       start.setDisable(true);
     });
     Button generateWorld = new Button("Spawn new cells & reset sugar");
     generateWorld.setOnAction(e -> {
-      run.setCanvas(canvas);
-      run.setup(true);
+      engine.setCanvas(canvas);
+      engine.setup(true);
 
-      run.setGens(counter);
-      run.setAlive(liveCells);
-      run.setDead(deadCells);
-      run.setTotal(totalCells);
-      run.setTotalSugar(totalSugar);
-      run.paintWorld();
+      engine.setGens_L(counter);
+      engine.setAlive(liveCells);
+      engine.setDead(deadCells);
+      engine.setTotal(totalCells);
+      engine.setSugar_L(totalSugar);
+      engine.paintWorld();
 
     });
     // STRUCTURING
     menuRow1.getChildren().addAll(
         sugarFactor_L,
-        new Label("World Size: " + run.getWorld().getHeight() + "x" + run.getWorld().getWidth()),
-        new Label("No. of Tiles: " + (run.getWorld().getHeight() * run.getWorld().getWidth())),
+        new Label("World Size: " + engine.getWorld().getHeight() + "x" + engine.getWorld().getWidth()),
+        new Label("No. of Tiles: " + (engine.getWorld().getHeight() * engine.getWorld().getWidth())),
         counter,
         liveCells,
         deadCells,
@@ -115,14 +116,14 @@ public class CellSIM extends Application {
         stats
     );
 
-    run.setCanvas(canvas);
-    run.setup(false);
+    engine.setCanvas(canvas);
+    engine.setup(false);
 
-    run.setGens(counter);
-    run.setAlive(liveCells);
-    run.setDead(deadCells);
-    run.setTotal(totalCells);
-    run.setTotalSugar(totalSugar);
+    engine.setGens_L(counter);
+    engine.setAlive(liveCells);
+    engine.setDead(deadCells);
+    engine.setTotal(totalCells);
+    engine.setSugar_L(totalSugar);
     // Display!
     root.setTop(menu);
     root.setCenter(spc);

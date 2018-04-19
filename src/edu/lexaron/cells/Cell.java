@@ -58,6 +58,7 @@ public abstract class Cell {
   public abstract int[] lookForFood(World w);
   public abstract void mutate(World w);
   public abstract Breed getBreed();
+  public abstract void doHunt(World w);
 
   static Random getRandom() {
     return RANDOM;
@@ -65,46 +66,16 @@ public abstract class Cell {
 
   public void hunt(World w) {
     // CELL TYPE DEPENDANT
-    if (this.isAlive()) {
-      upkeep(w);
-      if (path.isEmpty()) {
-        if (w.getWorld()[y][x].getSugar().getAmount() <= 0) {
-          targetFood = lookForFood(w);
-          if (targetFood != null) {
-            findPathTo(targetFood);
-            usePath(w);
-          }
-          else {
-            for (int i = 1; i <= speed; i++) {
-              moveLeft(w);
-              randomStep(w);
-            }
-          }
-        }
-        else {
-          eat(w);
-        }
-      }
-      else {
-        usePath(w);
-      }
+    upkeep(w);
+    doHunt(w);
 
-      if (energy >= 100) {
-        mutate(w);
-      }
-      if (offspring >= 3) {
-        alive = false;
-        w.getWorld()[y][x].setDeadCell(this);
-        w.getWorld()[y][x].setCell(null);
-      }
-    }
   }
 
   public void eat(World w) {
     //((targetFood[0] >= y-vision && targetFood[0] <= y+vision) && (targetFood[1] >= x-vision && targetFood[1] <= x+vision)) &&
     if (w.getWorld()[y][x].getSugar().getAmount() > 0) {
-      energy = energy + biteSize;
       w.getWorld()[y][x].getSugar().setAmount(w.getWorld()[y][x].getSugar().getAmount() - biteSize);
+      energy += biteSize;
       //            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());
     }
     else {
@@ -255,7 +226,6 @@ public abstract class Cell {
       w.getWorld()[y][x].setDeadCell(this);
       w.getWorld()[y][x].setCell(null);
     }
-    energy = energy - ((efficiency) / 5);
   }
 
   void usePath(World w) {
@@ -484,7 +454,7 @@ public abstract class Cell {
     this.biteSize = biteSize;
   }
 
-  private void moveLeft(World w) { // code 9
+  protected void moveLeft(World w) { // code 9
     try {
       //(x - movement) >= 0 &&
       if (w.getWorld()[y][x - movement].getCell() == null) {

@@ -25,10 +25,8 @@ public class Vulture extends Cell {
    * @param w
    */
   @Override
-  public void hunt(World w) {
-    // CELL TYPE DEPENDANT
-    if (this.isAlive()) {
-      upkeep(w);
+  public void doHunt(World w) {
+    if (isAlive()) {
       if (getPath().isEmpty()) {
         setTargetFood(lookForFood(w));
         if (getTargetFood() != null) {
@@ -41,7 +39,7 @@ public class Vulture extends Cell {
       }
       if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell() != null) {
         usePath(w);
-        if (getPath().isEmpty()) {
+        if (getTargetFood()[0] == getY() && getTargetFood()[1] == getX()) {
           eat(w);
         }
       }
@@ -66,13 +64,11 @@ public class Vulture extends Cell {
   @Override
   public void eat(World w) {
     if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
-      setEnergy(getEnergy() + (getRandom().nextInt(11) + 10) + w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
+      setEnergy(getEnergy() +  w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
 //            if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
       w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
-      w.getWorld()[getY()][getX()].setDeadCell(null);
       w.getWorld()[getY()][getX()].getSugar().setAmount(10);
 //            }
-
       setTargetFood(null);
       getPath().clear();
 //            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());

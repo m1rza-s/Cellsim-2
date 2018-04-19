@@ -12,12 +12,48 @@ import edu.lexaron.world.World;
  */
 public class HuntLargest extends Cell {
   public HuntLargest(String ID, int x, int y) {
-    super(ID, x, y, 95, 3, 2, 1, "#ffff33", 1);
+    super(ID, x, y, 50, 3, 2, 1, "#ffff33", 1);
   }
 
   @Override
   public Breed getBreed() {
     return Breed.HUNT_LARGEST;
+  }
+
+  @Override
+  public void doHunt(World w) {
+    if (isAlive()) {
+      if (getPath().isEmpty()) {
+        if (w.getWorld()[getY()][getX()].getSugar().getAmount() <= 0) {
+          setTargetFood(lookForFood(w));
+          if (getTargetFood() != null) {
+            findPathTo(getTargetFood());
+            usePath(w);
+          }
+          else {
+            for (int i = 1; i <= getSpeed(); i++) {
+              moveLeft(w);
+              randomStep(w);
+            }
+          }
+        }
+        else {
+          eat(w);
+        }
+      }
+      else {
+        usePath(w);
+      }
+
+      if (getEnergy() >= 100) {
+        mutate(w);
+      }
+      if (getOffspring() >= 3) {
+        setAlive(false);
+        w.getWorld()[getY()][getX()].setDeadCell(this);
+        w.getWorld()[getY()][getX()].setCell(null);
+      }
+    }
   }
 
   /**

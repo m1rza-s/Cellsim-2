@@ -44,13 +44,13 @@ public class Engine {
   private Canvas canvas;
   private GraphicsContext gc;
   private Timer timer;
-  private Label gens;
-  private Label aliveCells;
-  private Label totalDeadCells;
-  private Label totalCells;
-  private Label totalSugar;
+  private Label gens_L;
+  private Label liveCells_L;
+  private Label deadCells_L;
+  private Label cells_L;
+  private Label sugar_L;
   private int generations = 0;
-  private int sugar = 0;
+  private int totalSugar = 0;
   private Image vulture, predator, tree, huntClosest, huntLargest, huntFirst, leech;
 
   /**
@@ -120,17 +120,12 @@ public class Engine {
             System.out.println("Simulation stopped: No more live cells");
           }
           generations++;
-          gens.setText(generations + " generations");
-          aliveCells.setText("Alive: " + monitor.countLiveCells(world));
-          totalDeadCells.setText("Dead: " + monitor.countDeadCells(world));
-          totalCells.setText("Total: " + monitor.countAllCells(world));
-          totalSugar.setText("Sugar in world: " + sugar);
-          sugar = 0;
-//          if (generations % 25 == 0) {
-//            for (int i = 0; i < (RANDOM.nextInt(1000)); i++) {
-//              world.newFood();
-//            }
-//          }
+          gens_L.setText(generations + " generations");
+          liveCells_L.setText("Alive: " + monitor.countLiveCells(world));
+          deadCells_L.setText("Dead: " + monitor.countDeadCells(world));
+          cells_L.setText("Total: " + monitor.countAllCells(world));
+          sugar_L.setText("Sugar in world: " + totalSugar);
+          totalSugar = 0;
           // END OF UI UPDATE //
 //                    System.out.println("\t" + generations);
 
@@ -149,11 +144,11 @@ public class Engine {
       for (int j = 0; j < world.getWidth(); j++) {
         world.getWorld()[i][j].getTrail().setAmount(world.getWorld()[i][j].getTrail().getAmount() - 1);
         gc.setGlobalAlpha(0.25);
-        sugar += world.getWorld()[i][j].getSugar().getAmount();
+        totalSugar += world.getWorld()[i][j].getSugar().getAmount();
         if (world.getWorld()[i][j].getSugar().getAmount() < 0) {
           world.getWorld()[i][j].getSugar().setAmount(0);
         }
-        int sugarTemp = (int) world.getWorld()[i][j].getSugar().getAmount();
+        double sugarTemp = world.getWorld()[i][j].getSugar().getAmount();
         if (sugarTemp >= 10) {
           gc.setFill(Color.web("#ffff00"));
         }
@@ -172,7 +167,8 @@ public class Engine {
         else {
           gc.setFill(Color.web("#331a00"));
         }
-        gc.fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
+        gc.setGlobalAlpha(0.1);
+        gc.fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 10, 10);
         gc.setGlobalAlpha(0.5);
         if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
 
@@ -334,29 +330,29 @@ public class Engine {
   /**
    * @param l
    */
-  public void setGens(Label l) {
-    this.gens = l;
+  public void setGens_L(Label l) {
+    this.gens_L = l;
   }
 
   /**
    * @param alive
    */
   public void setAlive(Label alive) {
-    this.aliveCells = alive;
+    this.liveCells_L = alive;
   }
 
   /**
    * @param dead
    */
   public void setDead(Label dead) {
-    this.totalDeadCells = dead;
+    this.deadCells_L = dead;
   }
 
   /**
    * @param total
    */
   public void setTotal(Label total) {
-    this.totalCells = total;
+    this.cells_L = total;
   }
 
   /**
@@ -373,8 +369,8 @@ public class Engine {
     return sugarFactor;
   }
 
-  public void setTotalSugar(Label totalSugar) {
-    this.totalSugar = totalSugar;
+  public void setSugar_L(Label sugar_L) {
+    this.sugar_L = sugar_L;
   }
 
 }

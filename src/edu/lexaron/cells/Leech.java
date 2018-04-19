@@ -22,10 +22,8 @@ public class Leech extends Cell {
   }
 
   @Override
-  public void hunt(World w) {
-    // CELL TYPE DEPENDANT
-    if (this.isAlive()) {
-      upkeep(w);
+  public void doHunt(World w) {
+    if (isAlive()) {
       if (getPath().isEmpty()) {
         setTargetFood(lookForFood(w));
         if (getTargetFood() != null) {

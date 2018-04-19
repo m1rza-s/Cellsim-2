@@ -22,9 +22,8 @@ public class Tree extends Cell {
   }
 
   @Override
-  public void hunt(World w) {
+  public void doHunt(World w) {
     if (isAlive()) {
-      upkeep(w);
       if (getTargetFood() == null) {
         setTargetFood(lookForFood(w));
       }
