@@ -6,7 +6,6 @@
 package edu.lexaron.simulation;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,9 +33,9 @@ public class CellSIM extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws InterruptedException {
-    primaryStage.setTitle("CellSIM V.08");
-    primaryStage.setOnCloseRequest(e -> Platform.exit());
+  public void start(Stage primaryStage) {
+    primaryStage.setTitle("CellSIM V.10");
+    primaryStage.setOnCloseRequest(e -> System.exit(0));
 
     BorderPane root = new BorderPane();
     root.getStyleClass().add("backgroundColor");
