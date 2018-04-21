@@ -6,17 +6,25 @@
 package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
+import javafx.scene.image.Image;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Predator extends Cell {
+  private static final Image GFX = new Image("edu/lexaron/gfx/predator.png");
+
   public Predator(String ID, int x, int y) {
     super(ID, x, y, 50, 5, 1, 0.33, 1);
   }
 
   public Predator(World world) {
     this("P", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
+  }
+
+  @Override
+  public Image getImage() {
+    return GFX;
   }
 
   @Override
@@ -48,14 +56,6 @@ public class Predator extends Cell {
           || w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getTrail().getAmount() > 0)) {
         usePath(w);
         eat(w);
-      }
-      if (getEnergy() >= 100) {
-        mutate(w);
-      }
-      if (getOffspring() >= 3) {
-        setAlive(false);
-        w.getWorld()[getY()][getX()].setDeadCell(this);
-        w.getWorld()[getY()][getX()].setCell(null);
       }
     }
   }

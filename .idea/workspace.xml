@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f93a125d-dd9f-4e56-bacf-2944e936c7e6" name="Default" comment="Some OOP compliance; Improved Cells' hunting and eating logic; Housekeeping;">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" />
+    <list default="true" id="f93a125d-dd9f-4e56-bacf-2944e936c7e6" name="Default" comment="Engine.java update: hid legacy code in CellSim_2016, housekeeping, removed redundant code, new utility class WorldPainter; Tidied up all Cells;">
+      <change afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/WorldPainter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/built-jar.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/edu/lexaron/simulation/CellSIM.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/edu/lexaron/simulation/Engine$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/edu/lexaron/simulation/Engine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/edu/lexaron/world/Tile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/edu/lexaron/world/World.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/style/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/CellSIM.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/CellSIM.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/CellSIM.jnlp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/dtjava.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/error.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/get_java.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/get_javafx.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/javafx-chrome.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/javafx-loading-100x100.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/javafx-loading-25x25.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/upgrade_java.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/web-files/upgrade_javafx.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/gfx/huntLargest.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/gfx/huntMax.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Graphics.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/lexaron/world/World.java" afterDir="false" />
     </list>
     <ignored path="CellSIM.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,96 +57,63 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Cell.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java">
+      <file leaf-file-name="Engine.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="22" column="57" lean-forward="true" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
+            <state relative-caret-position="1258">
+              <caret line="127" column="18" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="18" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="docComment;class#Cell#0" expanded="false" />
-                <element signature="e#1627#1628#0" expanded="true" />
-                <element signature="e#1650#1651#0" expanded="true" />
-                <element signature="method#findFreeTile#0;class#Cell#0" expanded="false" />
-                <element signature="method#evolve#0;class#Cell#0" expanded="false" />
-                <element signature="e#3428#3429#0" expanded="true" />
-                <element signature="e#3462#3463#0" expanded="true" />
-                <element signature="e#3493#3494#0" expanded="true" />
-                <element signature="e#3516#3517#0" expanded="true" />
-                <element signature="e#3558#3559#0" expanded="true" />
-                <element signature="e#3588#3589#0" expanded="true" />
-                <element signature="e#3611#3612#0" expanded="true" />
-                <element signature="e#3629#3630#0" expanded="true" />
-                <element signature="e#3658#3659#0" expanded="true" />
-                <element signature="e#3678#3679#0" expanded="true" />
-                <element signature="e#3701#3702#0" expanded="true" />
-                <element signature="e#3719#3720#0" expanded="true" />
-                <element signature="e#3748#3749#0" expanded="true" />
-                <element signature="e#3768#3769#0" expanded="true" />
-                <element signature="e#3796#3797#0" expanded="true" />
-                <element signature="e#3819#3820#0" expanded="true" />
-                <element signature="e#3849#3850#0" expanded="true" />
-                <element signature="e#3871#3872#0" expanded="true" />
-                <element signature="e#3906#3907#0" expanded="true" />
-                <element signature="e#3933#3934#0" expanded="true" />
-                <element signature="e#3963#3964#0" expanded="true" />
-                <element signature="e#3985#3986#0" expanded="true" />
-                <element signature="e#4026#4027#0" expanded="true" />
-                <element signature="e#4054#4055#0" expanded="true" />
-                <element signature="e#4088#4089#0" expanded="true" />
-                <element signature="e#4115#4116#0" expanded="true" />
-                <element signature="e#4148#4149#0" expanded="true" />
-                <element signature="e#4173#4174#0" expanded="true" />
-                <element signature="method#inheritFrom#0;class#Cell#0" expanded="false" />
-                <element signature="method#findPathTo#0;class#Cell#0" expanded="false" />
-                <element signature="method#upkeep#0;class#Cell#0" expanded="false" />
-                <element signature="method#usePath#0;class#Cell#0" expanded="false" />
-                <element signature="method#randomStep#0;class#Cell#0" expanded="false" />
-                <element signature="method#moveUp#0;class#Cell#0" expanded="false" />
-                <element signature="e#7041#7105#0" expanded="false" />
-                <element signature="method#moveRight#0;class#Cell#0" expanded="false" />
-                <element signature="e#8233#8300#0" expanded="false" />
-                <element signature="method#moveDown#0;class#Cell#0" expanded="false" />
-                <element signature="e#9427#9493#0" expanded="false" />
-                <element signature="e#10216#10217#0" expanded="true" />
-                <element signature="e#10254#10255#0" expanded="true" />
-                <element signature="e#10292#10293#0" expanded="true" />
-                <element signature="e#10328#10329#0" expanded="true" />
-                <element signature="e#10358#10359#0" expanded="true" />
-                <element signature="e#10379#10380#0" expanded="true" />
-                <element signature="e#10405#10406#0" expanded="true" />
-                <element signature="e#10430#10431#0" expanded="true" />
-                <element signature="e#10454#10455#0" expanded="true" />
-                <element signature="e#10480#10481#0" expanded="true" />
-                <element signature="method#mutateVision#0;class#Cell#0" expanded="false" />
-                <element signature="e#10643#10644#0" expanded="true" />
-                <element signature="e#10671#10672#0" expanded="true" />
-                <element signature="e#10703#10704#0" expanded="true" />
-                <element signature="e#10726#10727#0" expanded="true" />
-                <element signature="method#mutateTrailSize#0;class#Cell#0" expanded="false" />
-                <element signature="e#10871#10872#0" expanded="true" />
-                <element signature="e#10896#10897#0" expanded="true" />
-                <element signature="e#10947#10948#0" expanded="true" />
-                <element signature="e#10985#10986#0" expanded="true" />
-                <element signature="e#11025#11026#0" expanded="true" />
-                <element signature="e#11055#11056#0" expanded="true" />
-                <element signature="e#11096#11097#0" expanded="true" />
-                <element signature="e#11124#11125#0" expanded="true" />
-                <element signature="e#11171#11172#0" expanded="true" />
-                <element signature="e#11205#11206#0" expanded="true" />
-                <element signature="method#moveLeft#0;class#Cell#0" expanded="false" />
-                <element signature="e#11651#11717#0" expanded="false" />
+                <element signature="imports" />
+                <element signature="e#1500#1962#0" />
+                <element signature="docComment;method#getWidth#0;class#Engine#0" />
+                <element signature="docComment;method#getHeight#0;class#Engine#0" />
+                <element signature="docComment;method#getWorld#0;class#Engine#0" />
+                <element signature="method#generateWorld#0;class#Engine#0" />
+                <element signature="e#7973#8396#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Monitor.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
+      <file leaf-file-name="World.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/World.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="853">
-              <caret line="92" column="94" lean-forward="false" selection-start-line="92" selection-start-column="94" selection-end-line="92" selection-end-column="94" />
-              <folding />
+            <state relative-caret-position="802">
+              <caret line="150" column="18" lean-forward="true" selection-start-line="150" selection-start-column="18" selection-end-line="150" selection-end-column="18" />
+              <folding>
+                <element signature="imports" />
+                <element signature="docComment;class#World#0" />
+                <element signature="docComment;method#World#0;class#World#0" />
+                <element signature="method#World#0;class#World#0" />
+                <element signature="docComment;method#generateWorld#0;class#World#0" />
+                <element signature="docComment;method#hasSugar#0;class#World#0" />
+                <element signature="method#hasSugar#0;class#World#0" />
+                <element signature="docComment;method#newFood#0;class#World#0" />
+                <element signature="method#newFood#0;class#World#0" />
+                <element signature="e#2079#2150#0" />
+                <element signature="docComment;method#getWorld#0;class#World#0" />
+                <element signature="docComment;method#getHeight#0;class#World#0" />
+                <element signature="docComment;method#getWidth#0;class#World#0" />
+                <element signature="docComment;method#getAllCells#0;class#World#0" />
+                <element signature="docComment;method#getNewBornCells#0;class#World#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorldPainter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/WorldPainter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="8" column="118" selection-start-line="8" selection-start-column="118" selection-end-line="8" selection-end-column="118" />
+              <folding>
+                <element signature="imports" />
+                <element signature="method#paintWorld#0;class#WorldPainter#0" />
+                <element signature="method#paintCell#0;class#WorldPainter#0" />
+                <element signature="method#paintCellFoV#0;class#WorldPainter#0" />
+                <element signature="method#paintGrid#0;class#WorldPainter#0" />
+                <element signature="method#paintTargetLine#0;class#WorldPainter#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -151,12 +142,17 @@
       <find>count</find>
       <find>row1</find>
       <find>totEne_L</find>
+      <find>\) \{\n    if \(\!cell\.isAlive\(\)\) \{\n      gc\.setGlobalAlpha\(0\.2\)\;\n      gc\.drawImage\(cell\.getImage\(\)\, \(cell\.getX\(\) \- 1\.5\) \* GLOBAL_SCALE\, \(cell\.getY\(\) \- 1\.5\) \* GLOBAL_SCALE\)\;\n    \}\n    else if \(cell\.isAlive\(\)\) \{\n      gc\.setGlobalAlpha\(cell\.getEnergy\(\) \/ 100\.0 \+ 0\.5\)\;\n      gc\.setFill\(Color\.web\(cell\.getBreed\(\)\.getColorCode\(\)\)\)\;\n      \/\/ Paints FoV\:\n\/\/      gc\.fillRect\(\(cell\.getX\(\) \- cell\.getVision\(\) \- 0\.25\) \* globalScale\, \(cell\.getY\(\) \- cell\.getVision\(\) \- 0\.25\) \* globalScale\, \(\(cell\.getVision\(\) \* 2\) \+ 1\) \* globalScale\, \(\(cell\.getVision\(\) \* 2\) \+ 1\) \* globalScale\)\;\n\/\/      gc\.setFill\(Color\.web\(cell\.getColor\(\)\)\)\;\n      gc\.drawImage\(cell\.getImage\(\)\, \(cell\.getX\(\) \- 1\.5\) \* GLOBAL_SCALE\, \(cell\.getY\(\) \- 1\.5\) \* GLOBAL_SCALE\)\;\n      gc\.setStroke\(Color\.web\(cell\.getBreed\(\)\.getColorCode\(\)\)\)\;\n      gc\.fillText\(\(int\) cell\.getEnergy\(\) \+ \&quot;\&quot;\, \(cell\.getX\(\) \- 3\) \* GLOBAL_SCALE\, \(cell\.getY\(\) \- 1\.5\) \* GLOBAL_SCALE\)\;\n      paintTargetLine\(cell\, gc\)\;\n    \}\n    gc\.restore\(\)\;\n  \}</find>
+      <find>gc</find>
+      <find>c,</find>
+      <find>paintG</find>
     </findStrings>
     <replaceStrings>
       <replace>cell</replace>
       <replace>RANDOM</replace>
       <replace>getRANDOM()</replace>
       <replace>getRandom()</replace>
+      <replace>canvas.getGraphicsContext2D()</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -171,35 +167,30 @@
         <entry key="$PROJECT_DIR$" value="Mirza_Local" />
       </map>
     </option>
-    <push-targets>
-      <push-target-info target-remote="origin" target-branch="CellSim_2018" repo="$PROJECT_DIR$" source="Mirza_Local" />
-    </push-targets>
-  </component>
-  <component name="GradleLocalSettings">
-    <option name="externalProjectsViewState">
-      <projects_view />
-    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/edu/lexaron/world/Cell.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/CellType.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/world/World.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/CellFactory.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntMax.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/CellFactory.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Graphics.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/WorldPainter.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/world/World.java" />
       </list>
     </option>
   </component>
@@ -220,23 +211,13 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
+    <navigator proportions="" version="1">
       <autoscrollFromSource ProjectPane="true" />
-      <sortByType />
-      <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -261,6 +242,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="lexaron" type="462c0819:PsiDirectoryNode" />
               <item name="cells" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CellSIM" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="lexaron" type="462c0819:PsiDirectoryNode" />
+              <item name="gfx" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
@@ -304,7 +292,16 @@
               <item name="&lt; JDK 1.8.0_131 &gt;" type="70bed36:NamedLibraryElementNode" />
               <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
+              <item name="awt" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; JDK 1.8.0_131 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="awt" type="462c0819:PsiDirectoryNode" />
+              <item name="image" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -353,13 +350,16 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="fileTemplates" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
   <component name="RecentsManager">
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="edu.lexaron.simulation.Engine" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Mirza\Documents\Razvoj\CellSIM\2016" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -374,54 +374,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.CellSIM">
     <configuration default="true" type="Applet" factoryName="Applet">
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <module />
     </configuration>
     <configuration name="CellSIM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="edu.lexaron.simulation.CellSIM" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
       <module name="CellSIM" />
-      <envs />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
     </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
+    <configuration name="CellSIM.jar" type="JarApplication" factoryName="JAR Application" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/dist/CellSIM.jar" />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
       <envs />
@@ -465,14 +431,32 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.CellSIM" />
+      <item itemvalue="JAR Application.CellSIM.jar" />
+    </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Application.CellSIM" />
+      <list>
+        <item itemvalue="Application.CellSIM" />
+        <item itemvalue="JAR Application.CellSIM.jar" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_FIELDS,VISIBILITY_SORTER" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -510,42 +494,49 @@
       <option name="project" value="LOCAL" />
       <updated>1524176625284</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Monitor.java update: Streams, optimization, GridPane; Housekeeping;">
+      <created>1524315061911</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1524315061912</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33518314" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.73251945" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13006397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="TCPMON" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="SonarLint" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="TODO" order="5" />
+      <window_info anchor="bottom" id="Messages" order="6" weight="0.32963374" />
+      <window_info id="Palette&#9;" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32963374" />
+      <window_info id="Run" order="1" sideWeight="0.5016648" side_tool="true" visible="true" weight="0.4488273" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.73251945" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32963374" />
+      <window_info anchor="right" id="Designer" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49833518" visible="true" weight="0.4488273" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32963374" />
+      <window_info id="Structure" order="2" sideWeight="0.5016648" side_tool="true" weight="0.20149253" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.4" />
+      <window_info id="Favorites" order="5" sideWeight="0.5005549" side_tool="true" weight="0.13006397" />
+      <window_info anchor="right" id="TCPMON" order="3" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="SonarLint" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32963374" />
+      <window_info anchor="bottom" id="Application Servers" order="11" />
+      <window_info anchor="bottom" id="JProfiler" order="12" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -556,56 +547,28 @@
     <MESSAGE value="PERFORMANCE UPDATE: Removed unnecessary Random objects, replaced FOR loops with Streams, added enum Breed." />
     <MESSAGE value="Issue #2: that1guy232's suggestion" />
     <MESSAGE value="Some OOP compliance; Improved Cells' hunting and eating logic; Housekeeping;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some OOP compliance; Improved Cells' hunting and eating logic; Housekeeping;" />
+    <MESSAGE value="Monitor.java update: Streams, optimization, GridPane; Housekeeping;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Monitor.java update: Streams, optimization, GridPane; Housekeeping;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3553">
-          <caret line="209" column="0" lean-forward="false" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="30" lean-forward="false" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+        <state relative-caret-position="663">
+          <caret line="39" column="44" selection-start-line="39" selection-start-column="44" selection-end-line="39" selection-end-column="44" />
           <folding>
-            <element signature="docComment;class#HuntClosest#0" expanded="false" />
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#612#613#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="e#1535#1610#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntClosest#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntClosest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="30" lean-forward="false" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
-          <folding>
-            <element signature="docComment;class#HuntLargest#0" expanded="false" />
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#608#609#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="e#1531#1606#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
+            <element signature="imports" />
+            <element signature="e#1500#1962#0" />
+            <element signature="docComment;method#getWidth#0;class#Engine#0" />
+            <element signature="docComment;method#getHeight#0;class#Engine#0" />
+            <element signature="docComment;method#getWorld#0;class#Engine#0" />
+            <element signature="method#generateWorld#0;class#Engine#0" />
+            <element signature="e#7973#8396#0" />
           </folding>
         </state>
       </provider>
@@ -613,16 +576,10 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="663">
-          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="105" selection-end-column="85" />
+          <caret line="104" selection-start-line="104" selection-end-line="105" selection-end-column="85" />
           <folding>
-            <element signature="docComment;class#Leech#0" expanded="false" />
-            <element signature="e#343#344#0" expanded="true" />
-            <element signature="e#390#391#0" expanded="true" />
-            <element signature="e#560#561#0" expanded="true" />
-            <element signature="e#588#589#0" expanded="true" />
-            <element signature="method#eat#0;class#Leech#0" expanded="false" />
-            <element signature="e#3376#3676#0" expanded="false" />
-            <element signature="method#mutate#0;class#Leech#0" expanded="false" />
+            <element signature="docComment;class#Leech#0" />
+            <element signature="method#mutate#0;class#Leech#0" />
           </folding>
         </state>
       </provider>
@@ -630,20 +587,15 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
           <folding>
-            <element signature="docComment;class#Tree#0" expanded="false" />
-            <element signature="e#341#342#0" expanded="true" />
-            <element signature="e#387#388#0" expanded="true" />
-            <element signature="e#417#418#0" expanded="true" />
-            <element signature="e#515#516#0" expanded="true" />
-            <element signature="e#556#557#0" expanded="true" />
-            <element signature="e#583#584#0" expanded="true" />
-            <element signature="method#eat#0;class#Tree#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
-            <element signature="e#3016#3071#0" expanded="false" />
-            <element signature="method#mutate#0;class#Tree#0" expanded="false" />
-            <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
+            <element signature="docComment;class#Tree#0" />
+            <element signature="e#663#664#0" expanded="true" />
+            <element signature="e#683#684#0" expanded="true" />
+            <element signature="method#eat#0;class#Tree#0" />
+            <element signature="method#lookForFood#0;class#Tree#0" />
+            <element signature="method#mutate#0;class#Tree#0" />
+            <element signature="method#findFreeTile#0;class#Tree#0" />
           </folding>
         </state>
       </provider>
@@ -651,18 +603,13 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
           <folding>
-            <element signature="docComment;class#HuntFirst#0" expanded="false" />
-            <element signature="e#352#353#0" expanded="true" />
-            <element signature="e#394#395#0" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="e#1524#1595#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
+            <element signature="docComment;class#HuntFirst#0" />
+            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" />
+            <element signature="method#lookForFood#0;class#HuntFirst#0" />
+            <element signature="docComment;method#mutate#0;class#HuntFirst#0" />
+            <element signature="method#mutate#0;class#HuntFirst#0" />
           </folding>
         </state>
       </provider>
@@ -670,48 +617,22 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1938">
-          <caret line="122" column="37" lean-forward="false" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
-          <folding>
-            <element signature="e#351#352#0" expanded="true" />
-            <element signature="e#395#396#0" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#599#600#0" expanded="true" />
-          </folding>
+          <caret line="122" column="37" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3094">
-          <caret line="262" column="0" lean-forward="false" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
+          <caret line="262" selection-start-line="262" selection-end-line="262" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#startThread#0;class#Engine#0" expanded="false" />
-            <element signature="method#startThread#0;class#Engine#0" expanded="false" />
-            <element signature="e#3205#4787#0" expanded="false" />
-            <element signature="e#3328#3351#0" expanded="false" />
-            <element signature="e#4692#4714#0" expanded="false" />
-            <element signature="method#paintWorld#0;class#Engine#0" expanded="false" />
-            <element signature="method#reseedCells#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintCells#0;class#Engine#0" expanded="false" />
-            <element signature="e#7763#7783#0" expanded="false" />
-            <element signature="method#paintCellGFX#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintGrid#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#paintTargetLine#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintTargetLine#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setup#0;class#Engine#0" expanded="false" />
-            <element signature="method#setup#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setCanvas#0;class#Engine#0" expanded="false" />
-            <element signature="method#setCanvas#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getWidth#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getHeight#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setGens_L#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setAlive#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setDead#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setTotal#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getWorld#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getSugarFactor#0;class#Engine#0" expanded="false" />
+            <element signature="imports" />
+            <element signature="e#1500#1962#0" />
+            <element signature="docComment;method#getWidth#0;class#Engine#0" />
+            <element signature="docComment;method#getHeight#0;class#Engine#0" />
+            <element signature="docComment;method#getWorld#0;class#Engine#0" />
+            <element signature="method#generateWorld#0;class#Engine#0" />
+            <element signature="e#7973#8396#0" />
           </folding>
         </state>
       </provider>
@@ -719,7 +640,7 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="13" column="9" lean-forward="false" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
+          <caret line="13" column="9" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
           <folding>
             <element signature="e#350#351#0" expanded="true" />
             <element signature="e#386#387#0" expanded="true" />
@@ -732,41 +653,34 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
-          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1326">
-          <caret line="84" column="28" lean-forward="false" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#CellSIM#0" expanded="false" />
-            <element signature="docComment;method#main#0;class#CellSIM#0" expanded="false" />
-            <element signature="e#2449#2574#0" expanded="false" />
-          </folding>
+          <caret line="84" column="28" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/World.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1989">
-          <caret line="129" column="0" lean-forward="false" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+          <caret line="129" selection-start-line="129" selection-end-line="129" />
           <folding>
-            <element signature="e#2636#2637#0" expanded="true" />
-            <element signature="e#2658#2659#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
-            <element signature="e#2734#2735#0" expanded="true" />
-            <element signature="e#2786#2787#0" expanded="true" />
-            <element signature="e#2808#2809#0" expanded="true" />
-            <element signature="e#2869#2870#0" expanded="true" />
-            <element signature="e#2894#2895#0" expanded="true" />
-            <element signature="e#2959#2960#0" expanded="true" />
-            <element signature="e#2988#2989#0" expanded="true" />
-            <element signature="e#3028#3029#0" expanded="true" />
-            <element signature="e#3057#3058#0" expanded="true" />
+            <element signature="e#2636#2637#0" />
+            <element signature="e#2658#2659#0" />
+            <element signature="e#2711#2712#0" />
+            <element signature="e#2734#2735#0" />
+            <element signature="e#2786#2787#0" />
+            <element signature="e#2808#2809#0" />
+            <element signature="e#2869#2870#0" />
+            <element signature="e#2894#2895#0" />
+            <element signature="e#2959#2960#0" />
+            <element signature="e#2988#2989#0" />
+            <element signature="e#3028#3029#0" />
+            <element signature="e#3057#3058#0" />
           </folding>
         </state>
       </provider>
@@ -774,16 +688,10 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2074">
-          <caret line="128" column="116" lean-forward="false" selection-start-line="128" selection-start-column="116" selection-end-line="128" selection-end-column="116" />
+          <caret line="128" column="116" selection-start-line="128" selection-start-column="116" selection-end-line="128" selection-end-column="116" />
           <folding>
-            <element signature="docComment;class#Leech#0" expanded="false" />
-            <element signature="e#343#344#0" expanded="true" />
-            <element signature="e#390#391#0" expanded="true" />
-            <element signature="e#560#561#0" expanded="true" />
-            <element signature="e#588#589#0" expanded="true" />
-            <element signature="method#eat#0;class#Leech#0" expanded="false" />
-            <element signature="e#3376#3676#0" expanded="false" />
-            <element signature="method#mutate#0;class#Leech#0" expanded="false" />
+            <element signature="docComment;class#Leech#0" />
+            <element signature="method#mutate#0;class#Leech#0" />
           </folding>
         </state>
       </provider>
@@ -791,63 +699,35 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3587">
-          <caret line="217" column="128" lean-forward="false" selection-start-line="217" selection-start-column="128" selection-end-line="217" selection-end-column="128" />
-          <folding />
+          <caret line="217" column="128" selection-start-line="217" selection-start-column="128" selection-end-line="217" selection-end-column="128" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1003">
-          <caret line="65" column="128" lean-forward="false" selection-start-line="65" selection-start-column="128" selection-end-line="65" selection-end-column="128" />
-          <folding>
-            <element signature="docComment;class#HuntClosest#0" expanded="false" />
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#612#613#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="e#1535#1610#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntClosest#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntClosest#0" expanded="false" />
-          </folding>
+          <caret line="65" column="128" selection-start-line="65" selection-start-column="128" selection-end-line="65" selection-end-column="128" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntMax.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
-          <caret line="66" column="128" lean-forward="false" selection-start-line="66" selection-start-column="128" selection-end-line="66" selection-end-column="128" />
-          <folding>
-            <element signature="docComment;class#HuntLargest#0" expanded="false" />
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#608#609#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="e#1531#1606#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
-          </folding>
+          <caret line="66" column="128" selection-start-line="66" selection-start-column="128" selection-end-line="66" selection-end-column="128" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2057">
-          <caret line="127" column="120" lean-forward="false" selection-start-line="127" selection-start-column="120" selection-end-line="127" selection-end-column="120" />
+          <caret line="127" column="120" selection-start-line="127" selection-start-column="120" selection-end-line="127" selection-end-column="120" />
           <folding>
-            <element signature="docComment;class#Vulture#0" expanded="false" />
-            <element signature="e#349#350#0" expanded="true" />
-            <element signature="e#393#394#0" expanded="true" />
-            <element signature="e#565#566#0" expanded="true" />
-            <element signature="e#595#596#0" expanded="true" />
-            <element signature="docComment;method#doHunt#0;class#Vulture#0" expanded="false" />
-            <element signature="docComment;method#eat#0;class#Vulture#0" expanded="false" />
-            <element signature="e#2161#2215#0" expanded="false" />
-            <element signature="method#mutate#0;class#Vulture#0" expanded="false" />
+            <element signature="imports" />
+            <element signature="docComment;class#Vulture#0" />
+            <element signature="method#Vulture#1;class#Vulture#0" />
+            <element signature="docComment;method#doHunt#0;class#Vulture#0" />
+            <element signature="method#lookForFood#0;class#Vulture#0" />
+            <element signature="method#mutate#0;class#Vulture#0" />
           </folding>
         </state>
       </provider>
@@ -855,18 +735,13 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="986">
-          <caret line="64" column="4" lean-forward="false" selection-start-line="64" selection-start-column="4" selection-end-line="64" selection-end-column="4" />
+          <caret line="64" column="4" selection-start-line="64" selection-start-column="4" selection-end-line="64" selection-end-column="4" />
           <folding>
-            <element signature="docComment;class#HuntFirst#0" expanded="false" />
-            <element signature="e#352#353#0" expanded="true" />
-            <element signature="e#394#395#0" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="e#1524#1595#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
+            <element signature="docComment;class#HuntFirst#0" />
+            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" />
+            <element signature="method#lookForFood#0;class#HuntFirst#0" />
+            <element signature="docComment;method#mutate#0;class#HuntFirst#0" />
+            <element signature="method#mutate#0;class#HuntFirst#0" />
           </folding>
         </state>
       </provider>
@@ -874,20 +749,15 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1819">
-          <caret line="113" column="4" lean-forward="false" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="28" />
+          <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="28" />
           <folding>
-            <element signature="docComment;class#Tree#0" expanded="false" />
-            <element signature="e#341#342#0" expanded="true" />
-            <element signature="e#387#388#0" expanded="true" />
-            <element signature="e#417#418#0" expanded="true" />
-            <element signature="e#515#516#0" expanded="true" />
-            <element signature="e#556#557#0" expanded="true" />
-            <element signature="e#583#584#0" expanded="true" />
-            <element signature="method#eat#0;class#Tree#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
-            <element signature="e#3016#3071#0" expanded="false" />
-            <element signature="method#mutate#0;class#Tree#0" expanded="false" />
-            <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
+            <element signature="docComment;class#Tree#0" />
+            <element signature="e#663#664#0" expanded="true" />
+            <element signature="e#683#684#0" expanded="true" />
+            <element signature="method#eat#0;class#Tree#0" />
+            <element signature="method#lookForFood#0;class#Tree#0" />
+            <element signature="method#mutate#0;class#Tree#0" />
+            <element signature="method#findFreeTile#0;class#Tree#0" />
           </folding>
         </state>
       </provider>
@@ -895,35 +765,15 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1054">
-          <caret line="66" column="94" lean-forward="false" selection-start-line="66" selection-start-column="94" selection-end-line="66" selection-end-column="94" />
+          <caret line="66" column="94" selection-start-line="66" selection-start-column="94" selection-end-line="66" selection-end-column="94" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#startThread#0;class#Engine#0" expanded="false" />
-            <element signature="method#startThread#0;class#Engine#0" expanded="false" />
-            <element signature="e#3205#4787#0" expanded="false" />
-            <element signature="e#3328#3351#0" expanded="false" />
-            <element signature="e#4692#4714#0" expanded="false" />
-            <element signature="method#paintWorld#0;class#Engine#0" expanded="false" />
-            <element signature="method#reseedCells#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintCells#0;class#Engine#0" expanded="false" />
-            <element signature="e#7763#7783#0" expanded="false" />
-            <element signature="method#paintCellGFX#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintGrid#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#paintTargetLine#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintTargetLine#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setup#0;class#Engine#0" expanded="false" />
-            <element signature="method#setup#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setCanvas#0;class#Engine#0" expanded="false" />
-            <element signature="method#setCanvas#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getWidth#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getHeight#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setGens_L#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setAlive#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setDead#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setTotal#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getWorld#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getSugarFactor#0;class#Engine#0" expanded="false" />
+            <element signature="imports" />
+            <element signature="e#1500#1962#0" />
+            <element signature="docComment;method#getWidth#0;class#Engine#0" />
+            <element signature="docComment;method#getHeight#0;class#Engine#0" />
+            <element signature="docComment;method#getWorld#0;class#Engine#0" />
+            <element signature="method#generateWorld#0;class#Engine#0" />
+            <element signature="e#7973#8396#0" />
           </folding>
         </state>
       </provider>
@@ -931,96 +781,21 @@
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
-          <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Cell#0" expanded="false" />
-            <element signature="e#1627#1628#0" expanded="true" />
-            <element signature="e#1650#1651#0" expanded="true" />
-            <element signature="method#findFreeTile#0;class#Cell#0" expanded="false" />
-            <element signature="method#evolve#0;class#Cell#0" expanded="false" />
-            <element signature="e#3428#3429#0" expanded="true" />
-            <element signature="e#3462#3463#0" expanded="true" />
-            <element signature="e#3493#3494#0" expanded="true" />
-            <element signature="e#3516#3517#0" expanded="true" />
-            <element signature="e#3558#3559#0" expanded="true" />
-            <element signature="e#3588#3589#0" expanded="true" />
-            <element signature="e#3611#3612#0" expanded="true" />
-            <element signature="e#3629#3630#0" expanded="true" />
-            <element signature="e#3658#3659#0" expanded="true" />
-            <element signature="e#3678#3679#0" expanded="true" />
-            <element signature="e#3701#3702#0" expanded="true" />
-            <element signature="e#3719#3720#0" expanded="true" />
-            <element signature="e#3748#3749#0" expanded="true" />
-            <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#3796#3797#0" expanded="true" />
-            <element signature="e#3819#3820#0" expanded="true" />
-            <element signature="e#3849#3850#0" expanded="true" />
-            <element signature="e#3871#3872#0" expanded="true" />
-            <element signature="e#3906#3907#0" expanded="true" />
-            <element signature="e#3933#3934#0" expanded="true" />
-            <element signature="e#3963#3964#0" expanded="true" />
-            <element signature="e#3985#3986#0" expanded="true" />
-            <element signature="e#4026#4027#0" expanded="true" />
-            <element signature="e#4054#4055#0" expanded="true" />
-            <element signature="e#4088#4089#0" expanded="true" />
-            <element signature="e#4115#4116#0" expanded="true" />
-            <element signature="e#4148#4149#0" expanded="true" />
-            <element signature="e#4173#4174#0" expanded="true" />
-            <element signature="method#inheritFrom#0;class#Cell#0" expanded="false" />
-            <element signature="method#findPathTo#0;class#Cell#0" expanded="false" />
-            <element signature="method#upkeep#0;class#Cell#0" expanded="false" />
-            <element signature="method#usePath#0;class#Cell#0" expanded="false" />
-            <element signature="method#randomStep#0;class#Cell#0" expanded="false" />
-            <element signature="method#moveUp#0;class#Cell#0" expanded="false" />
-            <element signature="e#7041#7105#0" expanded="false" />
-            <element signature="method#moveRight#0;class#Cell#0" expanded="false" />
-            <element signature="e#8233#8300#0" expanded="false" />
-            <element signature="method#moveDown#0;class#Cell#0" expanded="false" />
-            <element signature="e#9427#9493#0" expanded="false" />
-            <element signature="e#10216#10217#0" expanded="true" />
-            <element signature="e#10254#10255#0" expanded="true" />
-            <element signature="e#10292#10293#0" expanded="true" />
-            <element signature="e#10328#10329#0" expanded="true" />
-            <element signature="e#10358#10359#0" expanded="true" />
-            <element signature="e#10379#10380#0" expanded="true" />
-            <element signature="e#10405#10406#0" expanded="true" />
-            <element signature="e#10430#10431#0" expanded="true" />
-            <element signature="e#10454#10455#0" expanded="true" />
-            <element signature="e#10480#10481#0" expanded="true" />
-            <element signature="method#mutateVision#0;class#Cell#0" expanded="false" />
-            <element signature="e#10643#10644#0" expanded="true" />
-            <element signature="e#10671#10672#0" expanded="true" />
-            <element signature="e#10703#10704#0" expanded="true" />
-            <element signature="e#10726#10727#0" expanded="true" />
-            <element signature="method#mutateTrailSize#0;class#Cell#0" expanded="false" />
-            <element signature="e#10871#10872#0" expanded="true" />
-            <element signature="e#10896#10897#0" expanded="true" />
-            <element signature="e#10947#10948#0" expanded="true" />
-            <element signature="e#10985#10986#0" expanded="true" />
-            <element signature="e#11025#11026#0" expanded="true" />
-            <element signature="e#11055#11056#0" expanded="true" />
-            <element signature="e#11096#11097#0" expanded="true" />
-            <element signature="e#11124#11125#0" expanded="true" />
-            <element signature="e#11171#11172#0" expanded="true" />
-            <element signature="e#11205#11206#0" expanded="true" />
-            <element signature="method#moveLeft#0;class#Cell#0" expanded="false" />
-            <element signature="e#11651#11717#0" expanded="false" />
-          </folding>
+          <caret line="175" selection-start-line="175" selection-end-line="175" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Graphics.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/WorldPainter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/Trail.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1028,276 +803,40 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1938">
           <caret line="120" column="39" lean-forward="true" selection-start-line="120" selection-start-column="39" selection-end-line="120" selection-end-column="39" />
-          <folding>
-            <element signature="e#351#352#0" expanded="true" />
-            <element signature="e#395#396#0" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#599#600#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#CellSIM#0" expanded="false" />
-            <element signature="docComment;method#main#0;class#CellSIM#0" expanded="false" />
-            <element signature="e#2449#2574#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#CellSIM#0" expanded="false" />
-            <element signature="docComment;method#main#0;class#CellSIM#0" expanded="false" />
-            <element signature="e#2449#2574#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/Trail.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Graphics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitattributes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manifest.mf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/CellSIM.jnlp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/CellSIM.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/Tile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="78" column="21" lean-forward="false" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
-          <folding>
-            <element signature="e#1013#1014#0" expanded="true" />
-            <element signature="e#1039#1040#0" expanded="true" />
-            <element signature="e#1095#1096#0" expanded="true" />
-            <element signature="e#1120#1121#0" expanded="true" />
-            <element signature="e#1197#1198#0" expanded="true" />
-            <element signature="e#1231#1232#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="25" column="29" lean-forward="false" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#CellSIM#0" expanded="false" />
-            <element signature="docComment;method#main#0;class#CellSIM#0" expanded="false" />
-            <element signature="e#2449#2574#0" expanded="false" />
-          </folding>
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/EnumSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="292">
-          <caret line="94" column="4" lean-forward="false" selection-start-line="94" selection-start-column="4" selection-end-line="94" selection-end-column="4" />
-          <folding />
+          <caret line="94" column="4" selection-start-line="94" selection-start-column="4" selection-end-line="94" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/RegularEnumSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="35" column="6" lean-forward="false" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/World.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="134" column="19" lean-forward="true" selection-start-line="134" selection-start-column="19" selection-end-line="134" selection-end-column="19" />
-          <folding>
-            <element signature="e#2636#2637#0" expanded="true" />
-            <element signature="e#2658#2659#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
-            <element signature="e#2734#2735#0" expanded="true" />
-            <element signature="e#2786#2787#0" expanded="true" />
-            <element signature="e#2808#2809#0" expanded="true" />
-            <element signature="e#2869#2870#0" expanded="true" />
-            <element signature="e#2894#2895#0" expanded="true" />
-            <element signature="e#2959#2960#0" expanded="true" />
-            <element signature="e#2988#2989#0" expanded="true" />
-            <element signature="e#3028#3029#0" expanded="true" />
-            <element signature="e#3057#3058#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
-          <folding>
-            <element signature="docComment;class#HuntFirst#0" expanded="false" />
-            <element signature="e#352#353#0" expanded="true" />
-            <element signature="e#394#395#0" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="e#1524#1595#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
-          <folding>
-            <element signature="docComment;class#HuntLargest#0" expanded="false" />
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#608#609#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="e#1531#1606#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="19" column="93" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="93" />
-          <folding>
-            <element signature="docComment;class#Leech#0" expanded="false" />
-            <element signature="e#343#344#0" expanded="true" />
-            <element signature="e#390#391#0" expanded="true" />
-            <element signature="e#560#561#0" expanded="true" />
-            <element signature="e#588#589#0" expanded="true" />
-            <element signature="method#eat#0;class#Leech#0" expanded="false" />
-            <element signature="e#3376#3676#0" expanded="false" />
-            <element signature="method#mutate#0;class#Leech#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
-          <folding>
-            <element signature="e#351#352#0" expanded="true" />
-            <element signature="e#395#396#0" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#599#600#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="19" column="11" lean-forward="false" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
-          <folding>
-            <element signature="docComment;class#Tree#0" expanded="false" />
-            <element signature="e#341#342#0" expanded="true" />
-            <element signature="e#387#388#0" expanded="true" />
-            <element signature="e#417#418#0" expanded="true" />
-            <element signature="e#515#516#0" expanded="true" />
-            <element signature="e#556#557#0" expanded="true" />
-            <element signature="e#583#584#0" expanded="true" />
-            <element signature="method#eat#0;class#Tree#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
-            <element signature="e#3016#3071#0" expanded="false" />
-            <element signature="method#mutate#0;class#Tree#0" expanded="false" />
-            <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-          <folding>
-            <element signature="docComment;class#Vulture#0" expanded="false" />
-            <element signature="e#349#350#0" expanded="true" />
-            <element signature="e#393#394#0" expanded="true" />
-            <element signature="e#565#566#0" expanded="true" />
-            <element signature="e#595#596#0" expanded="true" />
-            <element signature="docComment;method#doHunt#0;class#Vulture#0" expanded="false" />
-            <element signature="docComment;method#eat#0;class#Vulture#0" expanded="false" />
-            <element signature="e#2161#2215#0" expanded="false" />
-            <element signature="method#mutate#0;class#Vulture#0" expanded="false" />
-          </folding>
+          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="13" column="19" lean-forward="false" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
           <folding>
             <element signature="e#350#351#0" expanded="true" />
             <element signature="e#386#387#0" expanded="true" />
@@ -1307,156 +846,206 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/CellFactory.java" />
+    <entry file="file://$PROJECT_DIR$/manifest.mf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="245" column="2" lean-forward="true" selection-start-line="245" selection-start-column="2" selection-end-line="245" selection-end-column="2" />
+        <state relative-caret-position="51">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/classes/edu/lexaron/simulation/Engine.class" />
+    <entry file="file://$PROJECT_DIR$/build/classes/edu/lexaron/simulation/Monitor.class" />
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/gfx/tree.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/gfx/huntMax.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="547">
+          <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#startThread#0;class#Engine#0" expanded="false" />
-            <element signature="method#startThread#0;class#Engine#0" expanded="false" />
-            <element signature="e#3205#4787#0" expanded="false" />
-            <element signature="e#3328#3351#0" expanded="false" />
-            <element signature="e#4692#4714#0" expanded="false" />
-            <element signature="method#paintWorld#0;class#Engine#0" expanded="false" />
-            <element signature="method#reseedCells#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintCells#0;class#Engine#0" expanded="false" />
-            <element signature="e#7763#7783#0" expanded="false" />
-            <element signature="method#paintCellGFX#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintGrid#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#paintTargetLine#0;class#Engine#0" expanded="false" />
-            <element signature="method#paintTargetLine#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setup#0;class#Engine#0" expanded="false" />
-            <element signature="method#setup#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setCanvas#0;class#Engine#0" expanded="false" />
-            <element signature="method#setCanvas#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getWidth#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getHeight#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setGens_L#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setAlive#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setDead#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#setTotal#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getWorld#0;class#Engine#0" expanded="false" />
-            <element signature="docComment;method#getSugarFactor#0;class#Engine#0" expanded="false" />
+            <element signature="docComment;class#HuntFirst#0" />
+            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" />
+            <element signature="method#lookForFood#0;class#HuntFirst#0" />
+            <element signature="docComment;method#mutate#0;class#HuntFirst#0" />
+            <element signature="method#mutate#0;class#HuntFirst#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntMax.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="58" column="7" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="58" column="7" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+          <folding>
+            <element signature="docComment;class#Tree#0" />
+            <element signature="e#663#664#0" expanded="true" />
+            <element signature="e#683#684#0" expanded="true" />
+            <element signature="method#eat#0;class#Tree#0" />
+            <element signature="method#lookForFood#0;class#Tree#0" />
+            <element signature="method#mutate#0;class#Tree#0" />
+            <element signature="method#findFreeTile#0;class#Tree#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="68" column="80" selection-start-line="68" selection-start-column="80" selection-end-line="68" selection-end-column="80" />
+          <folding>
+            <element signature="imports" />
+            <element signature="docComment;class#Vulture#0" />
+            <element signature="method#Vulture#1;class#Vulture#0" />
+            <element signature="docComment;method#doHunt#0;class#Vulture#0" />
+            <element signature="method#lookForFood#0;class#Vulture#0" />
+            <element signature="method#mutate#0;class#Vulture#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1083">
+          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+          <folding>
+            <element signature="imports" />
+            <element signature="docComment;class#Cell#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        <state relative-caret-position="340">
+          <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
           <folding>
-            <element signature="docComment;class#HuntClosest#0" expanded="false" />
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#612#613#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="e#1535#1610#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntClosest#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntClosest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/CellFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="15" lean-forward="false" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="22" column="57" lean-forward="true" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Cell#0" expanded="false" />
-            <element signature="e#1627#1628#0" expanded="true" />
-            <element signature="e#1650#1651#0" expanded="true" />
-            <element signature="method#findFreeTile#0;class#Cell#0" expanded="false" />
-            <element signature="method#evolve#0;class#Cell#0" expanded="false" />
-            <element signature="e#3428#3429#0" expanded="true" />
-            <element signature="e#3462#3463#0" expanded="true" />
-            <element signature="e#3493#3494#0" expanded="true" />
-            <element signature="e#3516#3517#0" expanded="true" />
-            <element signature="e#3558#3559#0" expanded="true" />
-            <element signature="e#3588#3589#0" expanded="true" />
-            <element signature="e#3611#3612#0" expanded="true" />
-            <element signature="e#3629#3630#0" expanded="true" />
-            <element signature="e#3658#3659#0" expanded="true" />
-            <element signature="e#3678#3679#0" expanded="true" />
-            <element signature="e#3701#3702#0" expanded="true" />
-            <element signature="e#3719#3720#0" expanded="true" />
-            <element signature="e#3748#3749#0" expanded="true" />
-            <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#3796#3797#0" expanded="true" />
-            <element signature="e#3819#3820#0" expanded="true" />
-            <element signature="e#3849#3850#0" expanded="true" />
-            <element signature="e#3871#3872#0" expanded="true" />
-            <element signature="e#3906#3907#0" expanded="true" />
-            <element signature="e#3933#3934#0" expanded="true" />
-            <element signature="e#3963#3964#0" expanded="true" />
-            <element signature="e#3985#3986#0" expanded="true" />
-            <element signature="e#4026#4027#0" expanded="true" />
-            <element signature="e#4054#4055#0" expanded="true" />
-            <element signature="e#4088#4089#0" expanded="true" />
-            <element signature="e#4115#4116#0" expanded="true" />
-            <element signature="e#4148#4149#0" expanded="true" />
-            <element signature="e#4173#4174#0" expanded="true" />
-            <element signature="method#inheritFrom#0;class#Cell#0" expanded="false" />
-            <element signature="method#findPathTo#0;class#Cell#0" expanded="false" />
-            <element signature="method#upkeep#0;class#Cell#0" expanded="false" />
-            <element signature="method#usePath#0;class#Cell#0" expanded="false" />
-            <element signature="method#randomStep#0;class#Cell#0" expanded="false" />
-            <element signature="method#moveUp#0;class#Cell#0" expanded="false" />
-            <element signature="e#7041#7105#0" expanded="false" />
-            <element signature="method#moveRight#0;class#Cell#0" expanded="false" />
-            <element signature="e#8233#8300#0" expanded="false" />
-            <element signature="method#moveDown#0;class#Cell#0" expanded="false" />
-            <element signature="e#9427#9493#0" expanded="false" />
-            <element signature="e#10216#10217#0" expanded="true" />
-            <element signature="e#10254#10255#0" expanded="true" />
-            <element signature="e#10292#10293#0" expanded="true" />
-            <element signature="e#10328#10329#0" expanded="true" />
-            <element signature="e#10358#10359#0" expanded="true" />
-            <element signature="e#10379#10380#0" expanded="true" />
-            <element signature="e#10405#10406#0" expanded="true" />
-            <element signature="e#10430#10431#0" expanded="true" />
-            <element signature="e#10454#10455#0" expanded="true" />
-            <element signature="e#10480#10481#0" expanded="true" />
-            <element signature="method#mutateVision#0;class#Cell#0" expanded="false" />
-            <element signature="e#10643#10644#0" expanded="true" />
-            <element signature="e#10671#10672#0" expanded="true" />
-            <element signature="e#10703#10704#0" expanded="true" />
-            <element signature="e#10726#10727#0" expanded="true" />
-            <element signature="method#mutateTrailSize#0;class#Cell#0" expanded="false" />
-            <element signature="e#10871#10872#0" expanded="true" />
-            <element signature="e#10896#10897#0" expanded="true" />
-            <element signature="e#10947#10948#0" expanded="true" />
-            <element signature="e#10985#10986#0" expanded="true" />
-            <element signature="e#11025#11026#0" expanded="true" />
-            <element signature="e#11055#11056#0" expanded="true" />
-            <element signature="e#11096#11097#0" expanded="true" />
-            <element signature="e#11124#11125#0" expanded="true" />
-            <element signature="e#11171#11172#0" expanded="true" />
-            <element signature="e#11205#11206#0" expanded="true" />
-            <element signature="method#moveLeft#0;class#Cell#0" expanded="false" />
-            <element signature="e#11651#11717#0" expanded="false" />
+            <element signature="imports" />
+            <element signature="docComment;class#HuntClosest#0" />
+            <element signature="method#HuntClosest#1;class#HuntClosest#0" />
+            <element signature="method#doHunt#0;class#HuntClosest#0" />
+            <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" />
+            <element signature="method#lookForFood#0;class#HuntClosest#0" />
+            <element signature="e#1477#1552#0" />
+            <element signature="docComment;method#mutate#0;class#HuntClosest#0" />
+            <element signature="method#mutate#0;class#HuntClosest#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="853">
-          <caret line="92" column="94" lean-forward="false" selection-start-line="92" selection-start-column="94" selection-end-line="92" selection-end-column="94" />
-          <folding />
+        <state relative-caret-position="-153" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/Tile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/awt/image/ImageObserver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="98" column="28" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="488">
+          <caret line="78" column="85" selection-start-line="78" selection-start-column="85" selection-end-line="78" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1258">
+          <caret line="127" column="18" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="18" />
+          <folding>
+            <element signature="imports" />
+            <element signature="e#1500#1962#0" />
+            <element signature="docComment;method#getWidth#0;class#Engine#0" />
+            <element signature="docComment;method#getHeight#0;class#Engine#0" />
+            <element signature="docComment;method#getWorld#0;class#Engine#0" />
+            <element signature="method#generateWorld#0;class#Engine#0" />
+            <element signature="e#7973#8396#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/World.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="802">
+          <caret line="150" column="18" lean-forward="true" selection-start-line="150" selection-start-column="18" selection-end-line="150" selection-end-column="18" />
+          <folding>
+            <element signature="imports" />
+            <element signature="docComment;class#World#0" />
+            <element signature="docComment;method#World#0;class#World#0" />
+            <element signature="method#World#0;class#World#0" />
+            <element signature="docComment;method#generateWorld#0;class#World#0" />
+            <element signature="docComment;method#hasSugar#0;class#World#0" />
+            <element signature="method#hasSugar#0;class#World#0" />
+            <element signature="docComment;method#newFood#0;class#World#0" />
+            <element signature="method#newFood#0;class#World#0" />
+            <element signature="e#2079#2150#0" />
+            <element signature="docComment;method#getWorld#0;class#World#0" />
+            <element signature="docComment;method#getHeight#0;class#World#0" />
+            <element signature="docComment;method#getWidth#0;class#World#0" />
+            <element signature="docComment;method#getAllCells#0;class#World#0" />
+            <element signature="docComment;method#getNewBornCells#0;class#World#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="819">
+          <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
+          <folding>
+            <element signature="docComment;class#Leech#0" />
+            <element signature="method#mutate#0;class#Leech#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/WorldPainter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="118" selection-start-line="8" selection-start-column="118" selection-end-line="8" selection-end-column="118" />
+          <folding>
+            <element signature="imports" />
+            <element signature="method#paintWorld#0;class#WorldPainter#0" />
+            <element signature="method#paintCell#0;class#WorldPainter#0" />
+            <element signature="method#paintCellFoV#0;class#WorldPainter#0" />
+            <element signature="method#paintGrid#0;class#WorldPainter#0" />
+            <element signature="method#paintTargetLine#0;class#WorldPainter#0" />
+          </folding>
         </state>
       </provider>
     </entry>

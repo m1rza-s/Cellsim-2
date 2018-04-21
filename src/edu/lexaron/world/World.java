@@ -140,4 +140,14 @@ public class World {
     return eatenCorpses;
   }
 
+  @SuppressWarnings ("ImplicitNumericConversion")
+  public int getTotalSugar() {
+    int result = 0;
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        result += world[j][i].getSugar().getAmount();
+      }
+    }
+    return result;
+  }
 }

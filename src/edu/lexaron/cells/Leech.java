@@ -6,11 +6,13 @@
 package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
+import javafx.scene.image.Image;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Leech extends Cell {
+  private static final Image GFX = new Image("edu/lexaron/gfx/leech.png");
 
   public Leech(String ID, int x, int y) {
     super(ID, x, y, 50, 5, 3, 0.25,  0.5);
@@ -18,6 +20,11 @@ public class Leech extends Cell {
 
   public Leech(World world) {
     this("L", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
+  }
+
+  @Override
+  public Image getImage() {
+    return GFX;
   }
 
   @Override
@@ -52,15 +59,6 @@ public class Leech extends Cell {
       }
       else {
         getPath().clear();
-      }
-
-      if (getEnergy() >= 100) {
-        mutate(w);
-      }
-      if (getOffspring() >= 3) {
-        setAlive(false);
-        w.getWorld()[getY()][getX()].setDeadCell(this);
-        w.getWorld()[getY()][getX()].setCell(null);
       }
     }
   }

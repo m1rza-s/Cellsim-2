@@ -6,17 +6,25 @@
 package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
+import javafx.scene.image.Image;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class HuntClosest extends Cell {
+  private static final Image GFX = new Image("edu/lexaron/gfx/huntClosest.png");
+
   public HuntClosest(String ID, int x, int y) {
     super(ID, x, y, 50, 3, 1, 1, 1);
   }
 
   public HuntClosest(World world) {
     this("C", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
+  }
+
+  @Override
+  public Image getImage() {
+    return GFX;
   }
 
   @Override
@@ -47,15 +55,6 @@ public class HuntClosest extends Cell {
       }
       else {
         usePath(w);
-      }
-
-      if (getEnergy() >= 100) {
-        mutate(w);
-      }
-      if (getOffspring() >= 3) {
-        setAlive(false);
-        w.getWorld()[getY()][getX()].setDeadCell(this);
-        w.getWorld()[getY()][getX()].setCell(null);
       }
     }
   }

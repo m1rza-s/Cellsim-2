@@ -18,16 +18,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Timer;
+
+import static edu.lexaron.simulation.WorldPainter.paintWorld;
+
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class CellSIM extends Application {
 
-  private final Engine engine = new Engine();
-
-  /**
-   * @param args the command line arguments
-   */
   public static void main(String[] args) {
     launch(args);
   }
@@ -37,7 +36,8 @@ public class CellSIM extends Application {
     primaryStage.setTitle("CellSIM V.10");
     //noinspection CallToSystemExit
     primaryStage.setOnCloseRequest(e -> System.exit(0));
-
+    // region UI
+    VBox infoPanel = new VBox();
     BorderPane root = new BorderPane();
     root.getStyleClass().add("backgroundColor");
 
@@ -53,15 +53,12 @@ public class CellSIM extends Application {
     stats.setPadding(new Insets(5, 5, 5, 5));
     stats.setSpacing(20);
 
-    Canvas canvas = new Canvas(engine.getWidth() * 5, engine.getHeight() * 5);
-    StackPane spc = new StackPane(canvas);
-    spc.setAlignment(Pos.CENTER);
+
 
     VBox sp = new VBox(new Button("LEGEND"));
     sp.setPadding(new Insets(20));
     sp.setAlignment(Pos.TOP_CENTER);
 
-    Label sugarFactor_L = new Label("Initial sugar factor: " + String.valueOf(engine.getSugarFactor()) + "%");
     Label counter = new Label();
     counter.getStyleClass().add("accentText");
 
@@ -76,24 +73,23 @@ public class CellSIM extends Application {
 
     Label totalSugar = new Label();
     totalSugar.getStyleClass().addAll("bigText", "whiteText");
+    // endregion
+    Engine engine = new Engine(infoPanel, counter, liveCells, deadCells, totalCells, totalSugar);
 
+    Label sugarFactor_L = new Label("Initial sugar factor: " + String.valueOf(engine.getSugarFactor()) + "%");
+    Canvas canvas = new Canvas((double) (engine.getWidth() * 5), (double) (engine.getHeight() * 5));
+    StackPane spc = new StackPane(canvas);
+    spc.setAlignment(Pos.CENTER);
     Button start = new Button("Start");
     start.setOnAction(e -> {
-      engine.startThread(root);
+      engine.startThread(canvas, new Timer());
       System.out.println("Simulation started...");
       start.setDisable(true);
     });
     Button generateWorld = new Button("Spawn new cells & reset sugar");
     generateWorld.setOnAction(e -> {
-      engine.setCanvas(canvas);
-      engine.setup(true);
-
-      engine.setGens_L(counter);
-      engine.setAlive(liveCells);
-      engine.setDead(deadCells);
-      engine.setTotal(totalCells);
-      engine.setSugar_L(totalSugar);
-      engine.paintWorld();
+      engine.generateWorld(true, canvas);
+      paintWorld(engine.getWorld(), canvas);
 
     });
     // STRUCTURING
@@ -116,17 +112,11 @@ public class CellSIM extends Application {
         stats
     );
 
-    engine.setCanvas(canvas);
-    engine.setup(false);
+    engine.generateWorld(false, canvas);
 
-    engine.setGens_L(counter);
-    engine.setAlive(liveCells);
-    engine.setDead(deadCells);
-    engine.setTotal(totalCells);
-    engine.setSugar_L(totalSugar);
-    // Display!
     root.setTop(menu);
     root.setCenter(spc);
+    root.setRight(infoPanel);
 
     Scene mainScene = new Scene(root, 1000, 800);
     mainScene.getStylesheets().add("style/style.css");

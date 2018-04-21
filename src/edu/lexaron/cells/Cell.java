@@ -7,6 +7,7 @@ package edu.lexaron.cells;
 
 import edu.lexaron.world.Trail;
 import edu.lexaron.world.World;
+import javafx.scene.image.Image;
 
 import java.security.SecureRandom;
 import java.util.ArrayDeque;
@@ -53,6 +54,7 @@ public abstract class Cell {
     this.biteSize = biteSize;
   }
 
+  public abstract Image getImage();
   public abstract int[] lookForFood(World w);
   public abstract void mutate(World w);
   public abstract Breed getBreed();
@@ -62,11 +64,19 @@ public abstract class Cell {
     return RANDOM;
   }
 
+  @SuppressWarnings ("MagicNumber")
   public void hunt(World w) {
     // CELL TYPE DEPENDANT
     upkeep(w);
     doHunt(w);
-
+    if (energy >= 100.0) {
+      mutate(w);
+    }
+    if (offspring >= 3) {
+      alive = false;
+      w.getWorld()[y][x].setDeadCell(this);
+      w.getWorld()[y][x].setCell(null);
+    }
   }
 
   public void eat(World w) {

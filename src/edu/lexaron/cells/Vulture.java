@@ -6,18 +6,25 @@
 package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
+import javafx.scene.image.Image;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Vulture extends Cell {
+  private static final Image GFX = new Image("edu/lexaron/gfx/vulture.png");
 
   public Vulture(String ID, int x, int y) {
-    super(ID, x, y, 50, 3, 1, 0.5,  1);
+    super(ID, x, y, 50, 10, 1, 0.5,  1);
   }
 
   public Vulture(World world) {
     this("V", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
+  }
+
+  @Override
+  public Image getImage() {
+    return GFX;
   }
 
   @Override
@@ -28,6 +35,7 @@ public class Vulture extends Cell {
   /**
    * @param w
    */
+  @SuppressWarnings ("MagicNumber")
   @Override
   public void doHunt(World w) {
     if (isAlive()) {
@@ -50,32 +58,18 @@ public class Vulture extends Cell {
       else {
         getPath().clear();
       }
-
-      if (getEnergy() >= 100) {
-        mutate(w);
-      }
-      if (getOffspring() >= 3) {
-        setAlive(false);
-        w.getWorld()[getY()][getX()].setDeadCell(this);
-        w.getWorld()[getY()][getX()].setCell(null);
-      }
     }
   }
-
-  /**
-   * @param w
-   */
+  @SuppressWarnings ("MagicNumber")
   @Override
   public void eat(World w) {
     if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
       setEnergy(getEnergy() +  w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
-//            if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
       w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
-      w.getWorld()[getY()][getX()].getSugar().setAmount(10);
+      w.getWorld()[getY()][getX()].getSugar().setAmount(10); // should be random
 //            }
       setTargetFood(null);
       getPath().clear();
-//            System.out.println(geneCode + "   ate on " + x + "," + y + ": energy +" + w.getWorld()[y][x].getSugar().getAmount());
     }
   }
 

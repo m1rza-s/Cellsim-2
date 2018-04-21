@@ -6,11 +6,13 @@
 package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
+import javafx.scene.image.Image;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Tree extends Cell {
+  private static final Image GFX = new Image("edu/lexaron/gfx/tree.png");
 
   public Tree(String ID, int x, int y) {
     super(ID, x, y, 50, 10, 1, 0.1, 0.2);
@@ -18,6 +20,11 @@ public class Tree extends Cell {
 
   public Tree(World world) {
     this("T", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
+  }
+
+  @Override
+  public Image getImage() {
+    return GFX;
   }
 
   @Override
@@ -41,16 +48,7 @@ public class Tree extends Cell {
         w.getWorld()[getY()][getX()].setDeadCell(this);
         w.getWorld()[getY()][getX()].setCell(null);
       }
-      if (getEnergy() >= 100) {
-        mutate(w);
-      }
-      if (getOffspring() >= 2) {
-        setAlive(false);
-        w.getWorld()[getY()][getX()].setDeadCell(this);
-        w.getWorld()[getY()][getX()].setCell(null);
-      }
     }
-
   }
 
   @Override
