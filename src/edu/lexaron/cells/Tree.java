@@ -13,7 +13,11 @@ import edu.lexaron.world.World;
 public class Tree extends Cell {
 
   public Tree(String ID, int x, int y) {
-    super(ID, x, y, 50, 10, 1, 0.1, "#ffffff", 0.2);
+    super(ID, x, y, 50, 10, 1, 0.1, 0.2);
+  }
+
+  public Tree(World world) {
+    this("T", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
 
   @Override

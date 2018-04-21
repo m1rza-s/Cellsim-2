@@ -13,7 +13,11 @@ import edu.lexaron.world.World;
 public class Leech extends Cell {
 
   public Leech(String ID, int x, int y) {
-    super(ID, x, y, 50, 5, 3, 0.25, "#0000ff", 0.5);
+    super(ID, x, y, 50, 5, 3, 0.25,  0.5);
+  }
+
+  public Leech(World world) {
+    this("L", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
 
   @Override

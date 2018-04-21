@@ -12,7 +12,11 @@ import edu.lexaron.world.World;
  */
 public class Predator extends Cell {
   public Predator(String ID, int x, int y) {
-    super(ID, x, y, 50, 5, 1, 0.33, "#ff0000", 1);
+    super(ID, x, y, 50, 5, 1, 0.33, 1);
+  }
+
+  public Predator(World world) {
+    this("P", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
 
   @Override

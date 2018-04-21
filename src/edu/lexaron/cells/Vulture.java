@@ -13,7 +13,11 @@ import edu.lexaron.world.World;
 public class Vulture extends Cell {
 
   public Vulture(String ID, int x, int y) {
-    super(ID, x, y, 50, 3, 1, 0.5, "#33ffff", 1);
+    super(ID, x, y, 50, 3, 1, 0.5,  1);
+  }
+
+  public Vulture(World world) {
+    this("V", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
 
   @Override

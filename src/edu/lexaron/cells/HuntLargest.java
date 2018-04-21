@@ -12,12 +12,16 @@ import edu.lexaron.world.World;
  */
 public class HuntLargest extends Cell {
   public HuntLargest(String ID, int x, int y) {
-    super(ID, x, y, 50, 3, 2, 1, "#ffff33", 1);
+    super(ID, x, y, 50, 3, 2, 1, 1);
+  }
+
+  public HuntLargest(World world) {
+    this("L", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
 
   @Override
   public Breed getBreed() {
-    return Breed.HUNT_LARGEST;
+    return Breed.HUNT_MAX;
   }
 
   @Override

@@ -19,7 +19,6 @@ import java.util.Random;
 public abstract class Cell {
 
   private final static Random RANDOM = new SecureRandom();
-  private final String color;
   private final int movement;
   private final Queue<Integer> path = new ArrayDeque<>();
   private boolean alive;
@@ -37,8 +36,8 @@ public abstract class Cell {
   private int lastRandomStep;
   private String geneCode;
 
-  protected Cell(String ID, int x, int y, double energy, int vision, double speed, double efficiency, String color, double biteSize) {
-    this.geneCode = ID;
+  protected Cell(String id, int x, int y, double energy, int vision, double speed, double efficiency, double biteSize) {
+    this.geneCode = id;
     this.x = x;
     this.y = y;
     this.energy = energy;
@@ -49,7 +48,6 @@ public abstract class Cell {
     if (energy > 0) {
       this.alive = true;
     }
-    this.color = color;
     this.trailSize = 50;
     this.targetFood = null;
     this.biteSize = biteSize;
@@ -174,10 +172,6 @@ public abstract class Cell {
 
   public int[] getTargetFood() {
     return targetFood;
-  }
-
-  public String getColor() {
-    return color;
   }
 
   public double getBiteSize() {

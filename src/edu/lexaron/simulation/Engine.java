@@ -36,7 +36,6 @@ public class Engine {
   private static final double GLOBAL_SCALE = 5.0;
   private static final Random RANDOM = new SecureRandom();
   
-  private final Monitor monitor = new Monitor();
   private final World world = new World(WIDTH, HEIGHT);
   private final Life life = new Life(world);
   private final VBox infoPanel = new VBox();
@@ -106,9 +105,9 @@ public class Engine {
           synchronized (world) {
             world.notifyAll();
           }
-          if (monitor.worldHasLiveCells(world)) {
+          if (world.getAllCells().stream().anyMatch(Cell::isAlive)) {
             infoPanel.getChildren().clear();
-            infoPanel.getChildren().add(monitor.refreshLiveCellInfo(world));
+            infoPanel.getChildren().add(Monitor.refreshCellInformation(world));
           }
           else {
             infoPanel.getChildren().clear();
@@ -121,9 +120,10 @@ public class Engine {
           }
           generations++;
           gens_L.setText(generations + " generations");
-          liveCells_L.setText("Alive: " + monitor.countLiveCells(world));
-          deadCells_L.setText("Dead: " + monitor.countDeadCells(world));
-          cells_L.setText("Total: " + monitor.countAllCells(world));
+          cells_L    .setText("Total: " + world.getAllCells().size());
+          liveCells_L.setText("Alive: " + world.getAllCells().stream().filter(Cell::isAlive).count());
+          deadCells_L.setText("Dead: "  + world.getAllCells().stream().filter(cell -> !cell.isAlive()).count());
+
           sugar_L.setText("Sugar in world: " + totalSugar);
           totalSugar = 0;
           // END OF UI UPDATE //
@@ -173,7 +173,7 @@ public class Engine {
         if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
 
           int trailTemp = world.getWorld()[i][j].getTrail().getAmount();
-          gc.setFill(Color.web(world.getWorld()[i][j].getTrail().getSource().getColor()));
+          gc.setFill(Color.web(world.getWorld()[i][j].getTrail().getSource().getBreed().getColorCode()));
           if (trailTemp == 50) {
             gc.setGlobalAlpha(0.5);
           }
@@ -197,13 +197,23 @@ public class Engine {
     gc.restore();
   }
 
+  private static void reseedCells(World world) {
+    world.getNewBornCells().add(new Vulture(world));
+    world.getNewBornCells().add(new Predator(world));
+    world.getNewBornCells().add(new HuntFirst(world));
+    world.getNewBornCells().add(new HuntLargest(world));
+    world.getNewBornCells().add(new HuntClosest(world));
+    world.getNewBornCells().add(new Tree(world));
+    world.getNewBornCells().add(new Leech(world));
+  }
+
   private void paintCells(Cell c) {
     if (!c.isAlive()) {
       gc.setGlobalAlpha(0.2);
       paintCellGFX(c);
     }
     else if (c.isAlive()) {
-      gc.setFill(Color.web(c.getColor()));
+      gc.setFill(Color.web(c.getBreed().getColorCode()));
       gc.setGlobalAlpha(0.1);
 //      gc.fillRect(
 //          (c.getX() - c.getVision() - 0.25) * globalScale,
@@ -226,7 +236,7 @@ public class Engine {
         gc.setGlobalAlpha(0.6);
       }
       paintCellGFX(c);
-      gc.setStroke(Color.web(c.getColor()));
+      gc.setStroke(Color.web(c.getBreed().getColorCode()));
       gc.fillText((int) c.getEnergy() + "", (c.getX() - 3) * GLOBAL_SCALE, (c.getY() - 1.5) * GLOBAL_SCALE);
       paintTargetLine(c);
     }
@@ -247,7 +257,7 @@ public class Engine {
       case HUNT_CLOSEST:
         gc.drawImage(huntClosest, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
-      case HUNT_LARGEST:
+      case HUNT_MAX:
         gc.drawImage(huntLargest, (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
         break;
       case HUNT_FIRST:
@@ -274,10 +284,10 @@ public class Engine {
   /**
    * @param c
    */
-  public void paintTargetLine(Cell c) {
+  private void paintTargetLine(Cell c) {
     if (c.getTargetFood() != null) {
       gc.setGlobalAlpha(2);
-      gc.setStroke(Color.web(c.getColor()));
+      gc.setStroke(Color.web(c.getBreed().getColorCode()));
       gc.strokeLine(
           (c.getX() + 0.25) * GLOBAL_SCALE, (c.getY() + 0.25) * GLOBAL_SCALE,
           (c.getTargetFood()[1] + 0.25) * GLOBAL_SCALE, (c.getTargetFood()[0] + 0.25) * GLOBAL_SCALE
@@ -293,15 +303,15 @@ public class Engine {
     world.generateWorld(sugarFactor);
     gc = canvas.getGraphicsContext2D();
     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    vulture = new Image("edu/lexaron/gfx/vulture.png");
-    predator = new Image("edu/lexaron/gfx/predator.png");
-    tree = new Image("edu/lexaron/gfx/tree.png");
-    huntFirst = new Image("edu/lexaron/gfx/huntFirst.png");
     huntClosest = new Image("edu/lexaron/gfx/huntClosest.png");
+    huntFirst   = new Image("edu/lexaron/gfx/huntFirst.png");
     huntLargest = new Image("edu/lexaron/gfx/huntLargest.png");
-    leech = new Image("edu/lexaron/gfx/leech.png");
+    leech       = new Image("edu/lexaron/gfx/leech.png");
+    predator    = new Image("edu/lexaron/gfx/predator.png");
+    vulture     = new Image("edu/lexaron/gfx/vulture.png");
+    tree        = new Image("edu/lexaron/gfx/tree.png");
     if (cellsToo) {
-      monitor.reseed(world);
+      reseedCells(world);
     }
   }
 

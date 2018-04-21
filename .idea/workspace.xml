@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f93a125d-dd9f-4e56-bacf-2944e936c7e6" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/edu/lexaron/gfx/maggots.png" />
+    <list default="true" id="f93a125d-dd9f-4e56-bacf-2944e936c7e6" name="Default" comment="Some OOP compliance; Improved Cells' hunting and eating logic; Housekeeping;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java" />
       <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" />
       <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" />
       <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" />
@@ -12,9 +12,8 @@
       <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" />
       <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" />
       <change beforePath="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java" />
       <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" />
-      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java" />
+      <change beforePath="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" afterPath="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" />
     </list>
     <ignored path="CellSIM.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,291 +33,95 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CellSIM.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="25" column="29" lean-forward="false" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="docComment;class#CellSIM#0" expanded="false" />
-                <element signature="docComment;method#main#0;class#CellSIM#0" expanded="false" />
-                <element signature="e#2449#2574#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Cell.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="73" column="14" lean-forward="false" selection-start-line="73" selection-start-column="14" selection-end-line="73" selection-end-column="14" />
+            <state relative-caret-position="170">
+              <caret line="22" column="57" lean-forward="true" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="false" />
                 <element signature="docComment;class#Cell#0" expanded="false" />
-                <element signature="method#Cell#0;class#Cell#0" expanded="false" />
+                <element signature="e#1627#1628#0" expanded="true" />
+                <element signature="e#1650#1651#0" expanded="true" />
                 <element signature="method#findFreeTile#0;class#Cell#0" expanded="false" />
                 <element signature="method#evolve#0;class#Cell#0" expanded="false" />
-                <element signature="e#4156#4157#0" expanded="true" />
-                <element signature="e#4183#4184#0" expanded="true" />
+                <element signature="e#3428#3429#0" expanded="true" />
+                <element signature="e#3462#3463#0" expanded="true" />
+                <element signature="e#3493#3494#0" expanded="true" />
+                <element signature="e#3516#3517#0" expanded="true" />
+                <element signature="e#3558#3559#0" expanded="true" />
+                <element signature="e#3588#3589#0" expanded="true" />
+                <element signature="e#3611#3612#0" expanded="true" />
+                <element signature="e#3629#3630#0" expanded="true" />
+                <element signature="e#3658#3659#0" expanded="true" />
+                <element signature="e#3678#3679#0" expanded="true" />
+                <element signature="e#3701#3702#0" expanded="true" />
+                <element signature="e#3719#3720#0" expanded="true" />
+                <element signature="e#3748#3749#0" expanded="true" />
+                <element signature="e#3768#3769#0" expanded="true" />
+                <element signature="e#3796#3797#0" expanded="true" />
+                <element signature="e#3819#3820#0" expanded="true" />
+                <element signature="e#3849#3850#0" expanded="true" />
+                <element signature="e#3871#3872#0" expanded="true" />
+                <element signature="e#3906#3907#0" expanded="true" />
+                <element signature="e#3933#3934#0" expanded="true" />
+                <element signature="e#3963#3964#0" expanded="true" />
+                <element signature="e#3985#3986#0" expanded="true" />
+                <element signature="e#4026#4027#0" expanded="true" />
+                <element signature="e#4054#4055#0" expanded="true" />
+                <element signature="e#4088#4089#0" expanded="true" />
+                <element signature="e#4115#4116#0" expanded="true" />
+                <element signature="e#4148#4149#0" expanded="true" />
+                <element signature="e#4173#4174#0" expanded="true" />
                 <element signature="method#inheritFrom#0;class#Cell#0" expanded="false" />
                 <element signature="method#findPathTo#0;class#Cell#0" expanded="false" />
                 <element signature="method#upkeep#0;class#Cell#0" expanded="false" />
                 <element signature="method#usePath#0;class#Cell#0" expanded="false" />
                 <element signature="method#randomStep#0;class#Cell#0" expanded="false" />
                 <element signature="method#moveUp#0;class#Cell#0" expanded="false" />
-                <element signature="e#7161#7225#0" expanded="false" />
+                <element signature="e#7041#7105#0" expanded="false" />
                 <element signature="method#moveRight#0;class#Cell#0" expanded="false" />
-                <element signature="e#8353#8420#0" expanded="false" />
+                <element signature="e#8233#8300#0" expanded="false" />
                 <element signature="method#moveDown#0;class#Cell#0" expanded="false" />
-                <element signature="e#9547#9613#0" expanded="false" />
-                <element signature="e#10336#10337#0" expanded="true" />
-                <element signature="e#10374#10375#0" expanded="true" />
+                <element signature="e#9427#9493#0" expanded="false" />
+                <element signature="e#10216#10217#0" expanded="true" />
+                <element signature="e#10254#10255#0" expanded="true" />
+                <element signature="e#10292#10293#0" expanded="true" />
+                <element signature="e#10328#10329#0" expanded="true" />
+                <element signature="e#10358#10359#0" expanded="true" />
+                <element signature="e#10379#10380#0" expanded="true" />
+                <element signature="e#10405#10406#0" expanded="true" />
+                <element signature="e#10430#10431#0" expanded="true" />
+                <element signature="e#10454#10455#0" expanded="true" />
+                <element signature="e#10480#10481#0" expanded="true" />
                 <element signature="method#mutateVision#0;class#Cell#0" expanded="false" />
+                <element signature="e#10643#10644#0" expanded="true" />
+                <element signature="e#10671#10672#0" expanded="true" />
+                <element signature="e#10703#10704#0" expanded="true" />
+                <element signature="e#10726#10727#0" expanded="true" />
                 <element signature="method#mutateTrailSize#0;class#Cell#0" expanded="false" />
+                <element signature="e#10871#10872#0" expanded="true" />
+                <element signature="e#10896#10897#0" expanded="true" />
+                <element signature="e#10947#10948#0" expanded="true" />
+                <element signature="e#10985#10986#0" expanded="true" />
+                <element signature="e#11025#11026#0" expanded="true" />
+                <element signature="e#11055#11056#0" expanded="true" />
+                <element signature="e#11096#11097#0" expanded="true" />
+                <element signature="e#11124#11125#0" expanded="true" />
+                <element signature="e#11171#11172#0" expanded="true" />
+                <element signature="e#11205#11206#0" expanded="true" />
                 <element signature="method#moveLeft#0;class#Cell#0" expanded="false" />
-                <element signature="e#11771#11837#0" expanded="false" />
+                <element signature="e#11651#11717#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="World.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/World.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1751">
-              <caret line="140" column="3" lean-forward="false" selection-start-line="140" selection-start-column="3" selection-end-line="140" selection-end-column="3" />
-              <folding>
-                <element signature="e#2636#2637#0" expanded="true" />
-                <element signature="e#2658#2659#0" expanded="true" />
-                <element signature="e#2711#2712#0" expanded="true" />
-                <element signature="e#2734#2735#0" expanded="true" />
-                <element signature="e#2786#2787#0" expanded="true" />
-                <element signature="e#2808#2809#0" expanded="true" />
-                <element signature="e#2869#2870#0" expanded="true" />
-                <element signature="e#2894#2895#0" expanded="true" />
-                <element signature="e#2959#2960#0" expanded="true" />
-                <element signature="e#2988#2989#0" expanded="true" />
-                <element signature="e#3028#3029#0" expanded="true" />
-                <element signature="e#3057#3058#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Vulture.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="42" column="13" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-              <folding>
-                <element signature="docComment;class#Vulture#0" expanded="false" />
-                <element signature="e#444#445#0" expanded="true" />
-                <element signature="e#474#475#0" expanded="true" />
-                <element signature="docComment;method#doHunt#0;class#Vulture#0" expanded="false" />
-                <element signature="docComment;method#eat#0;class#Vulture#0" expanded="false" />
-                <element signature="e#2040#2094#0" expanded="false" />
-                <element signature="method#mutate#0;class#Vulture#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/Tile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="78" column="21" lean-forward="false" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
-              <folding>
-                <element signature="e#1013#1014#0" expanded="true" />
-                <element signature="e#1039#1040#0" expanded="true" />
-                <element signature="e#1095#1096#0" expanded="true" />
-                <element signature="e#1120#1121#0" expanded="true" />
-                <element signature="e#1197#1198#0" expanded="true" />
-                <element signature="e#1231#1232#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Monitor.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Monitor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2635">
-              <caret line="209" column="0" lean-forward="false" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="docComment;class#Monitor#0" expanded="false" />
-                <element signature="method#countSugar#0;class#Monitor#0" expanded="false" />
-                <element signature="docComment;method#countAllCells#0;class#Monitor#0" expanded="false" />
-                <element signature="docComment;method#countLiveCells#0;class#Monitor#0" expanded="false" />
-                <element signature="e#1302#1303#0" expanded="true" />
-                <element signature="e#1373#1374#0" expanded="true" />
-                <element signature="docComment;method#countDeadCells#0;class#Monitor#0" expanded="false" />
-                <element signature="e#1453#1454#0" expanded="true" />
-                <element signature="e#1534#1535#0" expanded="true" />
-                <element signature="docComment;method#worldHasLiveCells#0;class#Monitor#0" expanded="false" />
-                <element signature="e#1620#1621#0" expanded="true" />
-                <element signature="e#1685#1686#0" expanded="true" />
-                <element signature="e#1690#1736#0" expanded="false" />
-                <element signature="docComment;method#refreshLiveCellInfo#0;class#Monitor#0" expanded="false" />
-                <element signature="e#4466#4507#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HuntClosest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="36" column="13" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
-              <folding>
-                <element signature="docComment;class#HuntClosest#0" expanded="false" />
-                <element signature="e#453#454#0" expanded="true" />
-                <element signature="e#488#489#0" expanded="true" />
-                <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-                <element signature="method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-                <element signature="e#1411#1486#0" expanded="false" />
-                <element signature="docComment;method#mutate#0;class#HuntClosest#0" expanded="false" />
-                <element signature="method#mutate#0;class#HuntClosest#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HuntLargest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="40" column="12" lean-forward="false" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-              <folding>
-                <element signature="docComment;class#HuntLargest#0" expanded="false" />
-                <element signature="e#453#454#0" expanded="true" />
-                <element signature="e#488#489#0" expanded="true" />
-                <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-                <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-                <element signature="e#1411#1486#0" expanded="false" />
-                <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
-                <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Leech.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="25" column="8" lean-forward="false" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
-              <folding>
-                <element signature="docComment;class#Leech#0" expanded="false" />
-                <element signature="e#441#442#0" expanded="true" />
-                <element signature="e#469#470#0" expanded="true" />
-                <element signature="method#eat#0;class#Leech#0" expanded="false" />
-                <element signature="e#3257#3557#0" expanded="false" />
-                <element signature="method#mutate#0;class#Leech#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tree.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-              <folding>
-                <element signature="docComment;class#Tree#0" expanded="false" />
-                <element signature="e#439#440#0" expanded="true" />
-                <element signature="e#466#467#0" expanded="true" />
-                <element signature="method#eat#0;class#Tree#0" expanded="false" />
-                <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
-                <element signature="e#2899#2954#0" expanded="false" />
-                <element signature="method#mutate#0;class#Tree#0" expanded="false" />
-                <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HuntFirst.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="626">
-              <caret line="56" column="3" lean-forward="false" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="3" />
-              <folding>
-                <element signature="docComment;class#HuntFirst#0" expanded="false" />
-                <element signature="e#445#446#0" expanded="true" />
-                <element signature="e#478#479#0" expanded="true" />
-                <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-                <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-                <element signature="e#1401#1472#0" expanded="false" />
-                <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
-                <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Predator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-              <folding>
-                <element signature="e#447#448#0" expanded="true" />
-                <element signature="e#478#479#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Engine.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="141" column="21" lean-forward="false" selection-start-line="141" selection-start-column="21" selection-end-line="141" selection-end-column="21" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="docComment;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#startThread#0;class#Engine#0" expanded="false" />
-                <element signature="method#paintGrid#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#paintTargetLine#0;class#Engine#0" expanded="false" />
-                <element signature="method#paintTargetLine#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#setup#0;class#Engine#0" expanded="false" />
-                <element signature="method#setup#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#setCanvas#0;class#Engine#0" expanded="false" />
-                <element signature="method#setCanvas#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#getWidth#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#getHeight#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#setGens_L#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#setAlive#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#setDead#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#setTotal#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#getWorld#0;class#Engine#0" expanded="false" />
-                <element signature="docComment;method#getSugarFactor#0;class#Engine#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Breed.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="9" lean-forward="false" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Life.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="853">
+              <caret line="92" column="94" lean-forward="false" selection-start-line="92" selection-start-column="94" selection-end-line="92" selection-end-column="94" />
               <folding />
             </state>
           </provider>
@@ -330,6 +133,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -343,6 +147,10 @@
       <find>getClass</find>
       <find>getSimpleName</find>
       <find>V.0</find>
+      <find>for (I</find>
+      <find>count</find>
+      <find>row1</find>
+      <find>totEne_L</find>
     </findStrings>
     <replaceStrings>
       <replace>cell</replace>
@@ -377,19 +185,21 @@
       <list>
         <option value="$PROJECT_DIR$/src/edu/lexaron/world/Cell.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/CellType.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/world/World.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" />
-        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/world/World.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java" />
         <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/CellFactory.java" />
+        <option value="$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java" />
       </list>
     </option>
   </component>
@@ -466,6 +276,36 @@
               <item name="lexaron" type="462c0819:PsiDirectoryNode" />
               <item name="world" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; JDK 1.8.0_131 &gt;" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; JDK 1.8.0_131 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; JDK 1.8.0_131 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CellSIM" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; JDK 1.8.0_131 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="rt.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -513,9 +353,14 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="fileTemplates" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="edu.lexaron.simulation.Engine" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -658,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1524173026051</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Some OOP compliance; Improved Cells' hunting and eating logic; Housekeeping;">
+      <created>1524176625284</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1524176625284</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -670,11 +522,12 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18867925" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2563818" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33518314" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.73251945" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13006397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -687,7 +540,6 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TCPMON" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -703,7 +555,8 @@
     <MESSAGE value="2018 update!" />
     <MESSAGE value="PERFORMANCE UPDATE: Removed unnecessary Random objects, replaced FOR loops with Streams, added enum Breed." />
     <MESSAGE value="Issue #2: that1guy232's suggestion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Issue #2: that1guy232's suggestion" />
+    <MESSAGE value="Some OOP compliance; Improved Cells' hunting and eating logic; Housekeeping;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some OOP compliance; Improved Cells' hunting and eating logic; Housekeeping;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -711,98 +564,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="59" column="35" lean-forward="false" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Cell#0" expanded="false" />
-            <element signature="method#Cell#0;class#Cell#0" expanded="false" />
-            <element signature="method#findFreeTile#0;class#Cell#0" expanded="false" />
-            <element signature="method#evolve#0;class#Cell#0" expanded="false" />
-            <element signature="e#4156#4157#0" expanded="true" />
-            <element signature="e#4183#4184#0" expanded="true" />
-            <element signature="method#inheritFrom#0;class#Cell#0" expanded="false" />
-            <element signature="method#findPathTo#0;class#Cell#0" expanded="false" />
-            <element signature="method#upkeep#0;class#Cell#0" expanded="false" />
-            <element signature="method#usePath#0;class#Cell#0" expanded="false" />
-            <element signature="method#randomStep#0;class#Cell#0" expanded="false" />
-            <element signature="method#moveUp#0;class#Cell#0" expanded="false" />
-            <element signature="e#7161#7225#0" expanded="false" />
-            <element signature="method#moveRight#0;class#Cell#0" expanded="false" />
-            <element signature="e#8353#8420#0" expanded="false" />
-            <element signature="method#moveDown#0;class#Cell#0" expanded="false" />
-            <element signature="e#9547#9613#0" expanded="false" />
-            <element signature="e#10336#10337#0" expanded="true" />
-            <element signature="e#10374#10375#0" expanded="true" />
-            <element signature="method#mutateVision#0;class#Cell#0" expanded="false" />
-            <element signature="method#mutateTrailSize#0;class#Cell#0" expanded="false" />
-            <element signature="method#moveLeft#0;class#Cell#0" expanded="false" />
-            <element signature="e#11771#11837#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/World.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="21" column="42" lean-forward="false" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-          <folding>
-            <element signature="e#2636#2637#0" expanded="true" />
-            <element signature="e#2658#2659#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
-            <element signature="e#2734#2735#0" expanded="true" />
-            <element signature="e#2786#2787#0" expanded="true" />
-            <element signature="e#2808#2809#0" expanded="true" />
-            <element signature="e#2869#2870#0" expanded="true" />
-            <element signature="e#2894#2895#0" expanded="true" />
-            <element signature="e#2959#2960#0" expanded="true" />
-            <element signature="e#2988#2989#0" expanded="true" />
-            <element signature="e#3028#3029#0" expanded="true" />
-            <element signature="e#3057#3058#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="100" column="79" lean-forward="false" selection-start-line="100" selection-start-column="79" selection-end-line="100" selection-end-column="79" />
-          <folding>
-            <element signature="docComment;class#Vulture#0" expanded="false" />
-            <element signature="e#444#445#0" expanded="true" />
-            <element signature="e#474#475#0" expanded="true" />
-            <element signature="docComment;method#doHunt#0;class#Vulture#0" expanded="false" />
-            <element signature="docComment;method#eat#0;class#Vulture#0" expanded="false" />
-            <element signature="e#2040#2094#0" expanded="false" />
-            <element signature="method#mutate#0;class#Vulture#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3553">
           <caret line="209" column="0" lean-forward="false" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Monitor#0" expanded="false" />
-            <element signature="method#countSugar#0;class#Monitor#0" expanded="false" />
-            <element signature="docComment;method#countAllCells#0;class#Monitor#0" expanded="false" />
-            <element signature="docComment;method#countLiveCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1302#1303#0" expanded="true" />
-            <element signature="e#1373#1374#0" expanded="true" />
-            <element signature="docComment;method#countDeadCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1453#1454#0" expanded="true" />
-            <element signature="e#1534#1535#0" expanded="true" />
-            <element signature="docComment;method#worldHasLiveCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1620#1621#0" expanded="true" />
-            <element signature="e#1685#1686#0" expanded="true" />
-            <element signature="e#1690#1736#0" expanded="false" />
-            <element signature="docComment;method#refreshLiveCellInfo#0;class#Monitor#0" expanded="false" />
-            <element signature="e#4466#4507#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -812,11 +578,13 @@
           <caret line="19" column="30" lean-forward="false" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
           <folding>
             <element signature="docComment;class#HuntClosest#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#488#489#0" expanded="true" />
+            <element signature="e#360#361#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#612#613#0" expanded="true" />
             <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" expanded="false" />
             <element signature="method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="e#1411#1486#0" expanded="false" />
+            <element signature="e#1535#1610#0" expanded="false" />
             <element signature="docComment;method#mutate#0;class#HuntClosest#0" expanded="false" />
             <element signature="method#mutate#0;class#HuntClosest#0" expanded="false" />
           </folding>
@@ -829,11 +597,13 @@
           <caret line="19" column="30" lean-forward="false" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
           <folding>
             <element signature="docComment;class#HuntLargest#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#488#489#0" expanded="true" />
+            <element signature="e#360#361#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#608#609#0" expanded="true" />
             <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
             <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="e#1411#1486#0" expanded="false" />
+            <element signature="e#1531#1606#0" expanded="false" />
             <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
             <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
           </folding>
@@ -846,10 +616,12 @@
           <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="105" selection-end-column="85" />
           <folding>
             <element signature="docComment;class#Leech#0" expanded="false" />
-            <element signature="e#441#442#0" expanded="true" />
-            <element signature="e#469#470#0" expanded="true" />
+            <element signature="e#343#344#0" expanded="true" />
+            <element signature="e#390#391#0" expanded="true" />
+            <element signature="e#560#561#0" expanded="true" />
+            <element signature="e#588#589#0" expanded="true" />
             <element signature="method#eat#0;class#Leech#0" expanded="false" />
-            <element signature="e#3257#3557#0" expanded="false" />
+            <element signature="e#3376#3676#0" expanded="false" />
             <element signature="method#mutate#0;class#Leech#0" expanded="false" />
           </folding>
         </state>
@@ -861,11 +633,15 @@
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
           <folding>
             <element signature="docComment;class#Tree#0" expanded="false" />
-            <element signature="e#439#440#0" expanded="true" />
-            <element signature="e#466#467#0" expanded="true" />
+            <element signature="e#341#342#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#417#418#0" expanded="true" />
+            <element signature="e#515#516#0" expanded="true" />
+            <element signature="e#556#557#0" expanded="true" />
+            <element signature="e#583#584#0" expanded="true" />
             <element signature="method#eat#0;class#Tree#0" expanded="false" />
             <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
-            <element signature="e#2899#2954#0" expanded="false" />
+            <element signature="e#3016#3071#0" expanded="false" />
             <element signature="method#mutate#0;class#Tree#0" expanded="false" />
             <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
           </folding>
@@ -878,11 +654,13 @@
           <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
           <folding>
             <element signature="docComment;class#HuntFirst#0" expanded="false" />
-            <element signature="e#445#446#0" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
+            <element signature="e#352#353#0" expanded="true" />
+            <element signature="e#394#395#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#601#602#0" expanded="true" />
             <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
             <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="e#1401#1472#0" expanded="false" />
+            <element signature="e#1524#1595#0" expanded="false" />
             <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
             <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
           </folding>
@@ -894,8 +672,10 @@
         <state relative-caret-position="1938">
           <caret line="122" column="37" lean-forward="false" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
           <folding>
-            <element signature="e#447#448#0" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
+            <element signature="e#351#352#0" expanded="true" />
+            <element signature="e#395#396#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#599#600#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -908,6 +688,15 @@
             <element signature="imports" expanded="false" />
             <element signature="docComment;class#Engine#0" expanded="false" />
             <element signature="docComment;method#startThread#0;class#Engine#0" expanded="false" />
+            <element signature="method#startThread#0;class#Engine#0" expanded="false" />
+            <element signature="e#3205#4787#0" expanded="false" />
+            <element signature="e#3328#3351#0" expanded="false" />
+            <element signature="e#4692#4714#0" expanded="false" />
+            <element signature="method#paintWorld#0;class#Engine#0" expanded="false" />
+            <element signature="method#reseedCells#0;class#Engine#0" expanded="false" />
+            <element signature="method#paintCells#0;class#Engine#0" expanded="false" />
+            <element signature="e#7763#7783#0" expanded="false" />
+            <element signature="method#paintCellGFX#0;class#Engine#0" expanded="false" />
             <element signature="method#paintGrid#0;class#Engine#0" expanded="false" />
             <element signature="docComment;method#paintTargetLine#0;class#Engine#0" expanded="false" />
             <element signature="method#paintTargetLine#0;class#Engine#0" expanded="false" />
@@ -931,7 +720,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="13" column="9" lean-forward="false" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="e#350#351#0" expanded="true" />
+            <element signature="e#386#387#0" expanded="true" />
+            <element signature="e#478#479#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -983,10 +777,12 @@
           <caret line="128" column="116" lean-forward="false" selection-start-line="128" selection-start-column="116" selection-end-line="128" selection-end-column="116" />
           <folding>
             <element signature="docComment;class#Leech#0" expanded="false" />
-            <element signature="e#441#442#0" expanded="true" />
-            <element signature="e#469#470#0" expanded="true" />
+            <element signature="e#343#344#0" expanded="true" />
+            <element signature="e#390#391#0" expanded="true" />
+            <element signature="e#560#561#0" expanded="true" />
+            <element signature="e#588#589#0" expanded="true" />
             <element signature="method#eat#0;class#Leech#0" expanded="false" />
-            <element signature="e#3257#3557#0" expanded="false" />
+            <element signature="e#3376#3676#0" expanded="false" />
             <element signature="method#mutate#0;class#Leech#0" expanded="false" />
           </folding>
         </state>
@@ -996,24 +792,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3587">
           <caret line="217" column="128" lean-forward="false" selection-start-line="217" selection-start-column="128" selection-end-line="217" selection-end-column="128" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Monitor#0" expanded="false" />
-            <element signature="method#countSugar#0;class#Monitor#0" expanded="false" />
-            <element signature="docComment;method#countAllCells#0;class#Monitor#0" expanded="false" />
-            <element signature="docComment;method#countLiveCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1302#1303#0" expanded="true" />
-            <element signature="e#1373#1374#0" expanded="true" />
-            <element signature="docComment;method#countDeadCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1453#1454#0" expanded="true" />
-            <element signature="e#1534#1535#0" expanded="true" />
-            <element signature="docComment;method#worldHasLiveCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1620#1621#0" expanded="true" />
-            <element signature="e#1685#1686#0" expanded="true" />
-            <element signature="e#1690#1736#0" expanded="false" />
-            <element signature="docComment;method#refreshLiveCellInfo#0;class#Monitor#0" expanded="false" />
-            <element signature="e#4466#4507#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1023,11 +802,13 @@
           <caret line="65" column="128" lean-forward="false" selection-start-line="65" selection-start-column="128" selection-end-line="65" selection-end-column="128" />
           <folding>
             <element signature="docComment;class#HuntClosest#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#488#489#0" expanded="true" />
+            <element signature="e#360#361#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#612#613#0" expanded="true" />
             <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" expanded="false" />
             <element signature="method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="e#1411#1486#0" expanded="false" />
+            <element signature="e#1535#1610#0" expanded="false" />
             <element signature="docComment;method#mutate#0;class#HuntClosest#0" expanded="false" />
             <element signature="method#mutate#0;class#HuntClosest#0" expanded="false" />
           </folding>
@@ -1040,11 +821,13 @@
           <caret line="66" column="128" lean-forward="false" selection-start-line="66" selection-start-column="128" selection-end-line="66" selection-end-column="128" />
           <folding>
             <element signature="docComment;class#HuntLargest#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#488#489#0" expanded="true" />
+            <element signature="e#360#361#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#608#609#0" expanded="true" />
             <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
             <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="e#1411#1486#0" expanded="false" />
+            <element signature="e#1531#1606#0" expanded="false" />
             <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
             <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
           </folding>
@@ -1057,11 +840,13 @@
           <caret line="127" column="120" lean-forward="false" selection-start-line="127" selection-start-column="120" selection-end-line="127" selection-end-column="120" />
           <folding>
             <element signature="docComment;class#Vulture#0" expanded="false" />
-            <element signature="e#444#445#0" expanded="true" />
-            <element signature="e#474#475#0" expanded="true" />
+            <element signature="e#349#350#0" expanded="true" />
+            <element signature="e#393#394#0" expanded="true" />
+            <element signature="e#565#566#0" expanded="true" />
+            <element signature="e#595#596#0" expanded="true" />
             <element signature="docComment;method#doHunt#0;class#Vulture#0" expanded="false" />
             <element signature="docComment;method#eat#0;class#Vulture#0" expanded="false" />
-            <element signature="e#2040#2094#0" expanded="false" />
+            <element signature="e#2161#2215#0" expanded="false" />
             <element signature="method#mutate#0;class#Vulture#0" expanded="false" />
           </folding>
         </state>
@@ -1073,11 +858,13 @@
           <caret line="64" column="4" lean-forward="false" selection-start-line="64" selection-start-column="4" selection-end-line="64" selection-end-column="4" />
           <folding>
             <element signature="docComment;class#HuntFirst#0" expanded="false" />
-            <element signature="e#445#446#0" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
+            <element signature="e#352#353#0" expanded="true" />
+            <element signature="e#394#395#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#601#602#0" expanded="true" />
             <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
             <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="e#1401#1472#0" expanded="false" />
+            <element signature="e#1524#1595#0" expanded="false" />
             <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
             <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
           </folding>
@@ -1090,11 +877,15 @@
           <caret line="113" column="4" lean-forward="false" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="28" />
           <folding>
             <element signature="docComment;class#Tree#0" expanded="false" />
-            <element signature="e#439#440#0" expanded="true" />
-            <element signature="e#466#467#0" expanded="true" />
+            <element signature="e#341#342#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#417#418#0" expanded="true" />
+            <element signature="e#515#516#0" expanded="true" />
+            <element signature="e#556#557#0" expanded="true" />
+            <element signature="e#583#584#0" expanded="true" />
             <element signature="method#eat#0;class#Tree#0" expanded="false" />
             <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
-            <element signature="e#2899#2954#0" expanded="false" />
+            <element signature="e#3016#3071#0" expanded="false" />
             <element signature="method#mutate#0;class#Tree#0" expanded="false" />
             <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
           </folding>
@@ -1109,6 +900,15 @@
             <element signature="imports" expanded="false" />
             <element signature="docComment;class#Engine#0" expanded="false" />
             <element signature="docComment;method#startThread#0;class#Engine#0" expanded="false" />
+            <element signature="method#startThread#0;class#Engine#0" expanded="false" />
+            <element signature="e#3205#4787#0" expanded="false" />
+            <element signature="e#3328#3351#0" expanded="false" />
+            <element signature="e#4692#4714#0" expanded="false" />
+            <element signature="method#paintWorld#0;class#Engine#0" expanded="false" />
+            <element signature="method#reseedCells#0;class#Engine#0" expanded="false" />
+            <element signature="method#paintCells#0;class#Engine#0" expanded="false" />
+            <element signature="e#7763#7783#0" expanded="false" />
+            <element signature="method#paintCellGFX#0;class#Engine#0" expanded="false" />
             <element signature="method#paintGrid#0;class#Engine#0" expanded="false" />
             <element signature="docComment;method#paintTargetLine#0;class#Engine#0" expanded="false" />
             <element signature="method#paintTargetLine#0;class#Engine#0" expanded="false" />
@@ -1135,28 +935,77 @@
           <folding>
             <element signature="imports" expanded="false" />
             <element signature="docComment;class#Cell#0" expanded="false" />
-            <element signature="method#Cell#0;class#Cell#0" expanded="false" />
+            <element signature="e#1627#1628#0" expanded="true" />
+            <element signature="e#1650#1651#0" expanded="true" />
             <element signature="method#findFreeTile#0;class#Cell#0" expanded="false" />
             <element signature="method#evolve#0;class#Cell#0" expanded="false" />
-            <element signature="e#4156#4157#0" expanded="true" />
-            <element signature="e#4183#4184#0" expanded="true" />
+            <element signature="e#3428#3429#0" expanded="true" />
+            <element signature="e#3462#3463#0" expanded="true" />
+            <element signature="e#3493#3494#0" expanded="true" />
+            <element signature="e#3516#3517#0" expanded="true" />
+            <element signature="e#3558#3559#0" expanded="true" />
+            <element signature="e#3588#3589#0" expanded="true" />
+            <element signature="e#3611#3612#0" expanded="true" />
+            <element signature="e#3629#3630#0" expanded="true" />
+            <element signature="e#3658#3659#0" expanded="true" />
+            <element signature="e#3678#3679#0" expanded="true" />
+            <element signature="e#3701#3702#0" expanded="true" />
+            <element signature="e#3719#3720#0" expanded="true" />
+            <element signature="e#3748#3749#0" expanded="true" />
+            <element signature="e#3768#3769#0" expanded="true" />
+            <element signature="e#3796#3797#0" expanded="true" />
+            <element signature="e#3819#3820#0" expanded="true" />
+            <element signature="e#3849#3850#0" expanded="true" />
+            <element signature="e#3871#3872#0" expanded="true" />
+            <element signature="e#3906#3907#0" expanded="true" />
+            <element signature="e#3933#3934#0" expanded="true" />
+            <element signature="e#3963#3964#0" expanded="true" />
+            <element signature="e#3985#3986#0" expanded="true" />
+            <element signature="e#4026#4027#0" expanded="true" />
+            <element signature="e#4054#4055#0" expanded="true" />
+            <element signature="e#4088#4089#0" expanded="true" />
+            <element signature="e#4115#4116#0" expanded="true" />
+            <element signature="e#4148#4149#0" expanded="true" />
+            <element signature="e#4173#4174#0" expanded="true" />
             <element signature="method#inheritFrom#0;class#Cell#0" expanded="false" />
             <element signature="method#findPathTo#0;class#Cell#0" expanded="false" />
             <element signature="method#upkeep#0;class#Cell#0" expanded="false" />
             <element signature="method#usePath#0;class#Cell#0" expanded="false" />
             <element signature="method#randomStep#0;class#Cell#0" expanded="false" />
             <element signature="method#moveUp#0;class#Cell#0" expanded="false" />
-            <element signature="e#7161#7225#0" expanded="false" />
+            <element signature="e#7041#7105#0" expanded="false" />
             <element signature="method#moveRight#0;class#Cell#0" expanded="false" />
-            <element signature="e#8353#8420#0" expanded="false" />
+            <element signature="e#8233#8300#0" expanded="false" />
             <element signature="method#moveDown#0;class#Cell#0" expanded="false" />
-            <element signature="e#9547#9613#0" expanded="false" />
-            <element signature="e#10336#10337#0" expanded="true" />
-            <element signature="e#10374#10375#0" expanded="true" />
+            <element signature="e#9427#9493#0" expanded="false" />
+            <element signature="e#10216#10217#0" expanded="true" />
+            <element signature="e#10254#10255#0" expanded="true" />
+            <element signature="e#10292#10293#0" expanded="true" />
+            <element signature="e#10328#10329#0" expanded="true" />
+            <element signature="e#10358#10359#0" expanded="true" />
+            <element signature="e#10379#10380#0" expanded="true" />
+            <element signature="e#10405#10406#0" expanded="true" />
+            <element signature="e#10430#10431#0" expanded="true" />
+            <element signature="e#10454#10455#0" expanded="true" />
+            <element signature="e#10480#10481#0" expanded="true" />
             <element signature="method#mutateVision#0;class#Cell#0" expanded="false" />
+            <element signature="e#10643#10644#0" expanded="true" />
+            <element signature="e#10671#10672#0" expanded="true" />
+            <element signature="e#10703#10704#0" expanded="true" />
+            <element signature="e#10726#10727#0" expanded="true" />
             <element signature="method#mutateTrailSize#0;class#Cell#0" expanded="false" />
+            <element signature="e#10871#10872#0" expanded="true" />
+            <element signature="e#10896#10897#0" expanded="true" />
+            <element signature="e#10947#10948#0" expanded="true" />
+            <element signature="e#10985#10986#0" expanded="true" />
+            <element signature="e#11025#11026#0" expanded="true" />
+            <element signature="e#11055#11056#0" expanded="true" />
+            <element signature="e#11096#11097#0" expanded="true" />
+            <element signature="e#11124#11125#0" expanded="true" />
+            <element signature="e#11171#11172#0" expanded="true" />
+            <element signature="e#11205#11206#0" expanded="true" />
             <element signature="method#moveLeft#0;class#Cell#0" expanded="false" />
-            <element signature="e#11771#11837#0" expanded="false" />
+            <element signature="e#11651#11717#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1180,8 +1029,10 @@
         <state relative-caret-position="1938">
           <caret line="120" column="39" lean-forward="true" selection-start-line="120" selection-start-column="39" selection-end-line="120" selection-end-column="39" />
           <folding>
-            <element signature="e#447#448#0" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
+            <element signature="e#351#352#0" expanded="true" />
+            <element signature="e#395#396#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#599#600#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1263,39 +1114,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="9" lean-forward="false" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2635">
-          <caret line="209" column="0" lean-forward="false" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#Monitor#0" expanded="false" />
-            <element signature="method#countSugar#0;class#Monitor#0" expanded="false" />
-            <element signature="docComment;method#countAllCells#0;class#Monitor#0" expanded="false" />
-            <element signature="docComment;method#countLiveCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1302#1303#0" expanded="true" />
-            <element signature="e#1373#1374#0" expanded="true" />
-            <element signature="docComment;method#countDeadCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1453#1454#0" expanded="true" />
-            <element signature="e#1534#1535#0" expanded="true" />
-            <element signature="docComment;method#worldHasLiveCells#0;class#Monitor#0" expanded="false" />
-            <element signature="e#1620#1621#0" expanded="true" />
-            <element signature="e#1685#1686#0" expanded="true" />
-            <element signature="e#1690#1736#0" expanded="false" />
-            <element signature="docComment;method#refreshLiveCellInfo#0;class#Monitor#0" expanded="false" />
-            <element signature="e#4466#4507#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/Tile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
@@ -1311,10 +1129,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="25" column="29" lean-forward="false" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="docComment;class#CellSIM#0" expanded="false" />
+            <element signature="docComment;method#main#0;class#CellSIM#0" expanded="false" />
+            <element signature="e#2449#2574#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/EnumSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="94" column="4" lean-forward="false" selection-start-line="94" selection-start-column="4" selection-end-line="94" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/RegularEnumSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="35" column="6" lean-forward="false" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/world/World.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1751">
-          <caret line="140" column="3" lean-forward="false" selection-start-line="140" selection-start-column="3" selection-end-line="140" selection-end-column="3" />
+        <state relative-caret-position="621">
+          <caret line="134" column="19" lean-forward="true" selection-start-line="134" selection-start-column="19" selection-end-line="134" selection-end-column="19" />
           <folding>
             <element signature="e#2636#2637#0" expanded="true" />
             <element signature="e#2658#2659#0" expanded="true" />
@@ -1332,22 +1187,143 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Life.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="204">
+          <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+          <folding>
+            <element signature="docComment;class#HuntFirst#0" expanded="false" />
+            <element signature="e#352#353#0" expanded="true" />
+            <element signature="e#394#395#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#601#602#0" expanded="true" />
+            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
+            <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
+            <element signature="e#1524#1595#0" expanded="false" />
+            <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
+            <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+          <folding>
+            <element signature="docComment;class#HuntLargest#0" expanded="false" />
+            <element signature="e#360#361#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#608#609#0" expanded="true" />
+            <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
+            <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
+            <element signature="e#1531#1606#0" expanded="false" />
+            <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
+            <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="19" column="93" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="93" />
+          <folding>
+            <element signature="docComment;class#Leech#0" expanded="false" />
+            <element signature="e#343#344#0" expanded="true" />
+            <element signature="e#390#391#0" expanded="true" />
+            <element signature="e#560#561#0" expanded="true" />
+            <element signature="e#588#589#0" expanded="true" />
+            <element signature="method#eat#0;class#Leech#0" expanded="false" />
+            <element signature="e#3376#3676#0" expanded="false" />
+            <element signature="method#mutate#0;class#Leech#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+          <folding>
+            <element signature="e#351#352#0" expanded="true" />
+            <element signature="e#395#396#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#599#600#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="19" column="11" lean-forward="false" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+          <folding>
+            <element signature="docComment;class#Tree#0" expanded="false" />
+            <element signature="e#341#342#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#417#418#0" expanded="true" />
+            <element signature="e#515#516#0" expanded="true" />
+            <element signature="e#556#557#0" expanded="true" />
+            <element signature="e#583#584#0" expanded="true" />
+            <element signature="method#eat#0;class#Tree#0" expanded="false" />
+            <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
+            <element signature="e#3016#3071#0" expanded="false" />
+            <element signature="method#mutate#0;class#Tree#0" expanded="false" />
+            <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+          <folding>
+            <element signature="docComment;class#Vulture#0" expanded="false" />
+            <element signature="e#349#350#0" expanded="true" />
+            <element signature="e#393#394#0" expanded="true" />
+            <element signature="e#565#566#0" expanded="true" />
+            <element signature="e#595#596#0" expanded="true" />
+            <element signature="docComment;method#doHunt#0;class#Vulture#0" expanded="false" />
+            <element signature="docComment;method#eat#0;class#Vulture#0" expanded="false" />
+            <element signature="e#2161#2215#0" expanded="false" />
+            <element signature="method#mutate#0;class#Vulture#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Breed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="19" lean-forward="false" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+          <folding>
+            <element signature="e#350#351#0" expanded="true" />
+            <element signature="e#386#387#0" expanded="true" />
+            <element signature="e#478#479#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="141" column="21" lean-forward="false" selection-start-line="141" selection-start-column="21" selection-end-line="141" selection-end-column="21" />
+        <state relative-caret-position="680">
+          <caret line="245" column="2" lean-forward="true" selection-start-line="245" selection-start-column="2" selection-end-line="245" selection-end-column="2" />
           <folding>
             <element signature="imports" expanded="false" />
             <element signature="docComment;class#Engine#0" expanded="false" />
             <element signature="docComment;method#startThread#0;class#Engine#0" expanded="false" />
+            <element signature="method#startThread#0;class#Engine#0" expanded="false" />
+            <element signature="e#3205#4787#0" expanded="false" />
+            <element signature="e#3328#3351#0" expanded="false" />
+            <element signature="e#4692#4714#0" expanded="false" />
+            <element signature="method#paintWorld#0;class#Engine#0" expanded="false" />
+            <element signature="method#reseedCells#0;class#Engine#0" expanded="false" />
+            <element signature="method#paintCells#0;class#Engine#0" expanded="false" />
+            <element signature="e#7763#7783#0" expanded="false" />
+            <element signature="method#paintCellGFX#0;class#Engine#0" expanded="false" />
             <element signature="method#paintGrid#0;class#Engine#0" expanded="false" />
             <element signature="docComment;method#paintTargetLine#0;class#Engine#0" expanded="false" />
             <element signature="method#paintTargetLine#0;class#Engine#0" expanded="false" />
@@ -1367,159 +1343,120 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/CellSIM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="25" column="29" lean-forward="false" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#CellSIM#0" expanded="false" />
-            <element signature="docComment;method#main#0;class#CellSIM#0" expanded="false" />
-            <element signature="e#2449#2574#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntFirst.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="626">
-          <caret line="56" column="3" lean-forward="false" selection-start-line="56" selection-start-column="3" selection-end-line="56" selection-end-column="3" />
-          <folding>
-            <element signature="docComment;class#HuntFirst#0" expanded="false" />
-            <element signature="e#445#446#0" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntFirst#0" expanded="false" />
-            <element signature="e#1401#1472#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntFirst#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntFirst#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntClosest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="36" column="13" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+        <state relative-caret-position="102">
+          <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
           <folding>
             <element signature="docComment;class#HuntClosest#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#488#489#0" expanded="true" />
+            <element signature="e#360#361#0" expanded="true" />
+            <element signature="e#401#402#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#612#613#0" expanded="true" />
             <element signature="docComment;method#lookForFood#0;class#HuntClosest#0" expanded="false" />
             <element signature="method#lookForFood#0;class#HuntClosest#0" expanded="false" />
-            <element signature="e#1411#1486#0" expanded="false" />
+            <element signature="e#1535#1610#0" expanded="false" />
             <element signature="docComment;method#mutate#0;class#HuntClosest#0" expanded="false" />
             <element signature="method#mutate#0;class#HuntClosest#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Tree.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/CellFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#Tree#0" expanded="false" />
-            <element signature="e#439#440#0" expanded="true" />
-            <element signature="e#466#467#0" expanded="true" />
-            <element signature="method#eat#0;class#Tree#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#Tree#0" expanded="false" />
-            <element signature="e#2899#2954#0" expanded="false" />
-            <element signature="method#mutate#0;class#Tree#0" expanded="false" />
-            <element signature="method#findFreeTile#0;class#Tree#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Predator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding>
-            <element signature="e#447#448#0" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Leech.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="25" column="8" lean-forward="false" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
-          <folding>
-            <element signature="docComment;class#Leech#0" expanded="false" />
-            <element signature="e#441#442#0" expanded="true" />
-            <element signature="e#469#470#0" expanded="true" />
-            <element signature="method#eat#0;class#Leech#0" expanded="false" />
-            <element signature="e#3257#3557#0" expanded="false" />
-            <element signature="method#mutate#0;class#Leech#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="153">
+          <caret line="9" column="15" lean-forward="false" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Cell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="73" column="14" lean-forward="false" selection-start-line="73" selection-start-column="14" selection-end-line="73" selection-end-column="14" />
+        <state relative-caret-position="170">
+          <caret line="22" column="57" lean-forward="true" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="false" />
             <element signature="docComment;class#Cell#0" expanded="false" />
-            <element signature="method#Cell#0;class#Cell#0" expanded="false" />
+            <element signature="e#1627#1628#0" expanded="true" />
+            <element signature="e#1650#1651#0" expanded="true" />
             <element signature="method#findFreeTile#0;class#Cell#0" expanded="false" />
             <element signature="method#evolve#0;class#Cell#0" expanded="false" />
-            <element signature="e#4156#4157#0" expanded="true" />
-            <element signature="e#4183#4184#0" expanded="true" />
+            <element signature="e#3428#3429#0" expanded="true" />
+            <element signature="e#3462#3463#0" expanded="true" />
+            <element signature="e#3493#3494#0" expanded="true" />
+            <element signature="e#3516#3517#0" expanded="true" />
+            <element signature="e#3558#3559#0" expanded="true" />
+            <element signature="e#3588#3589#0" expanded="true" />
+            <element signature="e#3611#3612#0" expanded="true" />
+            <element signature="e#3629#3630#0" expanded="true" />
+            <element signature="e#3658#3659#0" expanded="true" />
+            <element signature="e#3678#3679#0" expanded="true" />
+            <element signature="e#3701#3702#0" expanded="true" />
+            <element signature="e#3719#3720#0" expanded="true" />
+            <element signature="e#3748#3749#0" expanded="true" />
+            <element signature="e#3768#3769#0" expanded="true" />
+            <element signature="e#3796#3797#0" expanded="true" />
+            <element signature="e#3819#3820#0" expanded="true" />
+            <element signature="e#3849#3850#0" expanded="true" />
+            <element signature="e#3871#3872#0" expanded="true" />
+            <element signature="e#3906#3907#0" expanded="true" />
+            <element signature="e#3933#3934#0" expanded="true" />
+            <element signature="e#3963#3964#0" expanded="true" />
+            <element signature="e#3985#3986#0" expanded="true" />
+            <element signature="e#4026#4027#0" expanded="true" />
+            <element signature="e#4054#4055#0" expanded="true" />
+            <element signature="e#4088#4089#0" expanded="true" />
+            <element signature="e#4115#4116#0" expanded="true" />
+            <element signature="e#4148#4149#0" expanded="true" />
+            <element signature="e#4173#4174#0" expanded="true" />
             <element signature="method#inheritFrom#0;class#Cell#0" expanded="false" />
             <element signature="method#findPathTo#0;class#Cell#0" expanded="false" />
             <element signature="method#upkeep#0;class#Cell#0" expanded="false" />
             <element signature="method#usePath#0;class#Cell#0" expanded="false" />
             <element signature="method#randomStep#0;class#Cell#0" expanded="false" />
             <element signature="method#moveUp#0;class#Cell#0" expanded="false" />
-            <element signature="e#7161#7225#0" expanded="false" />
+            <element signature="e#7041#7105#0" expanded="false" />
             <element signature="method#moveRight#0;class#Cell#0" expanded="false" />
-            <element signature="e#8353#8420#0" expanded="false" />
+            <element signature="e#8233#8300#0" expanded="false" />
             <element signature="method#moveDown#0;class#Cell#0" expanded="false" />
-            <element signature="e#9547#9613#0" expanded="false" />
-            <element signature="e#10336#10337#0" expanded="true" />
-            <element signature="e#10374#10375#0" expanded="true" />
+            <element signature="e#9427#9493#0" expanded="false" />
+            <element signature="e#10216#10217#0" expanded="true" />
+            <element signature="e#10254#10255#0" expanded="true" />
+            <element signature="e#10292#10293#0" expanded="true" />
+            <element signature="e#10328#10329#0" expanded="true" />
+            <element signature="e#10358#10359#0" expanded="true" />
+            <element signature="e#10379#10380#0" expanded="true" />
+            <element signature="e#10405#10406#0" expanded="true" />
+            <element signature="e#10430#10431#0" expanded="true" />
+            <element signature="e#10454#10455#0" expanded="true" />
+            <element signature="e#10480#10481#0" expanded="true" />
             <element signature="method#mutateVision#0;class#Cell#0" expanded="false" />
+            <element signature="e#10643#10644#0" expanded="true" />
+            <element signature="e#10671#10672#0" expanded="true" />
+            <element signature="e#10703#10704#0" expanded="true" />
+            <element signature="e#10726#10727#0" expanded="true" />
             <element signature="method#mutateTrailSize#0;class#Cell#0" expanded="false" />
+            <element signature="e#10871#10872#0" expanded="true" />
+            <element signature="e#10896#10897#0" expanded="true" />
+            <element signature="e#10947#10948#0" expanded="true" />
+            <element signature="e#10985#10986#0" expanded="true" />
+            <element signature="e#11025#11026#0" expanded="true" />
+            <element signature="e#11055#11056#0" expanded="true" />
+            <element signature="e#11096#11097#0" expanded="true" />
+            <element signature="e#11124#11125#0" expanded="true" />
+            <element signature="e#11171#11172#0" expanded="true" />
+            <element signature="e#11205#11206#0" expanded="true" />
             <element signature="method#moveLeft#0;class#Cell#0" expanded="false" />
-            <element signature="e#11771#11837#0" expanded="false" />
+            <element signature="e#11651#11717#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/HuntLargest.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/simulation/Monitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="40" column="12" lean-forward="false" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-          <folding>
-            <element signature="docComment;class#HuntLargest#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#488#489#0" expanded="true" />
-            <element signature="docComment;method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#lookForFood#0;class#HuntLargest#0" expanded="false" />
-            <element signature="e#1411#1486#0" expanded="false" />
-            <element signature="docComment;method#mutate#0;class#HuntLargest#0" expanded="false" />
-            <element signature="method#mutate#0;class#HuntLargest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/lexaron/cells/Vulture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="42" column="13" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-          <folding>
-            <element signature="docComment;class#Vulture#0" expanded="false" />
-            <element signature="e#444#445#0" expanded="true" />
-            <element signature="e#474#475#0" expanded="true" />
-            <element signature="docComment;method#doHunt#0;class#Vulture#0" expanded="false" />
-            <element signature="docComment;method#eat#0;class#Vulture#0" expanded="false" />
-            <element signature="e#2040#2094#0" expanded="false" />
-            <element signature="method#mutate#0;class#Vulture#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="853">
+          <caret line="92" column="94" lean-forward="false" selection-start-line="92" selection-start-column="94" selection-end-line="92" selection-end-column="94" />
+          <folding />
         </state>
       </provider>
     </entry>

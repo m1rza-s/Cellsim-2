@@ -12,7 +12,11 @@ import edu.lexaron.world.World;
  */
 public class HuntClosest extends Cell {
   public HuntClosest(String ID, int x, int y) {
-    super(ID, x, y, 50, 3, 1, 1, "#ff33ff", 1);
+    super(ID, x, y, 50, 3, 1, 1, 1);
+  }
+
+  public HuntClosest(World world) {
+    this("C", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
 
   @Override

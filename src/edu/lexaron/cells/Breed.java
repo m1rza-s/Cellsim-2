@@ -5,11 +5,24 @@ package edu.lexaron.cells;
  * Date: 19.4.2018. @ 00:49
  */
 public enum Breed {
-  HUNT_CLOSEST,
-  HUNT_FIRST,
-  HUNT_LARGEST,
-  LEECH,
-  PREDATOR,
-  TREE,
-  VULTURE
+  HUNT_CLOSEST("#ff33ff"),
+  HUNT_FIRST("#66ff33"),
+  HUNT_MAX("#ffff33"),
+  LEECH("#0000ff"),
+  PREDATOR("#ff0000"),
+  TREE("#ffffff"),
+  VULTURE("#33ffff");
+
+  private final String colorCode;
+
+  Breed(String colorCode) {
+    this.colorCode = colorCode;
+  }
+
+  /**
+   * @return a HEX value of this breeds color
+   */
+  public String getColorCode() {
+    return colorCode;
+  }
 }

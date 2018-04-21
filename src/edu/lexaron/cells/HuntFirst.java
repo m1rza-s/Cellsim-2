@@ -12,7 +12,11 @@ import edu.lexaron.world.World;
  */
 public class HuntFirst extends Cell {
   public HuntFirst(String ID, int x, int y) {
-    super(ID, x, y, 50, 3, 3, 1, "#66ff33", 1);
+    super(ID, x, y, 50, 3, 3, 1,  1);
+  }
+
+  public HuntFirst(World world) {
+    this("F", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
 
   @Override
