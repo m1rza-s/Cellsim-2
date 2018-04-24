@@ -26,7 +26,7 @@ public class Life implements Runnable {
     world.getAllCells().removeAll(world.getEatenCorpses());
     world.getEatenCorpses().clear();
 
-    world.getAllCells().forEach(cell -> cell.hunt(world));
+    world.getAllCells().forEach(cell -> cell.live(world));
   }
 
   @Override

@@ -1,23 +1,34 @@
 /*
- *  Project name: CellSIM/cell_max.java
- *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
- *  Date & time: Jun 1, 2016, 1:51:43 AM
+ *
+ *
+ *
  */
 package edu.lexaron.cells;
 
+import edu.lexaron.world.Sugar;
 import edu.lexaron.world.World;
 import javafx.scene.image.Image;
 
 /**
- * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * A {@link Herbivorous} {@link Cell}, feeds on the first {@link Sugar} it sees.
+ *
+ * Project name: CellSIM/cell_max.java
+ * Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * Date & time: Jun 1, 2016, 1:51:43 AM
+ * Refactored: 24.04.2018
  */
-public class HuntFirst extends Cell {
+public class HuntFirst extends Herbivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/huntFirst.png");
 
-  public HuntFirst(String ID, int x, int y) {
-    super(ID, x, y, 50, 3, 3, 1,  1);
+  private HuntFirst(String id, int x, int y) {
+    super(id, x, y);
   }
 
+  /**
+   * Creates a new default {@link HuntFirst} at a random location in the provided {@link World}.
+   *
+   * @param world where the {@link HuntFirst} is to be created
+   */
   public HuntFirst(World world) {
     this("F", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
@@ -33,89 +44,22 @@ public class HuntFirst extends Cell {
   }
 
   @Override
-  public void doHunt(World w) {
-    if (isAlive()) {
-      if (getPath().isEmpty()) {
-        if (w.getWorld()[getY()][getX()].getSugar().getAmount() <= 0) {
-          setTargetFood(lookForFood(w));
-          if (getTargetFood() != null) {
-            findPathTo(getTargetFood());
-            usePath(w);
-          }
-          else {
-            for (int i = 1; i <= getSpeed(); i++) {
-              moveLeft(w);
-              randomStep(w);
-            }
-          }
-        }
-        else {
-          eat(w);
-        }
-      }
-      else {
-        usePath(w);
-      }
-    }
+  Cell doGiveBirth(int x, int y) {
+    return new HuntFirst(getGeneCode() + getOffspring(), x, y);
   }
 
-  /**
-   * @param w
-   * @return
-   */
   @Override
-  public int[] lookForFood(World w) {
-    // Cell type FIRST is only interested in the FIRST sugar tile it finds.
-//        System.out.println("Cell " + getGeneCode() + " looking for food from " + getX() + "," + getY() + "...");
-    int[] foodLocation = new int[2];
-    boolean found = false;
-        outerloop:
-    for (int i = (getY() + getVision()); i >= (getY() - getVision()); i--) {
-      for (int j = (getX() - getVision()); j <= (getX() + getVision()); j++) {
-        try {
-//                    System.out.print("(" + j + "," + i + ")");
-          if (w.getWorld()[i][j].getSugar().getAmount() > 0) {
-            foodLocation[0] = i; // Y
-            foodLocation[1] = j; // X
-            found = true;
-            break outerloop;
-          }
-
-        }
-        catch (ArrayIndexOutOfBoundsException ex) {
-
+  public void lookForFood(World w) {
+        loop:
+    for (int i = getY() + getVision(); i >= (getY() - getVision()); i--) {
+      for (int j = getX() - getVision(); j <= (getX() + getVision()); j++) {
+        if (isValidLocation(w, j, i) && w.getWorld()[i][j].getSugar().getAmount() > 0.0) {
+          setFood(j, i);
+          findPathTo(getFood());
+          break loop;
         }
       }
-//            System.out.print("\n");
-    }
-    if (found) {
-//            System.out.println(getGeneCode() + " found food on " + sugarLocation[0] + "," + sugarLocation[1]);
-      return foodLocation;
-    }
-    else {
-//            System.out.println(getGeneCode() + " found no food.");
-      return null;
-    }
-
-  }
-
-  /**
-   * @param w
-   */
-  @Override
-  public void mutate(World w) {
-    int[] childLocation = findFreeTile(w);
-    HuntFirst child = new HuntFirst(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0]);
-    child.inheritFrom(this);
-    try {
-      child.eat(w);
-      child.evolve();
-      w.getNewBornCells().add(child);
-      setOffspring(getOffspring() + 1);
-      setEnergy(getEnergy() / 3);
-    }
-    catch (Exception ex) {
-      System.out.println(getGeneCode() + " failed to divide:\n" + ex);
     }
   }
-}
+  }
+

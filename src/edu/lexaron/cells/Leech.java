@@ -1,23 +1,30 @@
-/*
- *  Project name: CellSIM/Leech.java
- *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
- *  Date & time: Jun 19, 2016, 8:00:46 PM
- */
 package edu.lexaron.cells;
 
 import edu.lexaron.world.World;
 import javafx.scene.image.Image;
 
 /**
- * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * {@link Leech} are a kind of {@link Carnivorous} {@link Cell} that follows it's prey
+ * and slowly steals the prey's energy.
+ *
+ * Project name: CellSIM/Leech.java
+ * Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * Date & time: Jun 19, 2016, 8:00:46 PM
+ * Refactored: 24.04.2018
  */
-public class Leech extends Cell {
+@SuppressWarnings ("MagicNumber")
+public class Leech extends Carnivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/leech.png");
 
-  public Leech(String ID, int x, int y) {
-    super(ID, x, y, 50, 5, 3, 0.25,  0.5);
+  private Leech(String ID, int x, int y) {
+    super(ID, x, y, 50.0, 5, 3, 0.25,  2.5);
   }
 
+  /**
+   * Creates a new default {@link Leech} at a random location in the provided {@link World}.
+   *
+   * @param world where the {@link Leech} is to be created
+   */
   public Leech(World world) {
     this("L", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
@@ -33,116 +40,25 @@ public class Leech extends Cell {
   }
 
   @Override
-  public void doHunt(World w) {
-    if (isAlive()) {
-      if (getPath().isEmpty()) {
-        setTargetFood(lookForFood(w));
-        if (getTargetFood() != null) {
-          findPathTo(getTargetFood());
-          usePath(w);
-        }
-        else {
-          for (int i = 1; i <= (int) getSpeed(); i++) {
-            moveDown(w);
-            moveRight(w);
-            randomStep(w);
-          }
-        }
-      }
-      if (!getPath().isEmpty() && getTargetFood() != null
-          && (w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell() != null
-          || w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getTrail().getAmount() >= 11)) {
-        if (getTargetFood() != null && (getTargetFood()[0] >= (getY() - getVision())) && (getTargetFood()[0] <= (getY() + getVision()))
-            && (getTargetFood()[1] >= (getX() - getVision())) && (getTargetFood()[1] <= (getX() + getVision()))) {
-          eat(w);
-        }
-      }
-      else {
-        getPath().clear();
-      }
-    }
+  Cell doGiveBirth(int x, int y) {
+    return new Leech(getGeneCode() + getOffspring(), x, y);
   }
 
   @Override
-  public void eat(World w) {
-    if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell() != null) {
-      w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().setEnergy(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().getEnergy() - getBiteSize());
+  public void eat(World world) {
+    if (getFood() != null && world.getWorld()[getFood().getY()][getFood().getX()].getCell() != null) {
+      world.getWorld()[getFood().getY()][getFood().getX()].getCell().setEnergy(world.getWorld()[getFood().getY()][getFood().getX()].getCell().getEnergy() - getBiteSize());
       setEnergy(getEnergy() + getBiteSize());
-      if (w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().getEnergy() < 0) {
-        w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell().setAlive(false);
-        w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].setDeadCell(w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getCell());
-        w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].setCell(null);
+      if (world.getWorld()[getFood().getY()][getFood().getX()].getCell().getEnergy() < 0) {
+        world.getWorld()[getFood().getY()][getFood().getX()].getCell().die(world);
+        world.getWorld()[getFood().getY()][getFood().getX()].setDeadCell(world.getWorld()[getFood().getY()][getFood().getX()].getCell());
+        world.getWorld()[getFood().getY()][getFood().getX()].setCell(null);
       }
     }
     else {
-      setTargetFood(null);
+      getPath().clear();
+      resetFoodAndPath();
     }
 
   }
-
-  @Override
-  public int[] lookForFood(World w) {
-    int[] foodLocation = new int[2];
-    boolean found = false;
-    int foundSmell = 0;
-        outterloop:
-    for (int v = 1; v <= getVision(); v++) {
-      for (int i = (getY() - v); i <= (getY() + v); i++) {
-        for (int j = (getX() - v); j <= (getX() + v); j++) {
-          try {
-//                    System.out.print("(" + j + "," + i + ")");        
-            if (w.getWorld()[i][j].getCell() != null && !w.getWorld()[i][j].getCell().equals(this) && w.getWorld()[i][j].getCell().getBreed() != getBreed()) {
-              foodLocation[0] = i; // Y
-              foodLocation[1] = j; // X
-              found = true;
-              break outterloop;
-//                        } else if (getTargetFood() == null && w.getWorld()[i][j].getCell() != null && w.getWorld()[i][j].getCell().isAlive() && w.getWorld()[i][j].getCell().getClass().equals(this.getClass()) && w.getWorld()[i][j].getCell().getTargetFood() != null                                ) {
-//                            setTargetFood(w.getWorld()[i][j].getCell().getTargetFood());
-////                            System.out.println("GOT COORDS: " + getTargetFood()[1] + "," + getTargetFood()[0]);
-//                            found = true;
-//                            break outterloop;
-            }
-            else if (w.getWorld()[i][j].getTrail().getSource() != null
-                && w.getWorld()[i][j].getTrail().getSource().getBreed() != getBreed()
-//                && !w.getWorld()[i][j].getTrail().getSource().equalsIgnoreCase("vulture")
-                && w.getWorld()[i][j].getTrail().getAmount() > foundSmell) {
-              foundSmell = w.getWorld()[i][j].getTrail().getAmount();
-              foodLocation[0] = i; // Y
-              foodLocation[1] = j; // X
-              found = true;
-            }
-          }
-          catch (ArrayIndexOutOfBoundsException ex) {
-
-          }
-        }
-//            System.out.print("\n");
-      }
-    }
-    if (found) {
-//            System.out.println(getGeneCode() + " found food on " + foodLocation[0] + "," + foodLocation[1]);
-      return foodLocation;
-    }
-    else {
-//            System.out.println(getGeneCode() + " found no food.");
-      return null;
-    }
-  }
-
-  @Override
-  public void mutate(World w) {
-    int[] childLocation = findFreeTile(w);
-    Leech child = new Leech(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0]);
-    child.inheritFrom(this);
-    try {
-      child.evolve();
-      w.getNewBornCells().add(child);
-      setOffspring(getOffspring() + 1);
-      setEnergy(getEnergy() / 3);
-    }
-    catch (Exception ex) {
-      System.out.println(getGeneCode() + " failed to divide:\n" + ex);
-    }
-  }
-
 }

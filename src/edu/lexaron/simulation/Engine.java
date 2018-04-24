@@ -138,13 +138,13 @@ public class Engine {
   }
 
   private static void reseedCells(World world) {
-    world.getNewBornCells().add(new Vulture(world));
-    world.getNewBornCells().add(new Predator(world));
+    world.getNewBornCells().add(new HuntClosest(world));
     world.getNewBornCells().add(new HuntFirst(world));
     world.getNewBornCells().add(new HuntMax(world));
-    world.getNewBornCells().add(new HuntClosest(world));
-    world.getNewBornCells().add(new Tree(world));
     world.getNewBornCells().add(new Leech(world));
+    world.getNewBornCells().add(new Spider(world));
+    world.getNewBornCells().add(new Tree(world));
+    world.getNewBornCells().add(new Vulture(world));
   }
 
 }

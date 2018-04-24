@@ -34,9 +34,8 @@ class Monitor {
    * Adds {@link GridPane}s into a {@link VBox}.
    * Each {@link GridPane} contains information about each {@link Breed}.
    *
-   * @param world where the {@link Cell}s live
-   * @param infoPanel
-   * @return      a {@link VBox} of {@link GridPane}s
+   * @param world     where the {@link Cell}s live
+   * @param infoPanel container of each {@link Breed}s {@link GridPane}
    */
   @SuppressWarnings ({"ConstantConditions", "MagicNumber"})
   static void refreshCellInformation(World world, VBox infoPanel) {
@@ -51,14 +50,14 @@ class Monitor {
           reviveIfExtinct(world, sortedBreed, breedPopulations);
 
           Label countLive_L     = new Label(                         breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).count() + " " + sortedBreed);
-          Label totEne_L        = new Label("Tot.Ene.: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getEnergy)    .reduce((left, right) -> left + right).orElse(0.0)));
-          Label avgEfficiency_L = new Label("Avg.Eff.: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getEfficiency).average().orElse(0.0)));
-          Label avgSpeed_L      = new Label("Avg.Spd.: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getSpeed)     .average().orElse(0.0)));
-          Label avgBite_L       = new Label("Avg.Bite: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getBiteSize)  .average().orElse(0.0)));
+          Label avgZoC_L        = new Label("FoV : " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getVision)    .average().orElse(0.0)));
+          Label avgEfficiency_L = new Label("Eff.: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getEfficiency).average().orElse(0.0)));
+          Label avgSpeed_L      = new Label("Spd.: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getSpeed)     .average().orElse(0.0)));
+          Label avgBite_L       = new Label("Bite: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getBiteSize)  .average().orElse(0.0)));
 
           countLive_L.setTextFill(Color.web(sortedBreed.getColorCode()));
           applyStyleClass("bigText", countLive_L);
-          applyStyleClass("accentText", totEne_L, avgEfficiency_L, avgSpeed_L, avgBite_L);
+          applyStyleClass("accentText", avgZoC_L, avgEfficiency_L, avgSpeed_L, avgBite_L);
 
           ProgressBar avgEne_PB = new ProgressBar();
           avgEne_PB.setMinWidth(200.0);
@@ -70,7 +69,7 @@ class Monitor {
           grid.setAlignment(Pos.CENTER);
           grid.getStyleClass().addAll("backgroundColorAccent", "accentText");
           grid.add(countLive_L, 0, 0, 2, 1);
-          grid.add(totEne_L   , 0, 1);  grid.add(avgEfficiency_L, 1, 1);
+          grid.add(avgZoC_L   , 0, 1);  grid.add(avgEfficiency_L, 1, 1);
           grid.add(avgBite_L  , 0, 2);  grid.add(avgSpeed_L     , 1, 2);
           grid.add(avgEne_PB  , 0, 3, 2, 1);
           infoPanel.getChildren().add(grid);
@@ -104,9 +103,9 @@ class Monitor {
           world.getNewBornCells().add(new Leech(world));
         }
         break;
-      case PREDATOR:
-        if (population.get(Breed.PREDATOR).stream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new Predator(world));
+      case SPIDER:
+        if (population.get(Breed.SPIDER).stream().noneMatch(Cell::isAlive)) {
+          world.getNewBornCells().add(new Spider(world));
         }
         break;
       case TREE:

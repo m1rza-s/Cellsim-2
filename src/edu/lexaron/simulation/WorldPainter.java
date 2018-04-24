@@ -47,11 +47,11 @@ class WorldPainter {
     else if (cell.isAlive()) {
       canvas.getGraphicsContext2D().setGlobalAlpha(cell.getEnergy() / 100.0 + 0.5);
       canvas.getGraphicsContext2D().setFill(Color.web(cell.getBreed().getColorCode()));
-      canvas.getGraphicsContext2D().drawImage(cell.getImage(), (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
       canvas.getGraphicsContext2D().setStroke(Color.web(cell.getBreed().getColorCode()));
-      canvas.getGraphicsContext2D().fillText(String.valueOf((int) cell.getEnergy()), (cell.getX() - 3) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
 //      paintCellFoV(cell, canvas);
       paintTargetLine(cell, canvas);
+      canvas.getGraphicsContext2D().drawImage(cell.getImage(), (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
+      canvas.getGraphicsContext2D().fillText(String.valueOf((int) cell.getEnergy()), (cell.getX() - 3) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
     }
     canvas.getGraphicsContext2D().restore();
   }
@@ -64,6 +64,7 @@ class WorldPainter {
         ((cell.getVision() * 2) + 1) * GLOBAL_SCALE,
         ((cell.getVision() * 2) + 1) * GLOBAL_SCALE);
     canvas.getGraphicsContext2D().setFill(Color.web(cell.getBreed().getColorCode()));
+    canvas.getGraphicsContext2D().restore();
   }
 
   @SuppressWarnings ("ImplicitNumericConversion")
@@ -80,11 +81,11 @@ class WorldPainter {
 
   @SuppressWarnings ({"MagicNumber", "ImplicitNumericConversion"})
   private static void paintTargetLine(Cell cell, Canvas canvas) {
-    if (cell.getTargetFood() != null) {
+    if (cell.getFood() != null) {
       canvas.getGraphicsContext2D().setStroke(Color.web(cell.getBreed().getColorCode()));
       canvas.getGraphicsContext2D().strokeLine(
           (cell.getX() + 0.25) * GLOBAL_SCALE, (cell.getY() + 0.25) * GLOBAL_SCALE,
-          (cell.getTargetFood()[1] + 0.25) * GLOBAL_SCALE, (cell.getTargetFood()[0] + 0.25) * GLOBAL_SCALE
+          (cell.getFood().getX() + 0.25) * GLOBAL_SCALE, (cell.getFood().getY() + 0.25) * GLOBAL_SCALE
       );
     }
     canvas.getGraphicsContext2D().restore();

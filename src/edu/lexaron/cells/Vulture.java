@@ -1,23 +1,30 @@
-/*
- *  Project name: CellSIM/Vulture.java
- *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
- *  Date & time: Jun 14, 2016, 1:21:12 AM
- */
 package edu.lexaron.cells;
 
+import edu.lexaron.world.Tile;
 import edu.lexaron.world.World;
 import javafx.scene.image.Image;
 
 /**
- * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * {@link Vulture}s are {@link Carnivorous} {@link Cell}s that feed on corpses.
+ *
+ * Project name: CellSIM/Vulture.java
+ * Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * Date & time: Jun 14, 2016, 1:21:12 AM
+ * Refactored: 24.04.2018
  */
-public class Vulture extends Cell {
+@SuppressWarnings ("MagicNumber")
+public class Vulture extends Carnivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/vulture.png");
 
-  public Vulture(String ID, int x, int y) {
-    super(ID, x, y, 50, 10, 1, 0.5,  1);
+  private Vulture(String id, int x, int y) {
+    super(id, x, y, 50.0, 10, 1.0, 0.5,  1.0);
   }
 
+  /**
+   * Creates a new default {@link Vulture} at a random location in the provided {@link World}.
+   *
+   * @param world where the {@link Vulture} is to be created
+   */
   public Vulture(World world) {
     this("V", getRandom().nextInt(world.getWidth()), getRandom().nextInt(world.getHeight()));
   }
@@ -32,107 +39,50 @@ public class Vulture extends Cell {
     return Breed.VULTURE;
   }
 
-  /**
-   * @param w
-   */
-  @SuppressWarnings ("MagicNumber")
   @Override
-  public void doHunt(World w) {
-    if (isAlive()) {
-      if (getPath().isEmpty()) {
-        setTargetFood(lookForFood(w));
-        if (getTargetFood() != null) {
-          findPathTo(getTargetFood());
-        }
-        else {
-          randomStep(w);
-          moveRight(w);
-        }
-      }
-      if (getTargetFood() != null && w.getWorld()[getTargetFood()[0]][getTargetFood()[1]].getDeadCell() != null) {
-        usePath(w);
-        if (getTargetFood()[0] == getY() && getTargetFood()[1] == getX()) {
-          eat(w);
-        }
-      }
-      else {
-        getPath().clear();
-      }
-    }
-  }
-  @SuppressWarnings ("MagicNumber")
-  @Override
-  public void eat(World w) {
-    if (w.getWorld()[getY()][getX()].getDeadCell() != null) {
-      setEnergy(getEnergy() +  w.getWorld()[getY()][getX()].getDeadCell().getEnergy());
-      w.getEatenCorpses().add(w.getWorld()[getY()][getX()].getDeadCell());
-      w.getWorld()[getY()][getX()].getSugar().setAmount(10); // should be random
-//            }
-      setTargetFood(null);
-      getPath().clear();
-    }
+  Cell doGiveBirth(int x, int y) {
+    return new Vulture(getGeneCode() + getOffspring(), x, y);
   }
 
+  @SuppressWarnings ("MethodDoesntCallSuperMethod")
   @Override
-  public int[] lookForFood(World w) {
-    // Cell type VULTURE is only interested in dead cells.
-//        System.out.println("Cell " + getGeneCode() + " looking for food from " + getX() + "," + getY() + "...");
-    int[] foodLocation = new int[2];
-    boolean found = false;
-        outterloop:
+  public void lookForFood(World w) {
+    resetFoodAndPath();
+        loop:
     for (int v = 1; v <= getVision(); v++) {
-      for (int i = (getY() - v); i <= (getY() + v); i++) {
-        for (int j = (getX() - v); j <= (getX() + v); j++) {
-          try {
-//                    System.out.print("(" + j + "," + i + ")");
-            if (w.getWorld()[i][j].getDeadCell() != null) {
-              foodLocation[0] = i; // Y
-              foodLocation[1] = j; // X
-              found = true;
-              break outterloop;
+      for (int i = getY() - v; i <= (getY() + v); i++) {
+        for (int j = getX() - v; j <= (getX() + v); j++) {
+          if (isValidLocation(w, j, i)) {
+            Cell prey = w.getWorld()[i][j].getDeadCell();
+            if (prey != null) {
+              setFood(prey.getX(), prey.getY());
+              break loop;
             }
-//           else if (w.getWorld()[i][j].getCell() != null
-//              && w.getWorld()[i][j].getCell().getBreed() != Breed.PREDATOR) {
-//
-//                            foodLocation[0] = i; // Y
-//                            foodLocation[1] = j; // X
-//                            found = true;
-//                            break outterloop;
-//                        }
-
-          }
-          catch (ArrayIndexOutOfBoundsException ex) {
-
           }
         }
-//            System.out.print("\n");
       }
     }
-    if (found) {
-//            System.out.println(getGeneCode() + " found food on " + foodLocation[0] + "," + foodLocation[1]);
-      return foodLocation;
-    }
-    else {
-//            System.out.println(getGeneCode() + " found no food.");
-      return null;
-    }
-
+    findPathTo(getFood());
   }
 
+  @SuppressWarnings ("MethodDoesntCallSuperMethod")
   @Override
-  public void mutate(World w) {
-    int[] childLocation = findFreeTile(w);
-    Vulture child = new Vulture(String.valueOf(getGeneCode() + "." + getOffspring()), childLocation[1], childLocation[0]);
-    child.inheritFrom(this);
-    try {
-      child.evolve();
-      w.getNewBornCells().add(child);
-      setOffspring(getOffspring() + 1);
-      setEnergy(getEnergy() / 3);
-    }
-    catch (Exception ex) {
-      System.out.println(getGeneCode() + " failed to divide:\n" + ex);
+  public void eat(World world) {
+        loop:
+    for (int y = getY() - 1; y <= (getY() + 1); y++) {
+      for (int x = getX() - 1; x <= (getX() + 1); x++) {
+        if (isValidLocation(world, x, y)) {
+          Tile preyLocation = world.getWorld()[y][x];
+          Cell prey         = preyLocation.getDeadCell();
+          if (prey != null) {
+            setEnergy(getEnergy() + prey.getEnergy() + 10.0);
+            preyLocation.getSugar().setAmount(10.0); // todo Mirza : randomize?
+            preyLocation.setDeadCell(null);
+            world.getEatenCorpses().add(prey);
+            break loop;
+          }
+        }
+      }
     }
   }
-
 }

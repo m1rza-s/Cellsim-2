@@ -9,7 +9,7 @@ public enum Breed {
   HUNT_FIRST("#66ff33"),
   HUNT_MAX("#ffff33"),
   LEECH("#0000ff"),
-  PREDATOR("#ff0000"),
+  SPIDER("#ff0000"),
   TREE("#ffffff"),
   VULTURE("#33ffff");
 
