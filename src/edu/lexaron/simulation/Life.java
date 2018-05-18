@@ -1,14 +1,15 @@
-/*
- *  Project name: CellSIM/Life.java
- *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
- *  Date & time: Jun 3, 2016, 1:25:04 AM
- */
 package edu.lexaron.simulation;
 
+import edu.lexaron.cells.Cell;
 import edu.lexaron.world.World;
 
 /**
- * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * This class allows each live {@link Cell} to live by running each {@link Cell}´s {@link Cell#live(World)} method.
+ * Apart from that, newborn {@link Cell}s are added into the {@link World} while corpses that were consumed are removed
+ * from it.
+ *
+ * Author: Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * Date: 03.06.2016
  */
 public class Life implements Runnable {
   private final World world;
@@ -18,15 +19,15 @@ public class Life implements Runnable {
   }
 
   private void allLiveCellsHunt() {
-    world.getNewBornCells().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setCell(cell));
     world.getAllCells().addAll(world.getNewBornCells());
+    world.getNewBornCells().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setCell(cell));
     world.getNewBornCells().clear();
 
-    world.getEatenCorpses().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setDeadCell(null));
     world.getAllCells().removeAll(world.getEatenCorpses());
+    world.getEatenCorpses().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setDeadCell(null));
     world.getEatenCorpses().clear();
 
-    world.getAllCells().forEach(cell -> cell.live(world));
+    world.getAllCells().stream().filter(Cell::isAlive).forEach(cell -> cell.live(world));
   }
 
   @Override

@@ -355,7 +355,7 @@ public abstract class Cell {
     return path;
   }
 
-  Location findBirthplace(World w) {
+  Location findBirthplace(World w) { // todo Mirza : can cause app to hang if no suitable place is available
     Location birthplace = null;
     boolean found = false;
     while (!found) {

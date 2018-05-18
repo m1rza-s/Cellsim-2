@@ -29,8 +29,8 @@ import static edu.lexaron.simulation.WorldPainter.paintWorld;
  */
 @SuppressWarnings ("unused")
 public class Engine {
-  private static final int    HEIGHT = 200;
-  private static final int    WIDTH  = 330;
+  private static final int    HEIGHT = 400;
+  private static final int    WIDTH  = 600;
   private static final Random RANDOM = new SecureRandom();
 
   private final double  sugarFactor = (double) RANDOM.nextInt(100);

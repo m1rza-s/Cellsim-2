@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -46,7 +45,7 @@ public class CellSIM extends Application {
     menuRow1.getStyleClass().add("backgroundColorMenu");
 //        menuRow1.setPadding(new Insets(5, 15, 15, 15));
     menuRow1.setSpacing(20);
-    menuRow1.setAlignment(Pos.CENTER);
+    menuRow1.setAlignment(Pos.CENTER_LEFT);
 
     HBox stats = new HBox();
     stats.getStyleClass().add("backgroundColorMenu");
@@ -78,8 +77,8 @@ public class CellSIM extends Application {
 
     Label sugarFactor_L = new Label("Initial sugar factor: " + String.valueOf(engine.getSugarFactor()) + "%");
     Canvas canvas = new Canvas((double) (engine.getWidth() * 5), (double) (engine.getHeight() * 5));
-    StackPane spc = new StackPane(canvas);
-    spc.setAlignment(Pos.CENTER);
+//    StackPane spc = new StackPane(canvas);
+//    spc.setAlignment(Pos.CENTER);
     Button start = new Button("Start");
     start.setOnAction(e -> {
       engine.startThread(canvas, new Timer());
@@ -115,8 +114,8 @@ public class CellSIM extends Application {
     engine.generateWorld(false, canvas);
 
     root.setTop(menu);
-    root.setCenter(spc);
-    root.setRight(infoPanel);
+    root.setCenter(canvas);
+    root.setLeft(infoPanel);
 
     Scene mainScene = new Scene(root, 1000, 800);
     mainScene.getStylesheets().add("style/style.css");

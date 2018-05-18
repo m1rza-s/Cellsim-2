@@ -8,14 +8,14 @@ import javafx.scene.paint.Color;
 /**
  * This method handles the {@link Canvas} by displaying the current state of the {@link World} and it's {@link Cell}s.
  *
- * Author: Mirza <mirza.suljic.ba@gmail.com>
+ * Author: Mirza Suljić <mirza.suljic.ba@gmail.com>
  * Date: 22.4.2018.
  */
 class WorldPainter {
   private WorldPainter() {
   }
 
-  private static final double GLOBAL_SCALE  = 5.0;
+  private static final double GLOBAL_SCALE  = 2.5;
 
   @SuppressWarnings ({"ImplicitNumericConversion", "MagicNumber"})
   static void paintWorld(World world, Canvas canvas) {
@@ -27,7 +27,7 @@ class WorldPainter {
         }
         canvas.getGraphicsContext2D().setGlobalAlpha(world.getWorld()[i][j].getSugar().getAmount() / 100);
         canvas.getGraphicsContext2D().setFill(Color.web("#4d9900")); // todo Mirza : consider a GFX for sugar
-        canvas.getGraphicsContext2D().fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 10, 10);
+        canvas.getGraphicsContext2D().fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
         if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
           canvas.getGraphicsContext2D().setFill(Color.web(world.getWorld()[i][j].getTrail().getSource().getBreed().getColorCode()));
           canvas.getGraphicsContext2D().setGlobalAlpha(world.getWorld()[i][j].getTrail().getAmount() / 100.0);
@@ -56,7 +56,7 @@ class WorldPainter {
     canvas.getGraphicsContext2D().restore();
   }
 
-  @SuppressWarnings ({"ImplicitNumericConversion", "MagicNumber"})
+  @SuppressWarnings ({"ImplicitNumericConversion", "MagicNumber", "unused"})
   static void paintCellFoV(Cell cell, Canvas canvas) {
     canvas.getGraphicsContext2D().fillRect(
         (cell.getX() - cell.getVision() - 0.25) * GLOBAL_SCALE,
@@ -67,7 +67,7 @@ class WorldPainter {
     canvas.getGraphicsContext2D().restore();
   }
 
-  @SuppressWarnings ("ImplicitNumericConversion")
+  @SuppressWarnings ({"ImplicitNumericConversion", "unused"})
   static void paintGrid(World world, Canvas canvas) {
     canvas.getGraphicsContext2D().setStroke(Color.web("#1a1a1a"));
     for (int i = 5; i < world.getWidth() * GLOBAL_SCALE; i += 5) {
