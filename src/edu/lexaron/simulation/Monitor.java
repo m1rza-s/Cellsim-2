@@ -42,18 +42,18 @@ class Monitor {
     infoPanel.getChildren().clear();
 
     DecimalFormat df = new DecimalFormat("0.00");
-    Map<Breed, Set<Cell>> breedPopulations = world.getAllCells().stream().collect(Collectors.groupingBy(Cell::getBreed, Collectors.toSet()));
+    Map<Breed, Set<Cell>> breedPopulations = world.getAllCells().parallelStream().collect(Collectors.groupingBy(Cell::getBreed, Collectors.toSet()));
 
     breedPopulations.keySet().stream()
-        .sorted(Comparator.comparingLong(breed -> breedPopulations.get(breed).stream().filter(Cell::isAlive).count()).reversed())
+        .sorted(Comparator.comparingLong(breed -> breedPopulations.get(breed).parallelStream().filter(Cell::isAlive).count()).reversed())
         .forEach(sortedBreed -> {
           reviveIfExtinct(world, sortedBreed, breedPopulations);
 
-          Label countLive_L     = new Label(                         breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).count() + " " + sortedBreed);
-          Label avgZoC_L        = new Label("FoV : " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getVision)    .average().orElse(0.0)));
-          Label avgEfficiency_L = new Label("Eff.: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getEfficiency).average().orElse(0.0)));
-          Label avgSpeed_L      = new Label("Spd.: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getSpeed)     .average().orElse(0.0)));
-          Label avgBite_L       = new Label("Bite: " + df.format(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getBiteSize)  .average().orElse(0.0)));
+          Label countLive_L     = new Label(                     breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).count() + " " + sortedBreed);
+          Label avgZoC_L        = new Label("FoV : " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getVision)    .average().orElse(0.0)));
+          Label avgEfficiency_L = new Label("Eff.: " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getEfficiency).average().orElse(0.0)));
+          Label avgSpeed_L      = new Label("Spd.: " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getSpeed)     .average().orElse(0.0)));
+          Label avgBite_L       = new Label("Bite: " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getBiteSize)  .average().orElse(0.0)));
 
           countLive_L.setTextFill(Color.web(sortedBreed.getColorCode()));
           applyStyleClass("bigText", countLive_L);
@@ -61,7 +61,7 @@ class Monitor {
 
           ProgressBar avgEne_PB = new ProgressBar();
           avgEne_PB.setMinWidth(200.0);
-          avgEne_PB.setProgress(breedPopulations.get(sortedBreed).stream().filter(Cell::isAlive).mapToDouble(Cell::getEnergy).average().orElse(0.0) / 100.0);
+          avgEne_PB.setProgress(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getEnergy).average().orElse(0.0) / 100.0);
 
           GridPane grid = new GridPane();
           grid.setMinWidth(150.0);
@@ -84,37 +84,37 @@ class Monitor {
     // todo Mirza : get rid of this SWITCH
     switch (breed) {
       case HUNT_CLOSEST:
-        if (population.get(Breed.HUNT_CLOSEST).stream().noneMatch(Cell::isAlive)) {
+        if (population.get(Breed.HUNT_CLOSEST).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new HuntClosest(world));
         }
         break;
       case HUNT_FIRST:
-        if (population.get(Breed.HUNT_FIRST).stream().noneMatch(Cell::isAlive)) {
+        if (population.get(Breed.HUNT_FIRST).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new HuntFirst(world));
         }
         break;
       case HUNT_MAX:
-        if (population.get(Breed.HUNT_MAX).stream().noneMatch(Cell::isAlive)) {
+        if (population.get(Breed.HUNT_MAX).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new HuntMax(world));
         }
         break;
       case LEECH:
-        if (population.get(Breed.LEECH).stream().noneMatch(Cell::isAlive)) {
+        if (population.get(Breed.LEECH).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new Leech(world));
         }
         break;
       case SPIDER:
-        if (population.get(Breed.SPIDER).stream().noneMatch(Cell::isAlive)) {
+        if (population.get(Breed.SPIDER).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new Spider(world));
         }
         break;
       case TREE:
-        if (population.get(Breed.TREE).stream().noneMatch(Cell::isAlive)) {
+        if (population.get(Breed.TREE).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new Tree(world));
         }
         break;
       case VULTURE:
-        if (population.get(Breed.VULTURE).stream().noneMatch(Cell::isAlive)) {
+        if (population.get(Breed.VULTURE).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new Vulture(world));
         }
         break;

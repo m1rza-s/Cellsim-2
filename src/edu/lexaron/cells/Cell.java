@@ -1,6 +1,5 @@
 package edu.lexaron.cells;
 
-import com.sun.istack.internal.Nullable;
 import edu.lexaron.world.Location;
 import edu.lexaron.world.Tile;
 import edu.lexaron.world.Trail;
@@ -210,7 +209,6 @@ public abstract class Cell {
   /**
    * @return the {@link Location} where this {@link Cell} detected a food source
    */
-  @Nullable
   public Location getFood() {
     return food;
   }

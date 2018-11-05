@@ -1,55 +1,46 @@
-/*
- *  Project name: CellSIM/Wrold.java
- *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
- *  Date & time: Feb 5, 2016, 8:54:35 PM
- */
 package edu.lexaron.world;
 
 import edu.lexaron.cells.Cell;
+import edu.lexaron.simulation.Engine;
 
-import java.security.SecureRandom;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
- * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * Author: Mirza Suljić <mirza.suljic.ba@gmail.com>
+ * Date & time: Feb 5, 2016, 8:54:35 PM
  */
 public class World {
 
-  private final int height;
-  private final int width;
-  private final Random random = new SecureRandom();
-  private Tile[][] world;
-  private volatile Set<Cell> allCells = new HashSet<>();
-  private Set<Cell> newBornCells = new HashSet<>();
-  private Set<Cell> eatenCorpses = new HashSet<>();
+  private final int height, width;
+  private final Tile[][] world;
+  private final Set<Cell> allCells = new HashSet<>();
+  private final Set<Cell> newBornCells = new HashSet<>();
+  private final Set<Cell> eatenCorpses = new HashSet<>();
 
   /**
-   * @param width
-   * @param height
+   * Creates a new {@link World} with the provided dimensions.
+   *
+   * @param width   the width of the {@link World}
+   * @param height  the height of the {@link World}
    */
   public World(int width, int height) {
     this.height = height;
     this.width = width;
+    world = new Tile[height][width];
   }
 
   /**
-   * @param sugarFactor
-   * @return
+   * This method generates {@link Sugar} into this {@link World}.
+   *
+   * @param sugarFactor a factor of how much {@link Sugar} should be
    */
-  public Tile[][] generateWorld(double sugarFactor) {
-    // sf, 0 to 100 in %
+  @SuppressWarnings ({"MagicNumber", "UnusedAssignment"})
+  public void generateWorld(double sugarFactor) {
+    assert sugarFactor > 0.0 && sugarFactor <= 1.0 : "SugarFactor must be greater than 0 and less than or equal to 1.";
 
-    System.out.println("Generating world...");
-    world = new Tile[height][width];
+    int sugarTiles = (int) ((double) (width * height) * sugarFactor);
 
-    int sugarTiles = (int) (((width * height)) * (sugarFactor / 100));
-    System.out.println(""
-        + "Setup: "
-        + width + "x" + height + ", "
-        + "SF=" + sugarFactor + ", "
-        + "ST=" + sugarTiles);
     int tileID = 1;
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
@@ -57,81 +48,52 @@ public class World {
         tileID++;
       }
     }
-    int x = random.nextInt(width);
-    int y = random.nextInt(height);
+    int x = -1;
+    int y = -1;
     for (int i = 0; i < sugarTiles; i++) {
       do {
-        x = random.nextInt(width);
-        y = random.nextInt(height);
+        x = Engine.getRandom().nextInt(width);
+        y = Engine.getRandom().nextInt(height);
       }
-      while (hasSugar(y, x));
-      world[y][x].setSugar(new Sugar(x, y, random.nextInt(21)));
+      while (hasSugar(x, y));
+      world[y][x].setSugar(new Sugar(x, y, Engine.getRandom().nextInt(21)));
     }
-    System.out.println("Done generating world!");
-
-    return world;
   }
 
-  /**
-   * @param x
-   * @param y
-   * @return
-   */
-  public boolean hasSugar(int x, int y) {
-    return world[x][y].getSugar().getAmount() != 0;
+  private boolean hasSugar(int x, int y) {
+    return world[y][x].getSugar().getAmount() != 0.0;
 
   }
 
-  /**
-   *
-   */
   public void newFood() {
     int x, y;
-//        x = r.nextInt(((width / 4) * 3) - (width / 4)) + (width / 4);
-//        y = r.nextInt(((height / 4) * 3) - (height / 4)) + (height / 4);
-    x = random.nextInt(width - 2) + 1;
-    y = random.nextInt(height - 2) + 1;
+    x = Engine.getRandom().nextInt(width - 2) + 1;
+    y = Engine.getRandom().nextInt(height - 2) + 1;
     if (world[y][x].getSugar().getAmount() <= 0) {
-      world[y][x].getSugar().setAmount(random.nextInt(9) + 1);
+      world[y][x].getSugar().setAmount((double) (Engine.getRandom().nextInt(9) + 1));
     }
     else {
-      //if (world[y][x].getSugar().getAmount() <= 18)
       world[y][x].getSugar().setAmount(world[y][x].getSugar().getAmount() + 2);
     }
 
   }
 
-  /**
-   * @return
-   */
   public Tile[][] getWorld() {
     return world;
   }
 
-  /**
-   * @return
-   */
   public int getHeight() {
     return height;
   }
 
-  /**
-   * @return
-   */
   public int getWidth() {
     return width;
   }
 
-  /**
-   * @return
-   */
   public Set<Cell> getAllCells() {
     return allCells;
   }
 
-  /**
-   * @return
-   */
   public Set<Cell> getNewBornCells() {
     return newBornCells;
   }

@@ -33,7 +33,7 @@ public class Engine {
   private static final int    WIDTH  = 600;
   private static final Random RANDOM = new SecureRandom();
 
-  private final double  sugarFactor = (double) RANDOM.nextInt(100);
+  private final double  sugarFactor = /*Math.random()*/0.5;
   private final World   world       = new World(WIDTH, HEIGHT);
   private final Life    life        = new Life(world);
   private final VBox    infoPanel;
@@ -49,6 +49,13 @@ public class Engine {
     deadCells_L = deadCells;
     cells_L = totalCells;
     sugar_L = totalSugar;
+  }
+
+  /**
+   * @return the {@link SecureRandom} for number generation.
+   */
+  public static Random getRandom() {
+    return RANDOM;
   }
 
   /**
@@ -82,7 +89,7 @@ public class Engine {
 
     reseedCells(world);
     Runnable lifeThread = new Thread(life);
-
+    paintWorld(world, canvas);
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
@@ -94,7 +101,7 @@ public class Engine {
 //          paintGrid(world, canvas);
           paintWorld(world, canvas);
           world.getAllCells().forEach(cell -> paintCell(cell, canvas));
-          if (world.getAllCells().stream().anyMatch(Cell::isAlive)) {
+          if (world.getAllCells().parallelStream().anyMatch(Cell::isAlive)) {
             Monitor.refreshCellInformation(world, infoPanel);
           }
           else {
@@ -108,8 +115,8 @@ public class Engine {
           generations++;
           gens_L     .setText(generations + " generations");
           cells_L    .setText("Total: " + world.getAllCells().size());
-          liveCells_L.setText("Alive: " + world.getAllCells().stream().filter(Cell::isAlive).count());
-          deadCells_L.setText("Dead: "  + world.getAllCells().stream().filter(cell -> !cell.isAlive()).count());
+          liveCells_L.setText("Alive: " + world.getAllCells().parallelStream().filter(Cell::isAlive).count());
+          deadCells_L.setText("Dead: "  + world.getAllCells().parallelStream().filter(cell -> !cell.isAlive()).count());
           sugar_L    .setText("Sugar: " + world.getTotalSugar());
           totalSugar = 0;
         });

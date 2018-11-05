@@ -27,7 +27,7 @@ public class Life implements Runnable {
     world.getEatenCorpses().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setDeadCell(null));
     world.getEatenCorpses().clear();
 
-    world.getAllCells().stream().filter(Cell::isAlive).forEach(cell -> cell.live(world));
+    world.getAllCells().parallelStream().filter(Cell::isAlive).forEach(cell -> cell.live(world));
   }
 
   @Override
