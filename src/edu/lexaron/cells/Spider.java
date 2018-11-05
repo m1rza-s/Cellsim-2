@@ -18,7 +18,7 @@ public class Spider extends Carnivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/predator.png");
 
   private Spider(String id, int x, int y) {
-    super(id, x, y, 50.0, 5, 1, 0.33, 1);
+    super(id, x, y, 50.0, 15, 1, 0.33, 1);
   }
 
   /**

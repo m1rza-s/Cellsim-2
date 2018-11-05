@@ -99,11 +99,13 @@ public abstract class Cell {
   private void tryBirth(World world) {
     if (energy >= BIRTH_REQ) {
       Location birthPlace = findBirthplace(world);
-      Cell child = doGiveBirth(birthPlace.getX(), birthPlace.getY());
-      child.inheritFrom(this);
-      child.evolve();
-      world.getNewBornCells().add(child);
-      offspring += 1;
+      if (birthPlace != null) {
+        Cell child = doGiveBirth(birthPlace.getX(), birthPlace.getY());
+        child.inheritFrom(this);
+        child.evolve();
+        world.getNewBornCells().add(child);
+        offspring += 1;
+      }
       energy /= 3.0;
     }
   }
@@ -354,19 +356,19 @@ public abstract class Cell {
   }
 
   Location findBirthplace(World w) { // todo Mirza : can cause app to hang if no suitable place is available
-    Location birthplace = null;
-    boolean found = false;
-    while (!found) {
-      int rx = RANDOM.nextInt(((x + vision) - (x - vision)) + 1) + (x - vision);
-      int ry = RANDOM.nextInt(((y + vision) - (y - vision)) + 1) + (y - vision);
-      if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
-        if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
-          birthplace = new Location(rx, ry);
-          found = true;
-        }
+    int rx = RANDOM.nextInt(((x + vision) - (x - vision)) + 1) + (x - vision);
+    int ry = RANDOM.nextInt(((y + vision) - (y - vision)) + 1) + (y - vision);
+    if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
+      if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
+        return new Location(rx, ry);
+      }
+      else {
+        return null;
       }
     }
-    return birthplace;
+    else {
+      return null;
+    }
   }
 
   String getGeneCode() {

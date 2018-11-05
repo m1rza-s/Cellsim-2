@@ -18,7 +18,7 @@ abstract class Herbivorous extends Cell {
    */
   @SuppressWarnings ("MagicNumber")
   Herbivorous(String id, int x, int y) {
-    super(id, x, y, 50.0, 3, 1.0, 1.0, 1.0);
+    super(id, x, y, 50.0, 10, 1.0, 1.0, 1.0);
   }
 
   @Override

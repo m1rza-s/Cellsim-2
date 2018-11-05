@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
  * Author: Mirza Suljić <mirza.suljic.ba@gmail.com>
  * Date: 22.4.2018.
  */
+@SuppressWarnings ("ImplicitNumericConversion")
 class WorldPainter {
   private WorldPainter() {
   }
@@ -18,23 +19,50 @@ class WorldPainter {
   private static final double GLOBAL_SCALE  = 2.5;
 
   @SuppressWarnings ({"ImplicitNumericConversion", "MagicNumber"})
-  static void paintWorld(World world, Canvas canvas) {
+  static void paintWholeWorld(World world, Canvas canvas) {
     for (int i = 0; i < world.getHeight(); i++) {
       for (int j = 0; j < world.getWidth(); j++) {
-        world.getWorld()[i][j].getTrail().setAmount(world.getWorld()[i][j].getTrail().getAmount() - 1);
+        if (world.getWorld()[i][j].getTrail().getAmount() > 1) {
+          canvas.getGraphicsContext2D().setFill(Color.web(world.getWorld()[i][j].getTrail().getSource().getBreed().getColorCode()));
+          canvas.getGraphicsContext2D().setGlobalAlpha(world.getWorld()[i][j].getTrail().getAmount() / 100.0);
+          canvas.getGraphicsContext2D().fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
+          world.getWorld()[i][j].getTrail().setAmount(world.getWorld()[i][j].getTrail().getAmount() - 1);
+        }
         if (world.getWorld()[i][j].getSugar().getAmount() < 0) {
           world.getWorld()[i][j].getSugar().setAmount(0);
         }
         canvas.getGraphicsContext2D().setGlobalAlpha(world.getWorld()[i][j].getSugar().getAmount() / 100);
         canvas.getGraphicsContext2D().setFill(Color.web("#4d9900")); // todo Mirza : consider a GFX for sugar
         canvas.getGraphicsContext2D().fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
-        if (world.getWorld()[i][j].getTrail().getAmount() > 0) {
-          canvas.getGraphicsContext2D().setFill(Color.web(world.getWorld()[i][j].getTrail().getSource().getBreed().getColorCode()));
-          canvas.getGraphicsContext2D().setGlobalAlpha(world.getWorld()[i][j].getTrail().getAmount() / 100.0);
-          canvas.getGraphicsContext2D().fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
-        }
       }
     }
+    canvas.getGraphicsContext2D().restore();
+  }
+  static void paintCellVision(World world, Canvas canvas) {
+    world.getAllCells().stream()
+        .filter(Cell::isAlive)
+        .forEach(cell -> {
+          int minX = cell.getX() - cell.getVision() < 0                 ? 0                    : cell.getX() - cell.getVision();
+          int maxX = cell.getX() + cell.getVision() > world.getWidth()  ? world.getWidth() -1  : cell.getX() + cell.getVision();
+          int minY = cell.getY() - cell.getVision() < 0                 ? 0                    : cell.getY() - cell.getVision();
+          int maxY = cell.getY() + cell.getVision() > world.getHeight() ? world.getHeight() -1 : cell.getY() + cell.getVision();
+          for (int i = minY; i < maxY; i++) {
+            for (int j = minX; j < maxX; j++) {
+              if (world.getWorld()[i][j].getTrail().getAmount() > 1) {
+                canvas.getGraphicsContext2D().setFill(Color.web(world.getWorld()[i][j].getTrail().getSource().getBreed().getColorCode()));
+                canvas.getGraphicsContext2D().setGlobalAlpha(world.getWorld()[i][j].getTrail().getAmount() / 100.0);
+                canvas.getGraphicsContext2D().fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
+                world.getWorld()[i][j].getTrail().setAmount(world.getWorld()[i][j].getTrail().getAmount() - 1);
+              }
+              if (world.getWorld()[i][j].getSugar().getAmount() < 0) {
+                world.getWorld()[i][j].getSugar().setAmount(0);
+              }
+              canvas.getGraphicsContext2D().setGlobalAlpha(world.getWorld()[i][j].getSugar().getAmount() / 100);
+              canvas.getGraphicsContext2D().setFill(Color.web("#4d9900")); // todo Mirza : consider a GFX for sugar
+              canvas.getGraphicsContext2D().fillRect((j - 0.5) * GLOBAL_SCALE, (i - 0.5) * GLOBAL_SCALE, 5, 5);
+            }
+          }
+        });
     canvas.getGraphicsContext2D().restore();
   }
 
@@ -42,9 +70,9 @@ class WorldPainter {
   static void paintCell(Cell cell, Canvas canvas) {
     if (!cell.isAlive()) {
       canvas.getGraphicsContext2D().setGlobalAlpha(0.2);
-      canvas.getGraphicsContext2D().drawImage(cell.getImage(), (cell.getX() - 1.5) * GLOBAL_SCALE, (cell.getY() - 1.5) * GLOBAL_SCALE);
+      canvas.getGraphicsContext2D().drawImage(cell.getImage(), cell.getX() * GLOBAL_SCALE, cell.getY() * GLOBAL_SCALE);
     }
-    else if (cell.isAlive()) {
+    else {
       canvas.getGraphicsContext2D().setGlobalAlpha(cell.getEnergy() / 100.0 + 0.5);
       canvas.getGraphicsContext2D().setFill(Color.web(cell.getBreed().getColorCode()));
       canvas.getGraphicsContext2D().setStroke(Color.web(cell.getBreed().getColorCode()));

@@ -16,7 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static edu.lexaron.simulation.WorldPainter.paintCell;
-import static edu.lexaron.simulation.WorldPainter.paintWorld;
+import static edu.lexaron.simulation.WorldPainter.paintCellVision;
 
 /**
  * This class analyzes the {@link World} and it's {@link Cell}s. Apart from that, it starts a thread which is
@@ -33,7 +33,7 @@ public class Engine {
   private static final int    WIDTH  = 600;
   private static final Random RANDOM = new SecureRandom();
 
-  private final double  sugarFactor = /*Math.random()*/0.5;
+  private final double  sugarFactor = Math.random();
   private final World   world       = new World(WIDTH, HEIGHT);
   private final Life    life        = new Life(world);
   private final VBox    infoPanel;
@@ -89,7 +89,7 @@ public class Engine {
 
     reseedCells(world);
     Runnable lifeThread = new Thread(life);
-    paintWorld(world, canvas);
+//    paintWholeWorld(world, canvas); // todo Mirza S. : somehow refresh the canvas without deleting everything, if possible
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
@@ -98,8 +98,7 @@ public class Engine {
             lifeThread.run();
           }
           canvas.getGraphicsContext2D().clearRect(0.0, 0.0, canvas.getWidth(), canvas.getHeight());
-//          paintGrid(world, canvas);
-          paintWorld(world, canvas);
+          paintCellVision(world, canvas);
           world.getAllCells().forEach(cell -> paintCell(cell, canvas));
           if (world.getAllCells().parallelStream().anyMatch(Cell::isAlive)) {
             Monitor.refreshCellInformation(world, infoPanel);

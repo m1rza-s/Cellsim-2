@@ -17,7 +17,7 @@ public class Leech extends Carnivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/leech.png");
 
   private Leech(String ID, int x, int y) {
-    super(ID, x, y, 50.0, 5, 3, 0.25,  2.5);
+    super(ID, x, y, 50.0, 15, 3, 0.25,  2.5);
   }
 
   /**

@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 import java.util.Timer;
 
-import static edu.lexaron.simulation.WorldPainter.paintWorld;
+import static edu.lexaron.simulation.WorldPainter.paintCellVision;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
@@ -88,7 +88,7 @@ public class CellSIM extends Application {
     Button generateWorld = new Button("Spawn new cells & reset sugar");
     generateWorld.setOnAction(e -> {
       engine.generateWorld(true, canvas);
-      paintWorld(engine.getWorld(), canvas);
+      paintCellVision(engine.getWorld(), canvas);
 
     });
     // STRUCTURING

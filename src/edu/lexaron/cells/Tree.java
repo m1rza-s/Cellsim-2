@@ -28,7 +28,7 @@ public class Tree extends Plant {
 
   @SuppressWarnings ("MagicNumber")
   private Tree(String id, int x, int y) {
-    super(id, x, y, 50.0, 5, 1.0, 0.1, 0.2);
+    super(id, x, y, 50.0, 30, 1.0, 0.1, 0.2);
   }
 
   @Override

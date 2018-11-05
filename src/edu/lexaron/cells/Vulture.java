@@ -17,7 +17,7 @@ public class Vulture extends Carnivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/vulture.png");
 
   private Vulture(String id, int x, int y) {
-    super(id, x, y, 50.0, 10, 1.0, 0.5,  1.0);
+    super(id, x, y, 50.0, 20, 1.0, 0.5,  1.0);
   }
 
   /**

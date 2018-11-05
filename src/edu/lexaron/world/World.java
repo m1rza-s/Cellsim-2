@@ -14,7 +14,8 @@ public class World {
 
   private final int height, width;
   private final Tile[][] world;
-  private final Set<Cell> allCells = new HashSet<>();
+  private final Set<Tile> newWorld;
+  private final Set<Cell> allCells     = new HashSet<>();
   private final Set<Cell> newBornCells = new HashSet<>();
   private final Set<Cell> eatenCorpses = new HashSet<>();
 
@@ -27,7 +28,8 @@ public class World {
   public World(int width, int height) {
     this.height = height;
     this.width = width;
-    world = new Tile[height][width];
+    this.world = new Tile[height][width];
+    this.newWorld = new HashSet<>();
   }
 
   /**
@@ -41,23 +43,24 @@ public class World {
 
     int sugarTiles = (int) ((double) (width * height) * sugarFactor);
 
-    int tileID = 1;
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
-        world[j][i] = new Tile(tileID, null, new Sugar(j, i, 0), new Trail(0, null));
-        tileID++;
+        Tile tile = new Tile(i, j, new Sugar(j, i, Engine.getRandom().nextInt(21)));
+        world[j][i] = tile;
+        newWorld.add(tile);
       }
     }
-    int x = -1;
-    int y = -1;
-    for (int i = 0; i < sugarTiles; i++) {
-      do {
-        x = Engine.getRandom().nextInt(width);
-        y = Engine.getRandom().nextInt(height);
-      }
-      while (hasSugar(x, y));
-      world[y][x].setSugar(new Sugar(x, y, Engine.getRandom().nextInt(21)));
-    }
+//    int x = -1;
+//    int y = -1;
+//    for (int i = 0; i < sugarTiles; i++) {
+//      do {
+//        x = Engine.getRandom().nextInt(width);
+//        y = Engine.getRandom().nextInt(height);
+//      }
+//      while (hasSugar(x, y));
+//      world[y][x].setSugar(new Sugar(x, y, Engine.getRandom().nextInt(21)));
+////      newWorld.stream()
+//    }
   }
 
   private boolean hasSugar(int x, int y) {
