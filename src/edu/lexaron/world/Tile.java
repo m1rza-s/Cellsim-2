@@ -11,21 +11,28 @@ import edu.lexaron.cells.Cell;
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>
  */
 public class Tile {
-  private final int x, y;
+  private final Location location;
   private Cell cell;
   private Cell deadCell;
   private Sugar sugar;
   private Trail trail;
 
-  Tile(int x, int y, Sugar sugar) {
+  Tile(Location location, Sugar sugar) {
     this.sugar = sugar;
-    this.x = x;
-    this.y = y;
+    this.location = location;
     this.trail = new Trail(0, null);
+  }
+
+  public Location getLocation() {
+    return location;
   }
 
   public Sugar getSugar() {
     return sugar;
+  }
+
+  public boolean hasSugar() {
+    return sugar != null && sugar.getAmount() > 0.0;
   }
 
   public void setSugar(Sugar sugar) {
@@ -34,6 +41,10 @@ public class Tile {
 
   public Cell getCell() {
     return cell;
+  }
+
+  public boolean hasLiveCell() {
+    return cell != null && cell.isAlive();
   }
 
   public void setCell(Cell cell) {
@@ -53,6 +64,6 @@ public class Tile {
   }
 
   public void setTrail(Trail trail) {
-    this.trail = trail;
+//    this.trail = trail;
   }
 }

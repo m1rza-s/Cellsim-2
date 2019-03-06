@@ -1,5 +1,6 @@
 package edu.lexaron.cells;
 
+import edu.lexaron.world.Location;
 import edu.lexaron.world.Sugar;
 import edu.lexaron.world.World;
 
@@ -18,7 +19,7 @@ abstract class Herbivorous extends Cell {
    */
   @SuppressWarnings ("MagicNumber")
   Herbivorous(String id, int x, int y) {
-    super(id, x, y, 50.0, 10, 1.0, 1.0, 1.0);
+    super(id, Location.of(x, y), 50.0, 10, 1.0, 1.0, 0.5);
   }
 
   @Override
@@ -38,8 +39,8 @@ abstract class Herbivorous extends Cell {
   }
 
   @Override
-  public void eat(World w) {
-    Sugar prey = w.getWorld()[getY()][getX()].getSugar();
+  public void eat(World world) {
+    Sugar prey = world.getNewWorld().get(this.getLocation()).getSugar();
     if (prey.getAmount() > 0.0) {
       prey.setAmount(prey.getAmount() - getBiteSize());
       setEnergy(getEnergy() + getBiteSize());

@@ -60,15 +60,15 @@ public class Tree extends Plant {
 
   @SuppressWarnings ("MethodDoesntCallSuperMethod")
   @Override
-  public void eat(World w) {
+  public void eat(World world) {
     if (getFood() != null) {
-      Sugar sugar = w.getWorld()[getFood().getY()][getFood().getX()].getSugar();
+      Sugar sugar = world.getNewWorld().get(getFood()).getSugar();
       if (sugar != null && sugar.getAmount() > 0.0) {
         sugar.setAmount(sugar.getAmount() - getBiteSize());
         setEnergy(getEnergy() + getBiteSize());
       }
-      else if (w.getWorld()[getFood().getY()][getFood().getX()].getCell() != null) {
-        Cell anotherCell = w.getWorld()[getFood().getY()][getFood().getX()].getCell();
+      else if (world.getNewWorld().get(getFood()).hasLiveCell()) {
+        Cell anotherCell = world.getNewWorld().get(getFood()).getCell();
         if (getFood() != null && anotherCell != null && anotherCell.getBreed() == getBreed()) {
           anotherCell.setEnergy(anotherCell.getEnergy() - getBiteSize());
           setEnergy(getEnergy() + getBiteSize());

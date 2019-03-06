@@ -4,7 +4,9 @@ import edu.lexaron.cells.Cell;
 import edu.lexaron.simulation.Engine;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Author: Mirza Suljić <mirza.suljic.ba@gmail.com>
@@ -13,8 +15,8 @@ import java.util.Set;
 public class World {
 
   private final int height, width;
-  private final Tile[][] world;
-  private final Set<Tile> newWorld;
+//  private final Tile[][] world; // todo Mirza S. : replace this with the newWorld map
+  private final Map<Location, Tile> newWorld = new ConcurrentHashMap<>();
   private final Set<Cell> allCells     = new HashSet<>();
   private final Set<Cell> newBornCells = new HashSet<>();
   private final Set<Cell> eatenCorpses = new HashSet<>();
@@ -28,43 +30,32 @@ public class World {
   public World(int width, int height) {
     this.height = height;
     this.width = width;
-    this.world = new Tile[height][width];
-    this.newWorld = new HashSet<>();
+//    this.world = new Tile[height][width];
   }
 
   /**
    * This method generates {@link Sugar} into this {@link World}.
    *
-   * @param sugarFactor a factor of how much {@link Sugar} should be
    */
   @SuppressWarnings ({"MagicNumber", "UnusedAssignment"})
-  public void generateWorld(double sugarFactor) {
-    assert sugarFactor > 0.0 && sugarFactor <= 1.0 : "SugarFactor must be greater than 0 and less than or equal to 1.";
-
-    int sugarTiles = (int) ((double) (width * height) * sugarFactor);
+  public void generateWorld() {
 
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
-        Tile tile = new Tile(i, j, new Sugar(j, i, Engine.getRandom().nextInt(21)));
-        world[j][i] = tile;
-        newWorld.add(tile);
+        Location xy = new Location(i, j);
+        Tile tile = new Tile(xy, new Sugar(j, i, (double) Engine.getRandom().nextInt(21) + 5));
+        newWorld.put(xy, tile);
       }
     }
-//    int x = -1;
-//    int y = -1;
-//    for (int i = 0; i < sugarTiles; i++) {
-//      do {
-//        x = Engine.getRandom().nextInt(width);
-//        y = Engine.getRandom().nextInt(height);
-//      }
-//      while (hasSugar(x, y));
-//      world[y][x].setSugar(new Sugar(x, y, Engine.getRandom().nextInt(21)));
-////      newWorld.stream()
-//    }
   }
 
-  private boolean hasSugar(int x, int y) {
-    return world[y][x].getSugar().getAmount() != 0.0;
+  public boolean isValidLocation(Location location) {
+    return newWorld.containsKey(location);
+  }
+
+  private boolean hasSugar(Location xy) {
+//    return newWorld.get(Location.of(x, y)).getSugar().getAmount() != 0.0;
+    return newWorld.get(xy).hasSugar();
 
   }
 
@@ -72,17 +63,27 @@ public class World {
     int x, y;
     x = Engine.getRandom().nextInt(width - 2) + 1;
     y = Engine.getRandom().nextInt(height - 2) + 1;
-    if (world[y][x].getSugar().getAmount() <= 0) {
-      world[y][x].getSugar().setAmount((double) (Engine.getRandom().nextInt(9) + 1));
+    if (newWorld.get(Location.of(x, y)).getSugar().getAmount() <= 0) {
+      newWorld.get(Location.of(x, y)).getSugar().setAmount((double) (Engine.getRandom().nextInt(9) + 1));
     }
     else {
-      world[y][x].getSugar().setAmount(world[y][x].getSugar().getAmount() + 2);
+      newWorld.get(Location.of(x, y)).getSugar().setAmount(newWorld.get(Location.of(x, y)).getSugar().getAmount() + 2);
     }
 
   }
 
+  public Tile findTile(Location xy) {
+    return newWorld.get(xy);
+  }
+
+  public Map<Location, Tile> getNewWorld() {
+    return newWorld;
+  }
+
+  @Deprecated
   public Tile[][] getWorld() {
-    return world;
+//    return world;
+    return null;
   }
 
   public int getHeight() {
@@ -105,14 +106,18 @@ public class World {
     return eatenCorpses;
   }
 
-  @SuppressWarnings ("ImplicitNumericConversion")
-  public int getTotalSugar() {
-    int result = 0;
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        result += world[j][i].getSugar().getAmount();
-      }
-    }
-    return result;
+  /**
+   * @return total amount of sugar in {@link World}
+   */
+  public double getTotalSugar() {
+//    return 0; // todo Mirza S. : hasSugar throws NPE?
+    return newWorld.entrySet()
+        .stream()
+        .filter(entry -> entry.getValue().hasSugar())
+        .reduce(
+            0.0,
+            (aDouble, entry) -> aDouble + entry.getValue().getSugar().getAmount(),
+            (aDouble, aDouble2) -> aDouble + aDouble2
+        );
   }
 }

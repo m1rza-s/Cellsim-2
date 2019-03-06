@@ -17,7 +17,7 @@ public class Leech extends Carnivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/leech.png");
 
   private Leech(String ID, int x, int y) {
-    super(ID, x, y, 50.0, 15, 3, 0.25,  2.5);
+    super(ID, x, y, 50.0, 15, 3, 0.1,  2.5);
   }
 
   /**
@@ -46,13 +46,27 @@ public class Leech extends Carnivorous {
 
   @Override
   public void eat(World world) {
-    if (getFood() != null && world.getWorld()[getFood().getY()][getFood().getX()].getCell() != null) {
-      world.getWorld()[getFood().getY()][getFood().getX()].getCell().setEnergy(world.getWorld()[getFood().getY()][getFood().getX()].getCell().getEnergy() - getBiteSize());
+//    if (getFood() != null && world.getWorld()[getFood().getY()][getFood().getX()].hasLiveCell()) {
+//      world.getWorld()[getFood().getY()][getFood().getX()].getCell().setEnergy(world.getWorld()[getFood().getY()][getFood().getX()].getCell().getEnergy() - getBiteSize());
+//      setEnergy(getEnergy() + getBiteSize());
+//      if (world.getWorld()[getFood().getY()][getFood().getX()].getCell().getEnergy() < 0) {
+//        world.getWorld()[getFood().getY()][getFood().getX()].getCell().die(world);
+//        world.getWorld()[getFood().getY()][getFood().getX()].setDeadCell(world.getWorld()[getFood().getY()][getFood().getX()].getCell());
+//        world.getWorld()[getFood().getY()][getFood().getX()].setCell(null);
+//      }
+//    }
+//    else {
+//      getPath().clear();
+//      resetFoodAndPath();
+//    }
+
+    if (getFood() != null && world.getNewWorld().get(getFood()).hasLiveCell()) {
+      world.getNewWorld().get(getFood()).getCell().setEnergy(world.getNewWorld().get(getFood()).getCell().getEnergy() - getBiteSize());
       setEnergy(getEnergy() + getBiteSize());
-      if (world.getWorld()[getFood().getY()][getFood().getX()].getCell().getEnergy() < 0) {
-        world.getWorld()[getFood().getY()][getFood().getX()].getCell().die(world);
-        world.getWorld()[getFood().getY()][getFood().getX()].setDeadCell(world.getWorld()[getFood().getY()][getFood().getX()].getCell());
-        world.getWorld()[getFood().getY()][getFood().getX()].setCell(null);
+      if (world.getNewWorld().get(getFood()).getCell().getEnergy() < 0) {
+        world.getNewWorld().get(getFood()).getCell().die(world);
+        world.getNewWorld().get(getFood()).setDeadCell(world.getNewWorld().get(getFood()).getCell());
+        world.getNewWorld().get(getFood()).setCell(null);
       }
     }
     else {

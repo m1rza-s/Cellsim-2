@@ -14,7 +14,7 @@ public class Sugar {
   private final int y;
   private double amount;
 
-  public Sugar(int x, int y, int amount) {
+  public Sugar(int x, int y, double amount) {
     this.amount = amount;
     this.x = x;
     this.y = y;

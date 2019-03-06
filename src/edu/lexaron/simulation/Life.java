@@ -1,6 +1,7 @@
 package edu.lexaron.simulation;
 
 import edu.lexaron.cells.Cell;
+import edu.lexaron.world.Location;
 import edu.lexaron.world.World;
 
 /**
@@ -20,14 +21,14 @@ public class Life implements Runnable {
 
   private void allLiveCellsHunt() {
     world.getAllCells().addAll(world.getNewBornCells());
-    world.getNewBornCells().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setCell(cell));
+    world.getNewBornCells().forEach(cell -> world.getNewWorld().get(Location.of(cell.getX(), cell.getY())).setCell(cell));
     world.getNewBornCells().clear();
 
     world.getAllCells().removeAll(world.getEatenCorpses());
-    world.getEatenCorpses().forEach(cell -> world.getWorld()[cell.getY()][cell.getX()].setDeadCell(null));
+    world.getEatenCorpses().forEach(cell -> world.getNewWorld().get(Location.of(cell.getX(), cell.getY())).setDeadCell(null));
     world.getEatenCorpses().clear();
 
-    world.getAllCells().parallelStream().filter(Cell::isAlive).forEach(cell -> cell.live(world));
+    world.getAllCells().stream().filter(Cell::isAlive).forEach(cell -> cell.live(world));
   }
 
   @Override

@@ -1,5 +1,6 @@
 package edu.lexaron.cells;
 
+import edu.lexaron.world.Location;
 import edu.lexaron.world.Sugar;
 import edu.lexaron.world.World;
 import javafx.scene.image.Image;
@@ -44,13 +45,14 @@ public class HuntClosest extends Herbivorous {
   }
 
   @Override
-  public void lookForFood(World w) {
+  public void lookForFood(World world) { // todo Mirza S. : make sure it really hunts closest!
         outterloop:
     for (int v = 0; v <= getVision(); v++) {
       for (int i = (getY() - v); i <= (getY() + v); i++) {
         for (int j = (getX() - v); j <= (getX() + v); j++) {
-          if (isValidLocation(w, j, i) && w.getWorld()[i][j].getSugar().getAmount() > 0.0) {
-            setFood(j, i);
+          Location temp = Location.of(j, i);
+          if (world.isValidLocation(temp) && world.getNewWorld().get(temp).hasSugar()) {
+            setFood(temp);
             findPathTo(getFood());
             break outterloop;
           }

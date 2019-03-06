@@ -28,7 +28,7 @@ abstract class Plant extends Cell {
    * @param biteSize   initial size of bite, determines how fast the {@link Cell} consumes it's food source
    */
   Plant(String id, int x, int y, double energy, int vision, double speed, double efficiency, double biteSize) {
-    super(id, x, y, energy, vision, speed, efficiency, biteSize);
+    super(id, Location.of(x, y), energy, vision, speed, efficiency, biteSize);
   }
 
   @SuppressWarnings ("MethodDoesntCallSuperMethod")
@@ -42,37 +42,18 @@ abstract class Plant extends Cell {
     resetFoodAndPath();
     int rx = getRandom().nextInt(((getX() + getVision()) - (getX() - getVision())) + 1) + (getX() - getVision());
     int ry = getRandom().nextInt(((getY() + getVision()) - (getY() - getVision())) + 1) + (getY() - getVision());
-    if (isValidLocation(world, rx, ry)) {
-      if (world.getWorld()[ry][rx].getSugar().getAmount() > 0.0) {
-        setFood(rx, ry);
+    Location temp = Location.of(rx, ry);
+    if (world.isValidLocation(temp)) {
+      if (world.getNewWorld().get(temp).hasSugar()) {
+        setFood(temp);
       }
-      else if (world.getWorld()[ry][rx].getCell() != null && world.getWorld()[ry][rx].getCell().getBreed() == getBreed()) {
-        setFood(rx, ry);
+      else if (world.getNewWorld().get(temp).hasLiveCell() && world.getNewWorld().get(temp).getCell().getBreed() == getBreed()) {
+        setFood(temp);
       }
       else if (getRandom().nextInt(3) == 2) {
-        world.getWorld()[ry][rx].getSugar().setAmount(3.0);
+        world.getNewWorld().get(temp).getSugar().setAmount(3.0);
       }
     }
-  }
-
-  @SuppressWarnings ("MethodDoesntCallSuperMethod")
-  @Override
-  Location findBirthplace(World w) {
-    Location birthplace = null;
-    boolean found = false;
-    int limit = 0;
-    while (!found || limit > 9) {
-      int rx = getRandom().nextInt(((getX() + (getVision() * VISION_MODIFIER)) - (getX() - getVision())) + 1) + (getX() - (getVision() * VISION_MODIFIER));
-      int ry = getRandom().nextInt(((getY() + (getVision() * VISION_MODIFIER)) - (getY() - getVision())) + 1) + (getY() - (getVision() * VISION_MODIFIER));
-      if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
-        if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
-          birthplace = new Location(rx, ry);
-          found = true;
-        }
-        limit++;
-      }
-    }
-    return birthplace;
   }
 }
 

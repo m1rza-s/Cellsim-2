@@ -49,17 +49,22 @@ public class HuntFirst extends Herbivorous {
   }
 
   @Override
-  public void lookForFood(World w) {
-        loop:
-    for (int i = getY() + getVision(); i >= (getY() - getVision()); i--) {
-      for (int j = getX() - getVision(); j <= (getX() + getVision()); j++) {
-        if (isValidLocation(w, j, i) && w.getWorld()[i][j].getSugar().getAmount() > 0.0) {
-          setFood(j, i);
-          findPathTo(getFood());
-          break loop;
-        }
-      }
-    }
+  public void lookForFood(World world) {
+//        loop:
+//    for (int i = getY() + getVision(); i >= (getY() - getVision()); i--) {
+//      for (int j = getX() - getVision(); j <= (getX() + getVision()); j++) {
+//        Location temp = Location.of(j, i);
+//        if (isValidLocation(world, j, i) && world.getNewWorld().get(temp).hasSugar()) {
+//          setFood(temp);
+//          findPathTo(getFood());
+//          break loop;
+//        }
+//      }
+//    }
+    setFood(world.getNewWorld().keySet().stream()
+        .filter(xy -> inVision(world, xy))
+        .filter(location -> world.getNewWorld().get(location).hasSugar())
+        .findFirst().orElse(null));
   }
   }
 

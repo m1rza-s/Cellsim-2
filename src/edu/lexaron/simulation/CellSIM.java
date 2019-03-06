@@ -88,14 +88,14 @@ public class CellSIM extends Application {
     Button generateWorld = new Button("Spawn new cells & reset sugar");
     generateWorld.setOnAction(e -> {
       engine.generateWorld(true, canvas);
-      paintCellVision(engine.getWorld(), canvas);
+      paintCellVision(Engine.getWorld(), canvas);
 
     });
     // STRUCTURING
     menuRow1.getChildren().addAll(
         sugarFactor_L,
-        new Label("World Size: " + engine.getWorld().getHeight() + "x" + engine.getWorld().getWidth()),
-        new Label("No. of Tiles: " + (engine.getWorld().getHeight() * engine.getWorld().getWidth())),
+        new Label("World Size: " + Engine.getWorld().getHeight() + "x" + Engine.getWorld().getWidth()),
+        new Label("No. of Tiles: " + (Engine.getWorld().getHeight() * Engine.getWorld().getWidth())),
         counter,
         liveCells,
         deadCells,

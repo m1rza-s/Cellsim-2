@@ -1,5 +1,6 @@
 package edu.lexaron.cells;
 
+import edu.lexaron.world.Location;
 import edu.lexaron.world.Sugar;
 import edu.lexaron.world.World;
 import javafx.scene.image.Image;
@@ -45,14 +46,15 @@ public class HuntMax extends Herbivorous {
   }
 
   @Override
-  public void lookForFood(World w) {
+  public void lookForFood(World world) {
     double foundSugar = 0.0;
     for (int v = getVision(); v > 0; v--) {
       for (int i = getY() - v; i <= (getY() + v); i++) {
         for (int j = getX() - v; j <= (getX() + v); j++) {
-          if (isValidLocation(w, j, i) && w.getWorld()[i][j].getSugar().getAmount() > foundSugar) {
-            foundSugar = w.getWorld()[i][j].getSugar().getAmount();
-            setFood(j, i);
+          Location temp = Location.of(j,i);
+          if (world.isValidLocation(temp) && world.getNewWorld().get(temp).getSugar().getAmount() > foundSugar) {
+            foundSugar = world.getNewWorld().get(temp).getSugar().getAmount();
+            setFood(temp);
           }
         }
       }

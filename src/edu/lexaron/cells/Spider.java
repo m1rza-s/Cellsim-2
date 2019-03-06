@@ -18,7 +18,7 @@ public class Spider extends Carnivorous {
   private static final Image GFX = new Image("edu/lexaron/gfx/predator.png");
 
   private Spider(String id, int x, int y) {
-    super(id, x, y, 50.0, 15, 1, 0.33, 1);
+    super(id, x, y, 50.0, 15, 1, 0.1, 1);
   }
 
   /**
@@ -47,20 +47,24 @@ public class Spider extends Carnivorous {
 
   @Override
   public void eat(World world) {
-        loop:
-    for (int y = getY() - 1; y <= (getY() + 1); y++) {
-      for (int x = getX() - 1; x <= (getX() + 1); x++) {
-        if (isValidLocation(world, x, y)) {
-          Cell prey = world.getWorld()[y][x].getCell();
-          if (prey != null && !prey.equals(this) && prey.getBreed() != getBreed()) {
-            prey.setEnergy(prey.getEnergy() / 2.0);
-            setEnergy(getEnergy() + (prey.getEnergy() / 2.0));
-            prey.die(world);
-            break loop;
-          }
-        }
-      }
-    }
+//        loop:
+//    for (int y = getY() - 1; y <= (getY() + 1); y++) {
+//      for (int x = getX() - 1; x <= (getX() + 1); x++) {
+//        if (isValidLocation(world, x, y)) {
+//          Cell prey = world.getWorld()[y][x].getCell();
+//          if (prey != null && !prey.equals(this) && prey.getBreed() != getBreed()) {
+//            prey.setEnergy(prey.getEnergy() / 2.0);
+//            setEnergy(getEnergy() + (prey.getEnergy() / 2.0));
+//            prey.die(world);
+//            break loop;
+//          }
+//        }
+//      }
+//    }
+    setFood(world.getNewWorld().keySet().stream()
+        .filter(location -> inVision(world, location))
+        .filter(location -> world.getNewWorld().get(location).hasLiveCell()) // todo Mirza S. : add breed check
+        .findFirst().orElse(null));
   }
 
 }

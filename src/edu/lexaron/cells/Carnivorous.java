@@ -1,5 +1,6 @@
 package edu.lexaron.cells;
 
+import edu.lexaron.world.Location;
 import edu.lexaron.world.Trail;
 import edu.lexaron.world.World;
 
@@ -20,12 +21,12 @@ public abstract class Carnivorous extends Cell {
    * @param y          vertical coordinate of birth location
    * @param energy     initial energy level, usually 50
    * @param vision     initial vision range, determines the FoV
-   * @param speed      initial speed, determines how fast the {@link Cell} uses it's {@link Cell#path}
+   * @param speed      initial speed, determines how fast the {@link Cell} travels it's path
    * @param efficiency initial efficiency, determines how much energy a {@link Cell} expends for each action it takes
    * @param biteSize   initial size of bite, determines how fast the {@link Cell} consumes it's food source
    */
   Carnivorous(String id, int x, int y, double energy, int vision, double speed, double efficiency, double biteSize) {
-    super(id, x, y, energy, vision, speed, efficiency, biteSize);
+    super(id, Location.of(x, y), energy, vision, speed, efficiency, biteSize);
   }
 
   @Override
@@ -43,30 +44,34 @@ public abstract class Carnivorous extends Cell {
   }
 
   @Override
-  public void lookForFood(World w) {
+  public void lookForFood(World world) {
     resetFoodAndPath();
-    Integer foundSmell = 0;
-        loop:
-    for (int v = 1; v <= getVision(); v++) {
-      for (int y = getY() - v; y <= (getY() + v); y++) {
-        for (int x = getX() - v; x <= (getX() + v); x++) {
-          if (isValidLocation(w, x , y)) {
-            Cell  prey  = w.getWorld()[y][x].getCell();
-            Trail trail = w.getWorld()[y][x].getTrail();
-            if (prey != null && prey.isAlive() && prey.getBreed() != getBreed()) {
-              setFood(prey.getX(), prey.getY());
-              break loop;
-            }
-            else {
-              if (trail.getSource() != null && trail.getSource().isAlive() && trail.getSource().getBreed() != getBreed() && trail.getAmount() > foundSmell) {
-                foundSmell = trail.getAmount();
-                setFood(x, y);
-              }
-            }
-          }
-        }
-      }
-    }
+//    int foundSmell = 0;
+//        loop:
+//    for (int v = 1; v <= getVision(); v++) { // todo Mirza S. : stream in vision in AbstractCell?
+//      for (int y = getY() - v; y <= (getY() + v); y++) {
+//        for (int x = getX() - v; x <= (getX() + v); x++) {
+//          if (isValidLocation(world, x , y)) {
+//            Cell  prey  = world.getWorld()[y][x].getCell();
+//            Trail trail = world.getWorld()[y][x].getTrail();
+//            if (prey != null && prey.isAlive() && prey.getBreed() != getBreed()) {
+//              setFood(Location.of(prey.getX(), prey.getY()));
+//              break loop;
+//            }
+//            else {
+//              if (trail.getSource() != null && trail.getSource().isAlive() && trail.getSource().getBreed() != getBreed() && trail.getAmount() > foundSmell) {
+//                foundSmell = trail.getAmount();
+//                setFood(Location.of(x, y));
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+    world.getNewWorld().keySet().stream()
+        .filter(location -> inVision(world, location) && world.findTile(location).hasLiveCell())
+        .findFirst()
+        .ifPresentOrElse(this::setFood, this::resetFoodAndPath); // todo Mirza S. : make it look for trails too
     findPathTo(getFood());
   }
 }

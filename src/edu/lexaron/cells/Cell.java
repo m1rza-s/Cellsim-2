@@ -10,6 +10,7 @@ import java.security.SecureRandom;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  *
@@ -22,6 +23,7 @@ import java.util.Random;
  * Date & time: Feb 5, 2016, 8:55:28 PM
  * Refactored: 24.04.2018
  */
+@SuppressWarnings ("MagicNumber")
 public abstract class Cell {
 
   private static final Random RANDOM    = new SecureRandom();
@@ -32,16 +34,18 @@ public abstract class Cell {
   private final Queue<Direction>  path;
 
   private boolean alive;
-  private int    x, y, vision, trailSize, offspring, oppositeRandomStep, lastRandomStep;
+
+
+
+  private Location location;
+  private int    vision, trailSize, offspring, oppositeRandomStep;
   private double energy, speed, efficiency, biteSize;
   private Location food = null;
 
   /**
    * Creates a new {@link Cell} based on the provided parameters.
-   *
    * @param id          unique {@link Breed} ID
-   * @param x           horizontal coordinate of birth location
-   * @param y           vertical coordinate of birth location
+   * @param location    cell's position
    * @param energy      initial energy level, usually 50
    * @param vision      initial vision range, determines the FoV
    * @param speed       initial speed, determines how fast the {@link Cell} uses it's {@link Cell#path}
@@ -49,11 +53,10 @@ public abstract class Cell {
    * @param biteSize    initial size of bite, determines how fast the {@link Cell} consumes it's food source
    */
   @SuppressWarnings ({"UnnecessaryThis"})
-  protected Cell(String id, int x, int y, double energy, int vision, double speed, double efficiency, double biteSize) {
+  protected Cell(String id, Location location, double energy, int vision, double speed, double efficiency, double biteSize) {
     this.path = new ArrayDeque<>();
     this.geneCode = id;
-    this.x = x;
-    this.y = y;
+    this.location = location;
     this.energy     = energy;
     this.vision     = vision;
     this.movement   = 1;
@@ -74,9 +77,9 @@ public abstract class Cell {
   /**
    * Handle how this {@link Cell} subclass looks for food.
    *
-   * @param w the {@link World} that contains the food
+   * @param world the {@link World} that contains the food
    */
-  public abstract void lookForFood(World w);
+  public abstract void lookForFood(World world);
 
   /**
    * @return the {@link Breed} this {@link Cell} belongs to
@@ -91,11 +94,10 @@ public abstract class Cell {
    */
   public abstract void doHunt(World world);
 
-  abstract void eat(World w);
+  abstract void eat(World world);
 
   abstract Cell doGiveBirth(int x, int y);
 
-  @SuppressWarnings ({"MagicCharacter"})
   private void tryBirth(World world) {
     if (energy >= BIRTH_REQ) {
       Location birthPlace = findBirthplace(world);
@@ -115,7 +117,6 @@ public abstract class Cell {
    *
    * @param world where it all takes place
    */
-  @SuppressWarnings ("MagicNumber")
   public final void live(World world) {
     upkeep(world);
     if (alive) {
@@ -126,6 +127,13 @@ public abstract class Cell {
       }
     }
     tryBirth(world);
+  }
+
+  /**
+   * @return the location of this cell
+   */
+  public Location getLocation() {
+    return location;
   }
 
   /**
@@ -141,28 +149,28 @@ public abstract class Cell {
    * @return the horizontal coordinate of this {@link Cell}
    */
   public final int getX() {
-    return x;
+    return location.getX();
   }
 
   /**
    * @return the vertical coordinate of this {@link Cell}
    */
   public final int getY() {
-    return y;
+    return location.getY();
   }
 
   /**
    * @param x new horizontal coordinate of this {@link Cell}
    */
   public final void setX(int x) {
-    this.x = x;
+    location = Location.of(x, getY());
   }
 
   /**
    * @param y new vertical coordinate of this {@link Cell}
    */
   public final void setY(int y) {
-    this.y = y;
+    location = Location.of(getX(), y);
   }
 
   /**
@@ -221,8 +229,8 @@ public abstract class Cell {
 
   void findPathTo(Location target) {
     if (target != null) {
-      int difY = target.getY() - y;
-      int difX = target.getX() - x;
+      int difY = target.getY() - location.getY();
+      int difX = target.getX() - location.getX();
 //      System.out.println("Cell: " + x + "," + y);
 //      System.out.println("Food: " + target.getX() + "," + target.getY());
 //      System.out.println("dist: " + difX + "," + difY);
@@ -252,8 +260,8 @@ public abstract class Cell {
     }
   }
 
-  void setFood(int x, int y) {
-    food = new Location(x, y);
+  void setFood(Location food) {
+    this.food = food;
   }
 
   void resetFoodAndPath() {
@@ -261,60 +269,68 @@ public abstract class Cell {
     food = null;
   }
 
-  void useWholePath(World w) {
-    for (int i = 0; i < speed; i++) {
-      if (!path.isEmpty()) {
-        move(w, path.poll());
-      }
+  void useWholePath(World world) {
+//    for (int i = 0; i < speed; i++) {
+//      if (!path.isEmpty()) {
+//        move(world, path.poll());
+//      }
+//    }
+    if (!path.isEmpty()) {
+      path.forEach(direction -> move(world, direction));
+      path.clear();
     }
   }
 
-  void randomStep(World w) {
+  void randomStep(World world) {
     int roll = RANDOM.nextInt(5);
-    while (roll == oppositeRandomStep && roll == lastRandomStep) {
+    while (roll == oppositeRandomStep) {
       roll = RANDOM.nextInt(5);
     }
     switch (roll) {
       case 0:
         oppositeRandomStep = 2;
-        lastRandomStep = 0;
-        move(w, Direction.UP);
+        move(world, Direction.UP);
         break;
       case 1:
         oppositeRandomStep = 3;
-        lastRandomStep = 1;
-//        moveRight(w);
-        move(w, Direction.RIGHT);
+//        moveRight(world);
+        move(world, Direction.RIGHT);
         break;
       case 2:
         oppositeRandomStep = 0;
-        lastRandomStep = 2;
-//        moveDown(w);
-        move(w, Direction.DOWN);
+//        moveDown(world);
+        move(world, Direction.DOWN);
         break;
       case 3:
         oppositeRandomStep = 1;
-        lastRandomStep = 3;
-//        moveLeft(w);
-        move(w, Direction.LEFT);
+//        moveLeft(world);
+        move(world, Direction.LEFT);
         break;
       case 4:
         break;
     }
   }
 
-  @SuppressWarnings ({"ImplicitNumericConversion", "ProhibitedExceptionCaught"})
+  boolean inVision(World world, Location xy) {
+    Predicate<Location> southEast = location -> xy.getX() <= getX() + vision && xy.getY() <= getY() + vision;
+    Predicate<Location> southWest = location -> xy.getX() <= getX() - vision && xy.getY() <= getY() + vision;
+    Predicate<Location> northEast = location -> xy.getX() <= getX() + vision && xy.getY() <= getY() - vision;
+    Predicate<Location> northWest = location -> xy.getX() <= getX() - vision && xy.getY() <= getY() - vision;
+    return world.isValidLocation(xy) && southEast.or(southWest).or(northEast).or(northWest).test(xy);
+  }
+
+  @SuppressWarnings ({"ImplicitNumericConversion"})
   void move(World world, Direction dir) {
-      if (isValidLocation(world, x + dir.getDeltaX(), y + dir.getDeltaY())) {
-        Tile targetLocation = world.getWorld()[y + dir.getDeltaY()][x + dir.getDeltaX()];
-        if (targetLocation.getCell() == null) {
+    Location target = Location.of(getX() + dir.getDeltaX(), getY() + dir.getDeltaY());
+    if (world.isValidLocation(target)) {
+        Tile targetTile = world.getNewWorld().get(target);
+        assert targetTile != null : "cannot move to null tile at " + target;
+        if (targetTile.getCell() == null) {
           if ((energy - (movement * efficiency)) > 0) {
-            energy -= (movement * efficiency);
-            world.getWorld()[y][x].setCell(null);
-            y += dir.getDeltaY();
-            x += dir.getDeltaX();
-            world.getWorld()[y][x].setTrail(new Trail(trailSize, this));
-            world.getWorld()[y][x].setCell(this);
+            energy -= movement * efficiency;
+            world.getNewWorld().get(location).setTrail(new Trail(trailSize, this));
+            world.getNewWorld().get(location).setCell(this);
+            location = target;
           }
           else {
             die(world);
@@ -326,18 +342,16 @@ public abstract class Cell {
         }
       }
       else {
-        circumnavigate(world, x + dir.getDeltaX(), y + dir.getDeltaY());
+        circumnavigate(world, getX() + dir.getDeltaX(), getY() + dir.getDeltaY());
       }
   }
 
   private void circumnavigate(World world, int x, int y) {
     x = x >= world.getWidth()  ? 0 : x < 0 ? world.getWidth() -1 : x;
     y = y >= world.getHeight() ? 0 : y < 0 ? world.getHeight() -1 : y;
-    world.getWorld()[this.y][this.x].setCell(null);
-    world.getWorld()[y][x].setTrail(new Trail(trailSize, this));
-    world.getWorld()[y][x].setCell(this);
-    this.x = x;
-    this.y = y;
+    world.getNewWorld().get(location).setTrail(new Trail(trailSize, this));
+    world.getNewWorld().get(location).setCell(this);
+    location = Location.of(x, y);
     resetFoodAndPath();
   }
 
@@ -345,29 +359,26 @@ public abstract class Cell {
     this.energy = energy;
   }
 
-  boolean isValidLocation(World world, int x, int y) {
-    return x >= 0 && x < world.getWidth()
-        && y >= 0 && y < world.getHeight();
-  }
+
 
   @SuppressWarnings ("AssignmentOrReturnOfFieldWithMutableType")
   Queue<Direction> getPath() {
     return path;
   }
 
-  Location findBirthplace(World w) { // todo Mirza : can cause app to hang if no suitable place is available
-    int rx = RANDOM.nextInt(((x + vision) - (x - vision)) + 1) + (x - vision);
-    int ry = RANDOM.nextInt(((y + vision) - (y - vision)) + 1) + (y - vision);
-    if (!(ry < 0 || rx < 0 || ry >= w.getHeight() || rx >= w.getWidth())) {
-      if (w.getWorld()[ry][rx].getCell() == null && w.getWorld()[ry][rx].getDeadCell() == null) {
+  private Location findBirthplace(World world) {
+    int rx = RANDOM.nextInt(((getX() + vision) - (getX() - vision)) + 1) + (getX() - vision);
+    int ry = RANDOM.nextInt(((getY() + vision) - (getY() - vision)) + 1) + (getY() - vision);
+    if (ry < 0 || rx < 0 || ry >= world.getHeight() || rx >= world.getWidth()) {
+      return null;
+    }
+    else {
+      if (world.getNewWorld().get(Location.of(rx, ry)).getCell() == null) {
         return new Location(rx, ry);
       }
       else {
         return null;
       }
-    }
-    else {
-      return null;
     }
   }
 
@@ -408,17 +419,16 @@ public abstract class Cell {
     biteSize    = parent.getBiteSize();
   }
 
-  private void upkeep(World w) {
-//    energy -= biteSize * efficiency / 10.0; // todo Mirza : think of a tax
+  private void upkeep(World world) {
     if (!alive || energy <= 0.0 || offspring >= OFFSPRING_LIMIT) {
-      die(w);
+      die(world);
     }
   }
 
   void die(World world) {
     alive = false;
-    world.getWorld()[y][x].setDeadCell(this);
-    world.getWorld()[y][x].setCell(null);
+    world.getNewWorld().get(location).setDeadCell(this);
+    world.getNewWorld().get(location).setCell(null);
   }
 
   private void mutateVision() {

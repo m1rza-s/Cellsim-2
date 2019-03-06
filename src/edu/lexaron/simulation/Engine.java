@@ -34,8 +34,8 @@ public class Engine {
   private static final Random RANDOM = new SecureRandom();
 
   private final double  sugarFactor = Math.random();
-  private final World   world       = new World(WIDTH, HEIGHT);
-  private final Life    life        = new Life(world);
+  private static final World WORLD = new World(WIDTH, HEIGHT);
+  private final Life    life        = new Life(WORLD);
   private final VBox    infoPanel;
   private final Label   gens_L, liveCells_L, deadCells_L, cells_L, sugar_L;
 
@@ -87,21 +87,21 @@ public class Engine {
     infoPanel.setCache(true);
     infoPanel.setCacheHint(CacheHint.SPEED);
 
-    reseedCells(world);
+    reseedCells(WORLD);
     Runnable lifeThread = new Thread(life);
 //    paintWholeWorld(world, canvas); // todo Mirza S. : somehow refresh the canvas without deleting everything, if possible
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
         Platform.runLater(() -> {
-          synchronized (world) {
+          synchronized (WORLD) {
             lifeThread.run();
           }
           canvas.getGraphicsContext2D().clearRect(0.0, 0.0, canvas.getWidth(), canvas.getHeight());
-          paintCellVision(world, canvas);
-          world.getAllCells().forEach(cell -> paintCell(cell, canvas));
-          if (world.getAllCells().parallelStream().anyMatch(Cell::isAlive)) {
-            Monitor.refreshCellInformation(world, infoPanel);
+          paintCellVision(WORLD, canvas);
+          WORLD.getAllCells().forEach(cell -> paintCell(cell, canvas));
+          if (WORLD.getAllCells().parallelStream().anyMatch(Cell::isAlive)) {
+            Monitor.refreshCellInformation(WORLD, infoPanel);
           }
           else {
             infoPanel.getChildren().clear();
@@ -113,10 +113,10 @@ public class Engine {
           }
           generations++;
           gens_L     .setText(generations + " generations");
-          cells_L    .setText("Total: " + world.getAllCells().size());
-          liveCells_L.setText("Alive: " + world.getAllCells().parallelStream().filter(Cell::isAlive).count());
-          deadCells_L.setText("Dead: "  + world.getAllCells().parallelStream().filter(cell -> !cell.isAlive()).count());
-          sugar_L    .setText("Sugar: " + world.getTotalSugar());
+          cells_L    .setText("Total: " + WORLD.getAllCells().size());
+          liveCells_L.setText("Alive: " + WORLD.getAllCells().parallelStream().filter(Cell::isAlive).count());
+          deadCells_L.setText("Dead: "  + WORLD.getAllCells().parallelStream().filter(cell -> !cell.isAlive()).count());
+          sugar_L    .setText("Sugar: " + WORLD.getTotalSugar());
           totalSugar = 0;
         });
       }
@@ -127,8 +127,8 @@ public class Engine {
   /**
    * @return the cellular {@link World} where all cells and food sources exist
    */
-  public World getWorld() {
-    return world;
+  public static World getWorld() {
+    return WORLD;
   }
 
   double getSugarFactor() {
@@ -136,10 +136,10 @@ public class Engine {
   }
 
   void generateWorld(boolean cellsToo, Canvas canvas) {
-    world.generateWorld(sugarFactor);
+    WORLD.generateWorld();
     canvas.getGraphicsContext2D().clearRect(0.0, 0.0, canvas.getWidth(), canvas.getHeight());
     if (cellsToo) {
-      reseedCells(world);
+      reseedCells(WORLD);
     }
   }
 
