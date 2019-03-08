@@ -46,19 +46,27 @@ public class HuntClosest extends Herbivorous {
 
   @Override
   public void lookForFood(World world) { // todo Mirza S. : make sure it really hunts closest!
-        outterloop:
-    for (int v = 0; v <= getVision(); v++) {
-      for (int i = (getY() - v); i <= (getY() + v); i++) {
-        for (int j = (getX() - v); j <= (getX() + v); j++) {
-          Location temp = Location.of(j, i);
-          if (world.isValidLocation(temp) && world.getNewWorld().get(temp).hasSugar()) {
-            setFood(temp);
-            findPathTo(getFood());
-            break outterloop;
-          }
-        }
-      }
-    }
+//        outterloop:
+//    for (int v = 0; v <= getVision(); v++) {
+//      for (int i = (getY() - v); i <= (getY() + v); i++) {
+//        for (int j = (getX() - v); j <= (getX() + v); j++) {
+//          Location temp = Location.of(j, i);
+//          if (world.isValidLocation(temp) && world.getNewWorld().get(temp).hasSugar()) {
+//            setFood(temp);
+//            findPathTo(getFood());
+//            break outterloop;
+//          }
+//        }
+//      }
+//    }
+    setFood(world.getNewWorld().keySet().stream()
+        .unordered()
+        .parallel()
+        .filter(location -> inVision(world, location) && world.findTile(location).hasSugar())
+        .findFirst() // todo Mirza S. : not really the closest location, eh?
+        .orElse(Location.NIL));
+
+    findPathTo(getFood());
   }
 }
 

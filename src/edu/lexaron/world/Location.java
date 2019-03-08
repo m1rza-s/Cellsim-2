@@ -11,12 +11,15 @@ import java.util.Objects;
 public class Location {
   private final int x, y;
 
+  public static Location NIL = of(-1, -1);
+
   /**
    * @param x horizontal coordinate
    * @param y vertical coordinate
    * @return a new location based on the provided coordinates
    */
   public static Location of (int x, int y) {
+    if (x == -1 && y == -1) return  NIL;
     return new Location(x, y);
   }
 

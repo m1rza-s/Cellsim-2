@@ -6,7 +6,7 @@ package edu.lexaron.cells;
  */
 public enum Breed {
   HUNT_CLOSEST("#ff33ff"),
-  HUNT_FIRST("#66ff33"),
+  HUNT_ANY("#66ff33"),
   HUNT_MAX("#ffff33"),
   LEECH("#0000ff"),
   SPIDER("#ff0000"),

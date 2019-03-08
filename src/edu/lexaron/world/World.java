@@ -37,13 +37,13 @@ public class World {
    * This method generates {@link Sugar} into this {@link World}.
    *
    */
-  @SuppressWarnings ({"MagicNumber", "UnusedAssignment"})
+  @SuppressWarnings ({"MagicNumber"})
   public void generateWorld() {
 
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         Location xy = new Location(i, j);
-        Tile tile = new Tile(xy, new Sugar(j, i, (double) Engine.getRandom().nextInt(21) + 5));
+        Tile tile = new Tile(xy, new Sugar(j, i, (double) Engine.getRandom().nextInt(21)));
         newWorld.put(xy, tile);
       }
     }

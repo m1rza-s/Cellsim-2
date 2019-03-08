@@ -82,7 +82,6 @@ public class CellSIM extends Application {
     Button start = new Button("Start");
     start.setOnAction(e -> {
       engine.startThread(canvas, new Timer());
-      System.out.println("Simulation started...");
       start.setDisable(true);
     });
     Button generateWorld = new Button("Spawn new cells & reset sugar");

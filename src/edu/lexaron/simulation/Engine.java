@@ -121,7 +121,7 @@ public class Engine {
         });
       }
     };
-    timer.schedule(timerTask, 200L, 75L);
+    timer.schedule(timerTask, 200L, 200L);
   }
 
   /**
@@ -145,7 +145,7 @@ public class Engine {
 
   private static void reseedCells(World world) {
     world.getNewBornCells().add(new HuntClosest(world));
-    world.getNewBornCells().add(new HuntFirst(world));
+    world.getNewBornCells().add(new HuntAny(world));
     world.getNewBornCells().add(new HuntMax(world));
     world.getNewBornCells().add(new Leech(world));
     world.getNewBornCells().add(new Spider(world));

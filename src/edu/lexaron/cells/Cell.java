@@ -7,10 +7,9 @@ import edu.lexaron.world.World;
 import javafx.scene.image.Image;
 
 import java.security.SecureRandom;
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.function.Predicate;
 
 /**
  *
@@ -31,7 +30,7 @@ public abstract class Cell {
   private static final int    OFFSPRING_LIMIT = 3;
   private final int               movement;
   private final String            geneCode;
-  private final Queue<Direction>  path;
+  private final List<Direction> path;
 
   private boolean alive;
 
@@ -54,7 +53,7 @@ public abstract class Cell {
    */
   @SuppressWarnings ({"UnnecessaryThis"})
   protected Cell(String id, Location location, double energy, int vision, double speed, double efficiency, double biteSize) {
-    this.path = new ArrayDeque<>();
+    this.path = new ArrayList<>();
     this.geneCode = id;
     this.location = location;
     this.energy     = energy;
@@ -228,7 +227,7 @@ public abstract class Cell {
   }
 
   void findPathTo(Location target) {
-    if (target != null) {
+    if (target != null && !target.equals(Location.NIL)) {
       int difY = target.getY() - location.getY();
       int difX = target.getX() - location.getX();
 //      System.out.println("Cell: " + x + "," + y);
@@ -236,22 +235,22 @@ public abstract class Cell {
 //      System.out.println("dist: " + difX + "," + difY);
       if (difX > 0) {
         for (int i = 0; i < Math.abs(difX); i++) {
-          path.offer(Direction.RIGHT);
+          path.add(Direction.RIGHT);
         }
       }
       if (difX < 0) {
         for (int i = 0; i < Math.abs(difX); i++) {
-          path.offer(Direction.LEFT);
+          path.add(Direction.LEFT);
         }
       }
       if (difY > 0) {
         for (int i = 0; i < Math.abs(difY); i++) {
-          path.offer(Direction.DOWN);
+          path.add(Direction.DOWN);
         }
       }
       if (difY < 0) {
         for (int i = 0; i < Math.abs(difY); i++) {
-          path.offer(Direction.UP);
+          path.add(Direction.UP);
         }
       }
     }
@@ -288,22 +287,19 @@ public abstract class Cell {
     }
     switch (roll) {
       case 0:
-        oppositeRandomStep = 2;
+        oppositeRandomStep = 2; // todo Mirza S. : replace with enum?
         move(world, Direction.UP);
         break;
       case 1:
         oppositeRandomStep = 3;
-//        moveRight(world);
         move(world, Direction.RIGHT);
         break;
       case 2:
         oppositeRandomStep = 0;
-//        moveDown(world);
         move(world, Direction.DOWN);
         break;
       case 3:
         oppositeRandomStep = 1;
-//        moveLeft(world);
         move(world, Direction.LEFT);
         break;
       case 4:
@@ -312,11 +308,12 @@ public abstract class Cell {
   }
 
   boolean inVision(World world, Location xy) {
-    Predicate<Location> southEast = location -> xy.getX() <= getX() + vision && xy.getY() <= getY() + vision;
-    Predicate<Location> southWest = location -> xy.getX() <= getX() - vision && xy.getY() <= getY() + vision;
-    Predicate<Location> northEast = location -> xy.getX() <= getX() + vision && xy.getY() <= getY() - vision;
-    Predicate<Location> northWest = location -> xy.getX() <= getX() - vision && xy.getY() <= getY() - vision;
-    return world.isValidLocation(xy) && southEast.or(southWest).or(northEast).or(northWest).test(xy);
+    if (!world.isValidLocation(xy)) {
+      return false;
+    }
+    var goodX = (getX() - vision) <= xy.getX() && xy.getX() <= (getX() + vision);
+    var goodY = (getY() - vision) <= xy.getY() && xy.getY() <= (getY() + vision);
+    return goodX && goodY;
   }
 
   @SuppressWarnings ({"ImplicitNumericConversion"})
@@ -362,7 +359,7 @@ public abstract class Cell {
 
 
   @SuppressWarnings ("AssignmentOrReturnOfFieldWithMutableType")
-  Queue<Direction> getPath() {
+  List<Direction> getPath() {
     return path;
   }
 

@@ -81,16 +81,16 @@ class Monitor {
   }
 
   private static void reviveIfExtinct(World world, Breed breed, Map<Breed, Set<Cell>> population) {
-    // todo Mirza : get rid of this SWITCH
+    // todo Mirza : get rid of this SWITCH, map to breed
     switch (breed) {
       case HUNT_CLOSEST:
         if (population.get(Breed.HUNT_CLOSEST).parallelStream().noneMatch(Cell::isAlive)) {
           world.getNewBornCells().add(new HuntClosest(world));
         }
         break;
-      case HUNT_FIRST:
-        if (population.get(Breed.HUNT_FIRST).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new HuntFirst(world));
+      case HUNT_ANY:
+        if (population.get(Breed.HUNT_ANY).parallelStream().noneMatch(Cell::isAlive)) {
+          world.getNewBornCells().add(new HuntAny(world));
         }
         break;
       case HUNT_MAX:

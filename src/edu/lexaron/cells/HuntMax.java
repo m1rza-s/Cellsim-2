@@ -5,6 +5,8 @@ import edu.lexaron.world.Sugar;
 import edu.lexaron.world.World;
 import javafx.scene.image.Image;
 
+import java.util.Comparator;
+
 /**
  * A {@link Herbivorous} {@link Cell}, feeds on the largest {@link Sugar} it can find.
  *
@@ -47,18 +49,13 @@ public class HuntMax extends Herbivorous {
 
   @Override
   public void lookForFood(World world) {
-    double foundSugar = 0.0;
-    for (int v = getVision(); v > 0; v--) {
-      for (int i = getY() - v; i <= (getY() + v); i++) {
-        for (int j = getX() - v; j <= (getX() + v); j++) {
-          Location temp = Location.of(j,i);
-          if (world.isValidLocation(temp) && world.getNewWorld().get(temp).getSugar().getAmount() > foundSugar) {
-            foundSugar = world.getNewWorld().get(temp).getSugar().getAmount();
-            setFood(temp);
-          }
-        }
-      }
-    }
+    setFood(world.getNewWorld().keySet().stream()
+        .unordered()
+        .parallel()
+        .filter(location -> inVision(world, location) && world.findTile(location).hasSugar())
+        .max(Comparator.comparingDouble(o -> world.findTile(o).getSugar().getAmount()))
+        .orElse(Location.NIL));
+
     findPathTo(getFood());
   }
 }
