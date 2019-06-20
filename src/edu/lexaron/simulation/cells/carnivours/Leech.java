@@ -1,6 +1,8 @@
-package edu.lexaron.cells;
+package edu.lexaron.simulation.cells.carnivours;
 
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.cells.Breed;
+import edu.lexaron.simulation.cells.Cell;
+import edu.lexaron.simulation.world.World;
 import javafx.scene.image.Image;
 
 /**
@@ -40,7 +42,7 @@ public class Leech extends Carnivorous {
   }
 
   @Override
-  Cell doGiveBirth(int x, int y) {
+  protected Cell doGiveBirth(int x, int y) {
     return new Leech(getGeneCode() + getOffspring(), x, y);
   }
 

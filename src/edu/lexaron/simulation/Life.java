@@ -1,8 +1,8 @@
 package edu.lexaron.simulation;
 
-import edu.lexaron.cells.Cell;
-import edu.lexaron.world.Location;
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.cells.Cell;
+import edu.lexaron.simulation.world.Location;
+import edu.lexaron.simulation.world.World;
 
 /**
  * This class allows each live {@link Cell} to live by running each {@link Cell}´s {@link Cell#live(World)} method.

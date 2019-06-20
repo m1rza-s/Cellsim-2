@@ -1,7 +1,7 @@
-package edu.lexaron.world;
+package edu.lexaron.simulation.world;
 
-import edu.lexaron.cells.Cell;
 import edu.lexaron.simulation.Engine;
+import edu.lexaron.simulation.cells.Cell;
 
 import java.util.HashSet;
 import java.util.Map;

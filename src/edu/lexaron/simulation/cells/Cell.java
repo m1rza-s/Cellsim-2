@@ -1,9 +1,9 @@
-package edu.lexaron.cells;
+package edu.lexaron.simulation.cells;
 
-import edu.lexaron.world.Location;
-import edu.lexaron.world.Tile;
-import edu.lexaron.world.Trail;
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.world.Location;
+import edu.lexaron.simulation.world.Tile;
+import edu.lexaron.simulation.world.Trail;
+import edu.lexaron.simulation.world.World;
 import javafx.scene.image.Image;
 
 import java.security.SecureRandom;
@@ -30,7 +30,7 @@ public abstract class Cell {
   private static final int    OFFSPRING_LIMIT = 3;
   private final int               movement;
   private final String            geneCode;
-  private final List<Direction> path;
+  protected final List<Direction> path;
 
   private boolean alive;
 
@@ -93,9 +93,9 @@ public abstract class Cell {
    */
   public abstract void doHunt(World world);
 
-  abstract void eat(World world);
+  protected abstract void eat(World world);
 
-  abstract Cell doGiveBirth(int x, int y);
+  protected abstract Cell doGiveBirth(int x, int y);
 
   private void tryBirth(World world) {
     if (energy >= BIRTH_REQ) {
@@ -222,17 +222,14 @@ public abstract class Cell {
     return food;
   }
 
-  static Random getRandom() {
+  protected static Random getRandom() {
     return RANDOM;
   }
 
-  void findPathTo(Location target) {
+  protected void findPathTo(Location target) {
     if (target != null && !target.equals(Location.NIL)) {
       int difY = target.getY() - location.getY();
       int difX = target.getX() - location.getX();
-//      System.out.println("Cell: " + x + "," + y);
-//      System.out.println("Food: " + target.getX() + "," + target.getY());
-//      System.out.println("dist: " + difX + "," + difY);
       if (difX > 0) {
         for (int i = 0; i < Math.abs(difX); i++) {
           path.add(Direction.RIGHT);
@@ -259,25 +256,26 @@ public abstract class Cell {
     }
   }
 
-  void setFood(Location food) {
+  protected void setFood(Location food) {
     this.food = food;
   }
 
-  void resetFoodAndPath() {
+  protected void resetFoodAndPath() {
     path.clear();
     food = null;
   }
 
-  void useWholePath(World world) {
-//    for (int i = 0; i < speed; i++) {
-//      if (!path.isEmpty()) {
-//        move(world, path.poll());
-//      }
-//    }
-    if (!path.isEmpty()) {
-      path.forEach(direction -> move(world, direction));
-      path.clear();
+  protected void useWholePath(World world) {
+    for (int i = 0; i < speed; i++) {
+      if (!path.isEmpty()) {
+        move(world, path.get(0));
+        path.remove(0);
+      }
     }
+//    if (!path.isEmpty()) {
+//      path.forEach(direction -> move(world, direction));
+//      path.clear();
+//    }
   }
 
   void randomStep(World world) {
@@ -307,7 +305,7 @@ public abstract class Cell {
     }
   }
 
-  boolean inVision(World world, Location xy) {
+  protected boolean inVision(World world, Location xy) {
     if (!world.isValidLocation(xy)) {
       return false;
     }
@@ -317,7 +315,7 @@ public abstract class Cell {
   }
 
   @SuppressWarnings ({"ImplicitNumericConversion"})
-  void move(World world, Direction dir) {
+  protected void move(World world, Direction dir) {
     Location target = Location.of(getX() + dir.getDeltaX(), getY() + dir.getDeltaY());
     if (world.isValidLocation(target)) {
         Tile targetTile = world.getNewWorld().get(target);
@@ -352,14 +350,14 @@ public abstract class Cell {
     resetFoodAndPath();
   }
 
-  void setEnergy(double energy) {
+  public void setEnergy(double energy) {
     this.energy = energy;
   }
 
 
 
   @SuppressWarnings ("AssignmentOrReturnOfFieldWithMutableType")
-  List<Direction> getPath() {
+  protected List<Direction> getPath() {
     return path;
   }
 
@@ -379,11 +377,11 @@ public abstract class Cell {
     }
   }
 
-  String getGeneCode() {
+  protected String getGeneCode() {
     return geneCode;
   }
 
-  int getOffspring() {
+  protected int getOffspring() {
     return offspring;
   }
 
@@ -417,12 +415,13 @@ public abstract class Cell {
   }
 
   private void upkeep(World world) {
+    energy -= efficiency * 0.01; // todo Mirza S. : why 1% of efficiency?
     if (!alive || energy <= 0.0 || offspring >= OFFSPRING_LIMIT) {
       die(world);
     }
   }
 
-  void die(World world) {
+  public void die(World world) {
     alive = false;
     world.getNewWorld().get(location).setDeadCell(this);
     world.getNewWorld().get(location).setCell(null);

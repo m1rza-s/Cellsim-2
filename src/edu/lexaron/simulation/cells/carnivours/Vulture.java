@@ -1,8 +1,10 @@
-package edu.lexaron.cells;
+package edu.lexaron.simulation.cells.carnivours;
 
-import edu.lexaron.world.Location;
-import edu.lexaron.world.Tile;
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.cells.Breed;
+import edu.lexaron.simulation.cells.Cell;
+import edu.lexaron.simulation.world.Location;
+import edu.lexaron.simulation.world.Tile;
+import edu.lexaron.simulation.world.World;
 import javafx.scene.image.Image;
 
 /**
@@ -41,7 +43,7 @@ public class Vulture extends Carnivorous {
   }
 
   @Override
-  Cell doGiveBirth(int x, int y) {
+  protected Cell doGiveBirth(int x, int y) {
     return new Vulture(getGeneCode() + getOffspring(), x, y);
   }
 

@@ -1,7 +1,9 @@
-package edu.lexaron.cells;
+package edu.lexaron.simulation.cells.carnivours;
 
-import edu.lexaron.world.Trail;
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.cells.Breed;
+import edu.lexaron.simulation.cells.Cell;
+import edu.lexaron.simulation.world.Trail;
+import edu.lexaron.simulation.world.World;
 import javafx.scene.image.Image;
 
 /**
@@ -41,7 +43,7 @@ public class Spider extends Carnivorous {
   }
 
   @Override
-  Cell doGiveBirth(int x, int y) {
+  protected Cell doGiveBirth(int x, int y) {
     return new Spider(getGeneCode() + getOffspring(), x, y);
   }
 

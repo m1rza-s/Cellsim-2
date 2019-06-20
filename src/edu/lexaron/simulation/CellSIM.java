@@ -12,9 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.Timer;
@@ -43,7 +43,6 @@ public class CellSIM extends Application {
     VBox menu = new VBox();
     HBox menuRow1 = new HBox();
     menuRow1.getStyleClass().add("backgroundColorMenu");
-//        menuRow1.setPadding(new Insets(5, 15, 15, 15));
     menuRow1.setSpacing(20);
     menuRow1.setAlignment(Pos.CENTER_LEFT);
 
@@ -51,8 +50,6 @@ public class CellSIM extends Application {
     stats.getStyleClass().add("backgroundColorMenu");
     stats.setPadding(new Insets(5, 5, 5, 5));
     stats.setSpacing(20);
-
-
 
     VBox sp = new VBox(new Button("LEGEND"));
     sp.setPadding(new Insets(20));
@@ -75,10 +72,8 @@ public class CellSIM extends Application {
     // endregion
     Engine engine = new Engine(infoPanel, counter, liveCells, deadCells, totalCells, totalSugar);
 
-    Label sugarFactor_L = new Label("Initial sugar factor: " + String.valueOf(engine.getSugarFactor()) + "%");
+    Label sugarFactor_L = new Label("Initial sugar factor: " + engine.getSugarFactor() + "%");
     Canvas canvas = new Canvas((double) (engine.getWidth() * 5), (double) (engine.getHeight() * 5));
-//    StackPane spc = new StackPane(canvas);
-//    spc.setAlignment(Pos.CENTER);
     Button start = new Button("Start");
     start.setOnAction(e -> {
       engine.startThread(canvas, new Timer());
@@ -87,14 +82,14 @@ public class CellSIM extends Application {
     Button generateWorld = new Button("Spawn new cells & reset sugar");
     generateWorld.setOnAction(e -> {
       engine.generateWorld(true, canvas);
-      paintCellVision(Engine.getWorld(), canvas);
+      paintCellVision(Engine.WORLD, canvas);
 
     });
     // STRUCTURING
     menuRow1.getChildren().addAll(
         sugarFactor_L,
-        new Label("World Size: " + Engine.getWorld().getHeight() + "x" + Engine.getWorld().getWidth()),
-        new Label("No. of Tiles: " + (Engine.getWorld().getHeight() * Engine.getWorld().getWidth())),
+        new Label("World Size: " + Engine.WORLD.getHeight() + "x" + Engine.WORLD.getWidth()),
+        new Label("No. of Tiles: " + (Engine.WORLD.getHeight() * Engine.WORLD.getWidth())),
         counter,
         liveCells,
         deadCells,
@@ -113,7 +108,9 @@ public class CellSIM extends Application {
     engine.generateWorld(false, canvas);
 
     root.setTop(menu);
-    root.setCenter(canvas);
+    ScrollPane scrollPane = new ScrollPane(canvas);
+    scrollPane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+    root.setCenter(scrollPane);
     root.setLeft(infoPanel);
 
     Scene mainScene = new Scene(root, 1000, 800);

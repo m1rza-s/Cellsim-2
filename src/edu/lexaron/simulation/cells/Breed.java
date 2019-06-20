@@ -1,4 +1,4 @@
-package edu.lexaron.cells;
+package edu.lexaron.simulation.cells;
 
 /**
  * Author: Mirza <mirza.suljic.ba@gmail.com>

@@ -1,8 +1,8 @@
 package edu.lexaron.simulation;
 
-import edu.lexaron.cells.Cell;
-import edu.lexaron.world.Location;
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.cells.Cell;
+import edu.lexaron.simulation.world.Location;
+import edu.lexaron.simulation.world.World;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 

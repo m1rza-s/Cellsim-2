@@ -3,9 +3,9 @@
  *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
  *  Date & time: Feb 5, 2016, 8:55:11 PM
  */
-package edu.lexaron.world;
+package edu.lexaron.simulation.world;
 
-import edu.lexaron.cells.Cell;
+import edu.lexaron.simulation.cells.Cell;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>

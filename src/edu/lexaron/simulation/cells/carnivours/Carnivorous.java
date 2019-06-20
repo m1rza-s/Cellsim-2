@@ -1,8 +1,10 @@
-package edu.lexaron.cells;
+package edu.lexaron.simulation.cells.carnivours;
 
-import edu.lexaron.world.Location;
-import edu.lexaron.world.Trail;
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.cells.Breed;
+import edu.lexaron.simulation.cells.Cell;
+import edu.lexaron.simulation.world.Location;
+import edu.lexaron.simulation.world.Trail;
+import edu.lexaron.simulation.world.World;
 
 /**
  * {@link Carnivorous} {@link Cell}s feed on other live {@link Cell}s by either looking for the {@link Cell}s themselves

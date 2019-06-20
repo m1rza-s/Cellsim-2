@@ -3,7 +3,7 @@
  *  Author & email: Mirza Suljić <mirza.suljic.ba@gmail.com>
  *  Date & time: Jun 10, 2016, 3:15:02 PM
  */
-package edu.lexaron.world;
+package edu.lexaron.simulation.world;
 
 /**
  * @author Mirza Suljić <mirza.suljic.ba@gmail.com>

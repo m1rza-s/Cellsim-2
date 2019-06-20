@@ -1,7 +1,15 @@
 package edu.lexaron.simulation;
 
-import edu.lexaron.cells.*;
-import edu.lexaron.world.World;
+import edu.lexaron.simulation.cells.Breed;
+import edu.lexaron.simulation.cells.Cell;
+import edu.lexaron.simulation.cells.carnivours.Leech;
+import edu.lexaron.simulation.cells.carnivours.Spider;
+import edu.lexaron.simulation.cells.carnivours.Vulture;
+import edu.lexaron.simulation.cells.herbivores.HuntAny;
+import edu.lexaron.simulation.cells.herbivores.HuntClosest;
+import edu.lexaron.simulation.cells.herbivores.HuntMax;
+import edu.lexaron.simulation.cells.herbivores.Tree;
+import edu.lexaron.simulation.world.World;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -34,26 +42,25 @@ class Monitor {
    * Adds {@link GridPane}s into a {@link VBox}.
    * Each {@link GridPane} contains information about each {@link Breed}.
    *
-   * @param world     where the {@link Cell}s live
    * @param infoPanel container of each {@link Breed}s {@link GridPane}
    */
-  @SuppressWarnings ({"ConstantConditions", "MagicNumber"})
-  static void refreshCellInformation(World world, VBox infoPanel) {
+  @SuppressWarnings ({"MagicNumber"})
+  static void refreshCellInformation(VBox infoPanel) {
     infoPanel.getChildren().clear();
 
     DecimalFormat df = new DecimalFormat("0.00");
-    Map<Breed, Set<Cell>> breedPopulations = world.getAllCells().parallelStream().collect(Collectors.groupingBy(Cell::getBreed, Collectors.toSet()));
+    Map<Breed, Set<Cell>> breedPopulations = Engine.WORLD.getAllCells().parallelStream().unordered().collect(Collectors.groupingBy(Cell::getBreed, Collectors.toSet()));
 
     breedPopulations.keySet().stream()
-        .sorted(Comparator.comparingLong(breed -> breedPopulations.get(breed).parallelStream().filter(Cell::isAlive).count()).reversed())
+        .sorted(Comparator.comparingLong(breed -> breedPopulations.get(breed).parallelStream().unordered().filter(Cell::isAlive).count()).reversed())
         .forEach(sortedBreed -> {
-          reviveIfExtinct(world, sortedBreed, breedPopulations);
+          reviveIfExtinct(sortedBreed, breedPopulations);
 
-          Label countLive_L     = new Label(                     breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).count() + " " + sortedBreed);
-          Label avgZoC_L        = new Label("FoV : " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getVision)    .average().orElse(0.0)));
-          Label avgEfficiency_L = new Label("Eff.: " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getEfficiency).average().orElse(0.0)));
-          Label avgSpeed_L      = new Label("Spd.: " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getSpeed)     .average().orElse(0.0)));
-          Label avgBite_L       = new Label("Bite: " + df.format(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getBiteSize)  .average().orElse(0.0)));
+          Label countLive_L     = new Label(                     breedPopulations.get(sortedBreed).parallelStream().unordered().filter(Cell::isAlive).count() + " " + sortedBreed);
+          Label avgZoC_L        = new Label("FoV : " + df.format(breedPopulations.get(sortedBreed).parallelStream().unordered().filter(Cell::isAlive).mapToDouble(Cell::getVision)    .average().orElse(0.0)));
+          Label avgEfficiency_L = new Label("Eff.: " + df.format(breedPopulations.get(sortedBreed).parallelStream().unordered().filter(Cell::isAlive).mapToDouble(Cell::getEfficiency).average().orElse(0.0)));
+          Label avgSpeed_L      = new Label("Spd.: " + df.format(breedPopulations.get(sortedBreed).parallelStream().unordered().filter(Cell::isAlive).mapToDouble(Cell::getSpeed)     .average().orElse(0.0)));
+          Label avgBite_L       = new Label("Bite: " + df.format(breedPopulations.get(sortedBreed).parallelStream().unordered().filter(Cell::isAlive).mapToDouble(Cell::getBiteSize)  .average().orElse(0.0)));
 
           countLive_L.setTextFill(Color.web(sortedBreed.getColorCode()));
           applyStyleClass("bigText", countLive_L);
@@ -61,7 +68,7 @@ class Monitor {
 
           ProgressBar avgEne_PB = new ProgressBar();
           avgEne_PB.setMinWidth(200.0);
-          avgEne_PB.setProgress(breedPopulations.get(sortedBreed).parallelStream().filter(Cell::isAlive).mapToDouble(Cell::getEnergy).average().orElse(0.0) / 100.0);
+          avgEne_PB.setProgress(breedPopulations.get(sortedBreed).parallelStream().unordered().filter(Cell::isAlive).mapToDouble(Cell::getEnergy).average().orElse(0.0) / 100.0);
 
           GridPane grid = new GridPane();
           grid.setMinWidth(150.0);
@@ -80,42 +87,43 @@ class Monitor {
     Stream.of(labels).forEach(label -> label.getStyleClass().add(styleClass));
   }
 
-  private static void reviveIfExtinct(World world, Breed breed, Map<Breed, Set<Cell>> population) {
+  private static void reviveIfExtinct(Breed breed, Map<Breed, Set<Cell>> population) {
     // todo Mirza : get rid of this SWITCH, map to breed
+
     switch (breed) {
       case HUNT_CLOSEST:
-        if (population.get(Breed.HUNT_CLOSEST).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new HuntClosest(world));
+        if (population.get(Breed.HUNT_CLOSEST).parallelStream().unordered().noneMatch(Cell::isAlive)) {
+          Engine.WORLD.getNewBornCells().add(new HuntClosest(Engine.WORLD));
         }
         break;
       case HUNT_ANY:
-        if (population.get(Breed.HUNT_ANY).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new HuntAny(world));
+        if (population.get(Breed.HUNT_ANY).parallelStream().unordered().noneMatch(Cell::isAlive)) {
+          Engine.WORLD.getNewBornCells().add(new HuntAny(Engine.WORLD));
         }
         break;
       case HUNT_MAX:
-        if (population.get(Breed.HUNT_MAX).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new HuntMax(world));
+        if (population.get(Breed.HUNT_MAX).parallelStream().unordered().noneMatch(Cell::isAlive)) {
+          Engine.WORLD.getNewBornCells().add(new HuntMax(Engine.WORLD));
         }
         break;
       case LEECH:
-        if (population.get(Breed.LEECH).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new Leech(world));
+        if (population.get(Breed.LEECH).parallelStream().unordered().noneMatch(Cell::isAlive)) {
+          Engine.WORLD.getNewBornCells().add(new Leech(Engine.WORLD));
         }
         break;
       case SPIDER:
-        if (population.get(Breed.SPIDER).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new Spider(world));
+        if (population.get(Breed.SPIDER).parallelStream().unordered().noneMatch(Cell::isAlive)) {
+          Engine.WORLD.getNewBornCells().add(new Spider(Engine.WORLD));
         }
         break;
       case TREE:
-        if (population.get(Breed.TREE).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new Tree(world));
+        if (population.get(Breed.TREE).parallelStream().unordered().noneMatch(Cell::isAlive)) {
+          Engine.WORLD.getNewBornCells().add(new Tree(Engine.WORLD));
         }
         break;
       case VULTURE:
-        if (population.get(Breed.VULTURE).parallelStream().noneMatch(Cell::isAlive)) {
-          world.getNewBornCells().add(new Vulture(world));
+        if (population.get(Breed.VULTURE).parallelStream().unordered().noneMatch(Cell::isAlive)) {
+          Engine.WORLD.getNewBornCells().add(new Vulture(Engine.WORLD));
         }
         break;
     }

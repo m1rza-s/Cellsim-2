@@ -1,4 +1,4 @@
-package edu.lexaron.world;
+package edu.lexaron.simulation.world;
 
 import java.util.Objects;
 
